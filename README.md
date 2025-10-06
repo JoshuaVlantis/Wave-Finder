@@ -1,18 +1,25 @@
 # Wave Finder
-[Wave Finder](https://wavefinder.org)
+[wavefinder.org](https://wavefinder.org)
 
-# Wave Finder — Local Hosting with Coolify
+Clean, fast tools for South African marine recreation.
 
-This guide walks you through hosting the Wave Finder website locally using Coolify, while still consuming the production API. No code changes are required.
+## Features
+- Static website with a Leaflet map, wind overlay, MPA data, blog, size & bag limits, and records
+- Minimal Node.js API (Express + MariaDB) for spots and records
+- Python ML scripts to train and predict underwater visibility (in meters)
 
-If you prefer to use your own API instead, there’s a note at the end explaining what to change.
+## Local hosting with Coolify
 
-## Prerequisites
+This section walks you through hosting the Wave Finder website locally using Coolify, while still consuming the production API. No code changes are required.
+
+If you prefer to use your own API instead, see the note near the end of this section.
+
+### Prerequisites
 
 - A Linux machine (tested with Ubuntu/Debian)
 - Sudo access
 
-## 1) Install Docker, Git, and Coolify
+### Step 1: Install Docker, Git, and Coolify
 
 Run the following commands on your machine:
 
@@ -31,7 +38,22 @@ curl -fsSL https://cdn.coollabs.io/coolify/install.sh | sudo bash
 
 Log out and back in (or reboot) to ensure your user is in the `docker` group.
 
-## 2) Open Coolify
+### Step 2: Fork and clone the repository
+
+First, fork this repository to your own GitHub account, then clone your fork locally.
+
+1. Open the repo on GitHub: https://github.com/JoshuaVlantis/Wave-Finder
+2. Click “Fork” to create your own copy under your GitHub account
+3. Clone your fork to your machine and enter the project directory:
+
+```bash
+git clone https://github.com/<your-github-username>/Wave-Finder.git
+cd Wave-Finder
+```
+
+You’ll use this local path later for the directory mount in Coolify (e.g., `/home/<your-user>/Documents/GitHub/Wave-Finder/apps/web`).
+
+### Step 3: Open Coolify
 
 Open your browser and go to:
 
@@ -39,7 +61,7 @@ Open your browser and go to:
 
 Register your account in Coolify.
 
-## 3) Create a Project
+### Step 4: Create a project
 
 In Coolify:
 
@@ -47,14 +69,14 @@ In Coolify:
 2. Click “Add” and give it a name, e.g. “Wave Finder Development”
 3. Open the new project
 
-## 4) Add the Website Resource
+### Step 5: Add the website resource
 
 1. Click “Add Resource”
 2. Choose “Docker Image”
 3. Enter the image: `nginx:alpine`
 4. Click “Save”
 
-## 5) Configure the Website Resource
+### Step 6: Configure the website resource
 
 In the resource settings:
 
@@ -70,7 +92,7 @@ In the resource settings:
 
 Click “Save”.
 
-## 6) Add Persistent Storage
+### Step 7: Add persistent storage
 
 You’ll add two mounts: a file mount for Nginx configuration and a directory mount for the website files.
 
@@ -149,14 +171,14 @@ This lets the container proxy API requests and rewrite absolute API URLs at serv
 
 Click “Save”.
 
-## 7) Deploy and Test
+### Step 8: Deploy and test
 
 1. Scroll to the top and click “Save/Deploy” (or the Deploy button)
 2. Visit your site at: http://127.0.0.1:18080
 
 You should see the site and API-driven content loading.
 
-## Using Your Own API (Optional)
+### Using your own API (optional)
 
 If you want to use your own API instead of the public one:
 
@@ -187,16 +209,10 @@ Once you’re hosting locally, you can start making changes to the files under `
 	- Open the browser DevTools Network tab and check that requests go to `/api/...` and return 200.
 	- If needed, restart the resource in Coolify to reload the Nginx config.
 
+## Project overview
 
 
-Clean, fast tools for South African marine recreation:
-
-- Static website with a Leaflet map, wind overlay, MPA data, blog, limits, and records
-- Minimal Node.js API (Express + MariaDB) for spots and records
-- Python ML scripts to train and predict underwater visibility (in meters)
-
-
-## Repository layout
+### Repository layout
 
 ```
 .
@@ -226,39 +242,40 @@ Clean, fast tools for South African marine recreation:
 ```
 
 
-## Quick start
+## Developer quick start (optional)
 
-Prereqs
+Prereqs:
 - Node.js 18+ for the API
 - Python 3.10+ for ML scripts (optional)
 - MariaDB instance with your data (for API/ML)
 
 Clone and install API deps
-```powershell
-cd apps\api
+```bash
+cd apps/api
 npm install
 # Copy example env and set your values
-Copy-Item .env.example .env
+cp .env.example .env
 # Edit .env: DB_HOST, DB_USER, DB_PASS, DB_NAME
-npm start  # if you add a start script, or run: node spots-api.js
+# Start the API (if you add a start script) or run directly:
+node spots-api.js
 ```
 
 Open the static web
-```powershell
-# Open files directly (static hosting recommended)
-# For local dev with a quick server:
-cd ..\web
-npx serve .  # or use any static server; optional
+```bash
+# Serve the static site (any static server works)
+cd ../web
+npx serve .  # optional quick server
 ```
 
 ML environment (optional)
-```powershell
-cd ..\ml
-python -m venv .venv; . .venv\Scripts\Activate.ps1
+```bash
+cd ../ml
+python -m venv .venv
+source .venv/bin/activate
 pip install -U pip
 # Install project packages (pandas, numpy, scikit-learn, pymysql, joblib; optional: xgboost, lightgbm, shap)
 # Copy example config and set DB values
-Copy-Item config.example.ini config.ini
+cp config.example.ini config.ini
 ```
 
 
