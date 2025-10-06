@@ -42,18 +42,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   
   <link rel="preconnect" href="https://api.wavefinder.org" crossorigin>
   <link rel="preconnect" href="https://unpkg.com" crossorigin>
   <link rel="dns-prefetch" href="https://unpkg.com">
   <link rel="preconnect" href="https://server.arcgisonline.com" crossorigin>
   <link rel="dns-prefetch" href="https://server.arcgisonline.com">
-  <link rel="stylesheet" href="/static/fonts/outfit.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="/static/logo32.png" imagesrcset="/static/logo32.png 1x" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
   
-  <link rel="preload" as="script" href="https://unpkg.com/leaflet/dist/leaflet.js" crossorigin>
+  <link rel="preload" as="script" href="https://unpkg.com/leaflet/dist/leaflet.js" crossorigin="anonymous">
     <style>
       :root {
         --c-bg: #f0f4f8;
@@ -70,7 +72,7 @@
       body {
         height: 100%;
         margin: 0;
-  font-family: 'OutfitLocal', Outfit, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, sans-serif;
+  font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, sans-serif;
         background: var(--c-bg);
         overflow: hidden;
       }
@@ -618,7 +620,7 @@
         </div>
       </div>
     </div>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js" crossorigin="anonymous"></script>
     <script>
       L.Marker.prototype._setPos = function(pos) {
         L.DomUtil.setTransform(this._icon, pos);
