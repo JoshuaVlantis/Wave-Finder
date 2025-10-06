@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wave Finder Blog Post</title>
+  <meta name="description" content="Blog post on Wave Finder." />
+  <link rel="canonical" href="https://wavefinder.org/post.html" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/static/logo32.png" type="image/png" sizes="32x32">
+  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1">
+  <style>
+    :root{ --c-bg:#121212; --c-panel:#1e1e1e; --c-border:#2b3440; --c-accent:#4fc3f7; --c-text:#eaeef5; --c-dim:#aab3c2; --r:12px }
+    *{ box-sizing:border-box }
+  body{ margin:0; font-family:'Outfit',system-ui,Segoe UI,Roboto,Arial; background:var(--c-bg); color:var(--c-text); position:relative }
+  
+  body::before{ content:""; position:fixed; top:0; left:0; right:0; height:560px; pointer-events:none; z-index:0;
+    background:radial-gradient(1200px 560px at 50% -12%, rgba(79,195,247,.08), transparent 70%); }
+    #top-header{ position:fixed; top:10px; left:50%; transform:translateX(-50%); background:rgba(44,62,80,.95); color:#fff; padding:12px 24px; border-radius:12px; font-size:18px; font-weight:600; letter-spacing:.8px; box-shadow:0 2px 10px rgba(0,0,0,.25); z-index:1001; display:flex; flex-direction:column; gap:2px; align-items:center }
+    #nav-pills{ display:flex; gap:10px }
+    .pill{ background:rgba(255,255,255,.15); color:#fff; padding:6px 14px; font-size:14px; border-radius:999px; text-decoration:none; font-weight:500; transition:background .2s }
+    .pill:hover,.pill.active{ background:rgba(255,255,255,.30) }
+    .brand{display:flex;align-items:center;gap:8px}
+    .brand-text{font-size:28px;font-weight:700}
+
+    main{ max-width:960px; margin:0 auto; padding:120px 20px 40px; position:relative; z-index:1 }
+    @media (min-width: 1400px){
+      main{ max-width:1040px }
+    }
+
+    .post{ background:linear-gradient(180deg, rgba(34,39,46,.9), rgba(22,26,31,.95)); border:1px solid var(--c-border); border-radius:12px; padding:20px; box-shadow:0 12px 28px rgba(0,0,0,.28) }
+    .cover{ width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; margin:0 0 12px; display:none }
+    h1.title{ margin:0 0 6px; font-size:26px; text-align:center }
+    .meta{ color:var(--c-dim); font-size:12px; margin-bottom:10px; text-align:center }
+    .tags{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:14px }
+    .tag{ display:inline-flex; align-items:center; padding:4px 8px; border:1px solid #3a4755; border-radius:999px; font-size:12px; color:#cfe3f6; background:rgba(255,255,255,.04) }
+    .content{ color:#d9e2ef; font-size:16px; line-height:1.75 }
+    .content h2{ font-size:22px; margin-top:18px; margin-bottom:6px }
+    .content h3{ font-size:18px; margin-top:14px; margin-bottom:4px }
+    .content p{ margin:10px 0 }
+    .content ul, .content ol{ margin:10px 0 10px 20px }
+    .content li{ margin:4px 0 }
+    .content a{ color:var(--c-accent); text-decoration:underline }
+    .content blockquote{ border-left:3px solid var(--c-accent); margin:12px 0; padding:8px 12px; color:#c9d6e8; background:rgba(79,195,247,.06); border-radius:6px }
+    .content img{ max-width:100%; border-radius:8px; display:block; margin:10px auto }
+    .content code{ background:rgba(255,255,255,0.06); padding:0 4px; border-radius:4px; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.95em }
+    .content hr{ border:0; border-top:1px solid var(--c-border); margin:16px 0 }
+  </style>
+</head>
+<body>
+  <div id="wf-header"></div>
+
+  <main>
+    <article class="post">
+      <img id="post-cover" class="cover" alt="" />
+      <h1 id="post-title" class="title"></h1>
+      <div id="post-meta" class="meta"></div>
+      <div id="post-tags" class="tags"></div>
+      <div id="post-content" class="content"></div>
+    </article>
+  </main>
+
+  <script>
+  function mdToHtml(md){
+      // Minimal Markdown renderer: headers, lists, paragraphs, links, images
+      const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+      const lines = String(md || '').replace(/\r\n?/g,'\n').split('\n');
+      let html = '';
+      let inList = null; // 'ul' | 'ol' | null
+      let para = [];
+
+      const closeList = () => { if (inList) { html += inList==='ol' ? '</ol>' : '</ul>'; inList = null; } };
+      const flushPara = () => {
+        if (!para.length) return;
+        const text = para.join(' ').trim();
+        if (text) html += `<p>${inline(text)}</p>`;
+        para = [];
+      };
+      function inline(s){
+        // escape first, then allow specific inline HTML for links/images
+        s = esc(s);
+        // images: ![alt](url)
+        s = s.replace(/!\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]+)")?\)/g, (m, alt, url, title) => {
+          const a = (alt||'').replace(/"/g,'&quot;');
+          const u = (url||'').replace(/"/g,'&quot;');
+          const t = title ? ` title="${title.replace(/"/g,'&quot;')}"` : '';
+          return `<img src="${u}" alt="${a}"${t} loading="lazy">`;
+        });
+        // links: [text](url)
+        s = s.replace(/\[([^\]]+)\]\(([^\s)]+)(?:\s+"([^"]+)")?\)/g, (m, text, url, title) => {
+          const t = (text||'').replace(/"/g,'&quot;');
+          const u = (url||'').replace(/"/g,'&quot;');
+          const ti = title ? ` title="${title.replace(/"/g,'&quot;')}"` : '';
+          const ext = u.startsWith('/') ? '' : ' target="_blank" rel="noopener"';
+          return `<a href="${u}"${ti}${ext}>${t}</a>`;
+        });
+        // inline code: `code`
+        s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+        // bold: **text** or __text__ (do before italic)
+        s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        s = s.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+        // italic: *text* or _text_
+        s = s.replace(/(^|\s)\*([^*]+)\*(?=\s|[.,;!?)]|$)/g, '$1<em>$2</em>');
+        s = s.replace(/(^|\s)_([^_]+)_(?=\s|[.,;!?)]|$)/g, '$1<em>$2</em>');
+        return s;
+      }
+
+      for (let i=0; i<lines.length; i++){
+        let raw = lines[i];
+        const line = raw.trimEnd();
+        if (!line.trim()) { closeList(); flushPara(); continue; }
+        // horizontal rules
+        if (/^(?:-{3,}|\*{3,}|_{3,})\s*$/.test(line)) { closeList(); flushPara(); html += '<hr>'; continue; }
+        let m;
+        // blockquote: > text
+        if ((m = line.match(/^>\s+(.*)$/))) {
+          closeList(); flushPara();
+          let q = [m[1]];
+          // consume following quote lines
+          while (i+1 < lines.length && /^>\s+/.test(lines[i+1])) { q.push(lines[++i].replace(/^>\s+/, '')); }
+          html += `<blockquote>${inline(q.join(' '))}</blockquote>`; continue;
+        }
+        if ((m = line.match(/^###\s+(.*)$/))) {
+          closeList(); flushPara(); html += `<h3>${inline(m[1])}</h3>`; continue;
+        }
+        if ((m = line.match(/^##\s+(.*)$/))) {
+          closeList(); flushPara(); html += `<h2>${inline(m[1])}</h2>`; continue;
+        }
+        if ((m = line.match(/^#\s+(.*)$/))) {
+          closeList(); flushPara(); html += `<h1>${inline(m[1])}</h1>`; continue;
+        }
+        // unordered list: - item OR * item
+        if ((m = line.match(/^(?:\-|\*)\s+(.*)$/))) {
+          flushPara();
+          if (inList !== 'ul') { closeList(); html += '<ul>'; inList = 'ul'; }
+          html += `<li>${inline(m[1])}</li>`;
+          continue;
+        }
+        // ordered list: 1. item
+        if ((m = line.match(/^\d+\.\s+(.*)$/))) {
+          flushPara();
+          if (inList !== 'ol') { closeList(); html += '<ol>'; inList = 'ol'; }
+          html += `<li>${inline(m[1])}</li>`;
+          continue;
+        }
+        // paragraph text (preserve soft breaks by joining with a space)
+        para.push(line.trim());
+      }
+      closeList(); flushPara();
+      return html;
+    }
+
+    function estimateReadMins(text){
+      const words = (text||'').trim().split(/\s+/).filter(Boolean).length;
+      const mins = Math.max(1, Math.round(words / 200));
+      return `${mins} min read`;
+    }
+
+    async function load(){
+      const params = new URLSearchParams(location.search);
+      const slug = params.get('slug');
+      if (!slug){ location.href = '/blog.html'; return; }
+  const posts = await fetch('/data/blog_posts.json').then(r=>r.json());
+      const post = posts.find(p=>p.slug===slug);
+      if (!post){ document.getElementById('post-title').textContent = 'Post not found'; return; }
+      document.title = post.title + ' – Wave Finder Blog';
+      const titleEl = document.getElementById('post-title');
+      const metaEl = document.getElementById('post-meta');
+      const tagsEl = document.getElementById('post-tags');
+  const coverEl = document.getElementById('post-cover');
+
+      titleEl.textContent = post.title;
+
+      // Cover image if provided
+      if (post.cover && coverEl){
+        coverEl.src = post.cover;
+        coverEl.style.display = 'block';
+      }
+
+  const md = await fetch(`/content/posts/${slug}.md`).then(r=>r.text()).catch(()=> '# Missing post');
+      const read = estimateReadMins(md);
+      metaEl.textContent = `${post.date} • ${post.author} • ${read}`;
+      // Tags
+      tagsEl.innerHTML = (post.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('');
+      document.getElementById('post-content').innerHTML = mdToHtml(md);
+    }
+    load();
+  </script>
+  <script src="/static/wf-header.js?v=2025-10-05-1" defer></script>
+</body>
+</html>

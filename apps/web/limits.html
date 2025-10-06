@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  
+  <title>South Africa Size & Bag Limits (Recreational Fishing) – Wave Finder</title>
+  <meta name="description" content="Search live size limits, bag limits, and closed seasons for South African marine recreational species. Fast filters, legal notes, and permit info." />
+  <link rel="canonical" href="https://wavefinder.org/limits.html" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+
+  
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Wave Finder" />
+  <meta property="og:locale" content="en_ZA" />
+  <meta property="og:url" content="https://wavefinder.org/limits.html" />
+  <meta property="og:title" content="South Africa Size & Bag Limits – Wave Finder" />
+  <meta property="og:description" content="Search size & bag limits and seasonal closures for SA marine recreational fishing species." />
+  <meta property="og:image" content="https://wavefinder.org/static/og-image.jpg" />
+  <meta property="article:modified_time" content="2025-08-12T00:00:00+02:00" />
+
+  
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://wavefinder.org/limits.html" />
+  <meta name="twitter:title" content="South Africa Size & Bag Limits – Wave Finder" />
+  <meta name="twitter:description" content="Quickly check size & bag limits and closures for SA marine species." />
+  <meta name="twitter:image" content="https://wavefinder.org/static/og-image.jpg" />
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "South Africa Size & Bag Limits",
+    "url": "https://wavefinder.org/limits.html",
+    "description": "Searchable size, bag limits, and seasonal closures for South African marine recreational fishing species.",
+    "isPartOf": { "@type": "WebSite", "name": "Wave Finder", "url": "https://wavefinder.org" },
+    "dateModified": "2025-08-12T00:00:00+02:00",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1,
+          "name": "Home", "item": "https://wavefinder.org/" },
+        { "@type": "ListItem", "position": 2,
+          "name": "Size & Bag Limits", "item": "https://wavefinder.org/limits.html" }
+      ]
+    }
+  }
+  </script>
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    
+    :root{ 
+      --c-bg:#121212; 
+      --c-panel:#1e1e1e; 
+      --c-panel-2:#161616; 
+      --c-accent:#4fc3f7; 
+      --c-text:#eaeef5; 
+      --c-dim:#aab3c2; 
+      --c-border:#2b3440; 
+      --surf-grad: linear-gradient(180deg, rgba(34,39,46,0.9) 0%, rgba(22,26,31,0.95) 100%);
+      --ok:#9be7c4; /* mint */
+      --warn:#dcc9ff; /* lilac */
+      --r:12px 
+    }
+    *{ box-sizing:border-box }
+    body { font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--c-bg); color: var(--c-text); margin:0; }
+
+    
+    #top-header { position:fixed; top:10px; left:50%; transform:translateX(-50%); background: rgba(44,62,80,.95); color:#fff; padding:12px 24px; border-radius:12px; font-size:18px; font-weight:600; letter-spacing:.8px; box-shadow:0 2px 10px rgba(0,0,0,.25); z-index:1001; display:flex; flex-direction:column; gap:2px; align-items:center }
+    #nav-pills { display:flex; gap:10px }
+    .pill { background: rgba(255,255,255,.15); color:#fff; padding:6px 14px; font-size:14px; border-radius:999px; text-decoration:none; font-weight:500; transition: background .2s }
+    .pill:hover, .pill.active { background: rgba(255,255,255,.30) }
+    .brand{display:flex;align-items:center;gap:8px}
+    .brand-text{font-size:28px;font-weight:700}
+
+    
+    main { max-width: 1100px; margin: 0 auto; padding: 120px 20px 40px; }
+
+    
+    #q { width:100%; max-width:720px; margin:0 auto; display:block; border:1px solid #2f3a45; background:rgba(255,255,255,0.06); color:#fff; padding:12px 14px; border-radius:12px; outline:none }
+    #q::placeholder { color: rgba(255,255,255,0.6) }
+  .center-wrap { max-width: 720px; margin: 0 auto; margin-bottom: 10px; }
+
+    
+    .chip { display:inline-flex; align-items:center; border:1px solid #3a4755; border-radius:999px; padding:4px 8px; font-size:12px; color:#e6eef8; background:transparent; cursor:pointer }
+    .chip:hover { background: rgba(255,255,255,0.06) }
+    .ring-2.ring-sky-500 { outline:2px solid var(--c-accent); outline-offset:2px; }
+
+    
+  #grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-bottom:24px }
+    #grid article { 
+      background: var(--c-panel);
+      border:1px solid var(--c-border);
+      border-radius:12px; padding:16px; color:#fff;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.24);
+    }
+    #grid article:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.28) }
+    #grid h3 { margin:0; font-weight:700; letter-spacing:.2px }
+
+    
+    .stat-grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:10px }
+    .stat { 
+      background: var(--c-panel-2);
+      border: 1px solid var(--c-border);
+      border-radius:10px; padding:10px 12px;
+    }
+    .stat .label { font-size:11px; color: var(--c-dim); letter-spacing:.3px }
+    .stat .value { margin-top:4px; font-size:16px; font-weight:600; color: var(--c-text) }
+    .stat .value.ok { color: var(--ok) }
+    .stat .value.warning { color: var(--warn) }
+
+    
+    #grid .badge { 
+      display:inline-flex; align-items:center; border-radius:999px; 
+      padding:3px 8px; font-size:12px; border:1px solid #3a4755; 
+      color:#c9d6e2; background: rgba(255,255,255,0.05);
+    }
+    .text-dim { color: #aeb8c6 }
+
+    
+  .panel { background: var(--c-panel); border:1px solid var(--c-border); border-radius:12px; padding:16px; color:#fff; margin-top:22px }
+  
+  section.muted { margin-top:22px }
+    .muted { color:#aab3c2 }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:720px; margin: 8px auto 0; }
+    
+    .search-section { display:flex; flex-direction:column; align-items:center; gap:10px }
+    #results_meta { text-align:center }
+  </style>
+  <link rel="icon" href="/static/logo32.png" type="image/png" sizes="32x32">
+  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+</head>
+
+<body>
+  
+  <div id="wf-header"></div>
+
+  <main>
+    <div style="text-align:center; margin-bottom: 18px;">
+      <h1 style="margin:0 0 6px; font-size:22px; font-weight:700; color:#fff;">SA Marine Recreational Fishing – Size & Bag Limits</h1>
+      <p class="muted" style="margin:0; font-size:13px;">Source: DFFE Linefishing regulations (smartphone edition). Updated 12 Aug 2025.</p>
+    </div>
+    <section class="search-section">
+      <div class="space-y-3" style="width:100%;">
+        <div class="center-wrap" style="position:relative;">
+          <input id="q" type="search" placeholder="Search species (e.g., 'galjoen', 'kob', 'steenbras')...">
+          <div style="position:absolute; inset:0; right:8px; display:flex; align-items:center; justify-content:flex-end; pointer-events:none; color:#9aa7b5;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="chips text-sm">
+          <button data-filter="all" class="chip">All</button>
+          <button data-filter="recreational" class="chip">Recreational species</button>
+          <button data-filter="commercial" class="chip">Commercial species</button>
+          <button data-filter="prohibited" class="chip">Prohibited (no-take)</button>
+          <button data-filter="baitfish" class="chip">Baitfish/Unlimited</button>
+          <button data-filter="closed" class="chip">Has closed season</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div id="results_meta" class="text-sm text-neutral-600 mb-2"></div>
+      <div id="grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+    <section class="panel">
+      <h2 class="font-semibold mb-2">Regional rules & special notes</h2>
+      <ul id="regional-notes" class="text-sm text-dim space-y-2"></ul>
+    </section>
+
+    
+    <aside class="space-y-2 panel">
+      <h2 class="font-semibold">Know the law</h2>
+      <ul class="text-sm list-disc pl-5 space-y-1 text-dim">
+        <li>You need a valid <strong>Recreational Sea Fishing Permit</strong> to fish, spearfish, collect bait or shellfish.</li>
+        <li>Obey <strong>size</strong>, <strong>daily bag</strong> and any <strong>closed seasons</strong>.</li>
+        <li>Some species are <strong>Prohibited (no-take)</strong> - you may not target, keep, or land them.</li>
+        <li>Regional rules may apply (e.g., east/west of <em>Cape Agulhas</em> or in <em>KZN</em>). See notes below each species.</li>
+        <li>Always check local <strong>MPA</strong> signage - many areas are <em>no-take</em> or have extra restrictions.</li>
+      </ul>
+      <div class="text-xs muted pt-2" style="border-top:1px solid #2b3440;">
+        This page summarises official regulations for quick reference. If in doubt, defer to the Government Gazette or DFFE notices.
+      </div>
+    </aside>
+
+    <section class="text-sm muted">
+      <div class="flex flex-wrap gap-3 items-center">
+  <a class="underline" href="/docs/Linefishing-regs-for-the-smart-phone-interactive.pdf" download>Download source PDF</a>
+        <span>•</span>
+        <button id="printBtn" class="underline">Print this page</button>
+        <span>•</span>
+        <span>Last built: 12 Aug 2025</span>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/wf-header.js?v=2025-10-05-1" defer></script>
+  <script>
+    const PERMITTED = [{"common_name": "Anchovies", "scientific_name": "Family  Engraulidae", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Baardman  (Tasselfish,  Belman)", "scientific_name": "Umbrina  robinsoni", "min_size_cm": "40", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Billfish  (Marlin, Sailfish)", "scientific_name": "Family  Istiophoridae", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Blacktail  (Dassie, Kolstert)", "scientific_name": "Diplodus capensis", "min_size_cm": "20", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Bream Bronze  (Copper Bream,  Bluefish)", "scientific_name": "Pachymetopon  grande", "min_size_cm": "30", "bag_limit": "2", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Bream River  (Perch, Slimjannie)", "scientific_name": "Acanthopagrus  vagus", "min_size_cm": "25", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Bream Stone  (Stinker, Stinkvis)", "scientific_name": "Neoscorpis  lithophilus", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Carpenter  (Silverfish,  Karpenaar)", "scientific_name": "Argyrozona  argyrozona", "min_size_cm": "35", "bag_limit": "4", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Catshark Leopard", "scientific_name": "Poroderma  pantherinum", "min_size_cm": "", "bag_limit": "1", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Catshark Striped", "scientific_name": "Poroderma  africanum", "min_size_cm": "", "bag_limit": "1", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Cutlassfish  (Walla Walla)", "scientific_name": "Trichiurus  lepturus", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Dageraad", "scientific_name": "Chrysoblephus  cristiceps", "min_size_cm": "40", "bag_limit": "1", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Dane", "scientific_name": "Porcostoma  dentata", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Elf  (Shad)", "scientific_name": "Pomatomus  saltatrix", "min_size_cm": "30", "bag_limit": "4", "closed_season": "1 Oct to  30 Nov", "other": "No  commercial  sale in KZN"}, {"common_name": "Englishman", "scientific_name": "Chrysoblephus  anglicus", "min_size_cm": "40", "bag_limit": "1", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Fransmadam  (Karel Grootoog)", "scientific_name": "Boopsoidea  inornata", "min_size_cm": "", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Galjoen  (Damba)", "scientific_name": "Dichistius capensis", "min_size_cm": "35", "bag_limit": "2", "closed_season": "15 Oct to  end Feb", "other": "Recreational  species"}, {"common_name": "Galjoen Banded", "scientific_name": "Dichistius  multifasciatus", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Garfishes  (Needlefishes)", "scientific_name": "Family Belonidae", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Geelbek  (Cape Salmon)", "scientific_name": "Atractoscion  aequidens", "min_size_cm": "60", "bag_limit": "2", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Glassies", "scientific_name": "Family  Ambassidae", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Grunter Olive  (Piggy, Pinky)", "scientific_name": "Pomadasus  olivaceum", "min_size_cm": "7.5", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Grunter Spotted", "scientific_name": "Pomadasys  commersonnii", "min_size_cm": "40", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Hake  (Stockfish)", "scientific_name": "Merluccius spp.", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Halfbeaks", "scientific_name": "Family  Hemiramphidae", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Hottentot", "scientific_name": "Pachymetopon  blochii", "min_size_cm": "22", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Hottentot Blue", "scientific_name": "Pachymetopon  aeneum", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "John Brown", "scientific_name": "Gymnocrotaphas  curvidens", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Kingfishes  (Trevallies)", "scientific_name": "Caranx spp. &  Carangoides spp.", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Kingklip  (Cuskeel)", "scientific_name": "Genypterus  capensis", "min_size_cm": "", "bag_limit": "1", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Knifejaw Cape", "scientific_name": "Oplegnathus  conwayi", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Knifejaw Natal  (Cuckoo Bass)", "scientific_name": "Oplegnathus  robinsoni", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Kob Dusky  (Daga Salmon)", "scientific_name": "Argyrosomus  japonicus", "min_size_cm": "60", "bag_limit": "1", "closed_season": "None", "other": "Commercial  species*"}, {"common_name": "Kob Silver", "scientific_name": "Argyrosomus  inodorus", "min_size_cm": "50", "bag_limit": "5", "closed_season": "None", "other": "Commercial  species*"}, {"common_name": "Kob Squaretail  (Half Kob)", "scientific_name": "Argyrosomus  thorpei", "min_size_cm": "40", "bag_limit": "5", "closed_season": "None", "other": "Commercial  species*"}, {"common_name": "Leervis (Garrick)", "scientific_name": "Lichia amia", "min_size_cm": "70", "bag_limit": "2", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Maasbanker  (Cape Horse  Mackerel)", "scientific_name": "Trachurus spp.", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Mackerel Chub", "scientific_name": "Scomber  japonicus", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Mackerel King  (Cuda)", "scientific_name": "Scomberomorus  commerson", "min_size_cm": "", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Mackerel Queen  (Natal Snoek)", "scientific_name": "Scomberomorus  plurilineatus", "min_size_cm": "", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Mullets (Harders)", "scientific_name": "Family Mugilidae", "min_size_cm": "", "bag_limit": "50", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Musselcracker  Black (Poenskop)", "scientific_name": "Cymatoceps  nasutus", "min_size_cm": "50", "bag_limit": "1", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Musselcracker  White  (Brusher)", "scientific_name": "Sparodon  durbanensis", "min_size_cm": "60", "bag_limit": "2", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Pompano  Largespotted  (Wave Garrick)", "scientific_name": "Trachinotus botla", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Pompano  Southern", "scientific_name": "Trachinotus  africanus", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Rockcod Catface", "scientific_name": "Epinephelus  andersoni", "min_size_cm": "50", "bag_limit": "5", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Rockcod  White-Edged  (Captain Fine)", "scientific_name": "Epinephelus  albomarginatus", "min_size_cm": "40", "bag_limit": "5", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Rockcod  Yellowbelly", "scientific_name": "Epinephelus  marginatus", "min_size_cm": "60", "bag_limit": "1", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Roman", "scientific_name": "Chrysoblephus  laticeps", "min_size_cm": "30", "bag_limit": "2", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Santer  (Soldier)", "scientific_name": "Cheimerius nufar", "min_size_cm": "30", "bag_limit": "5", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Sardines  (Pilchard &  Red-Eye)", "scientific_name": "Family Clupeidae", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Sauries", "scientific_name": "Family  Scomberesocidae", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Scads", "scientific_name": "Decapterus spp.", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Scotsman", "scientific_name": "Polysteganus  praeorbitalis", "min_size_cm": "40", "bag_limit": "1", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Shark  Raggedtooth", "scientific_name": "Carcharius taurus", "min_size_cm": "", "bag_limit": "1", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Shark  Hammerhead**", "scientific_name": "Sphyrna spp.", "min_size_cm": "", "bag_limit": "1", "closed_season": "None", "other": "No  commercial  sale"}, {"common_name": "Shark Spotted  Gully", "scientific_name": "Triakis  megalopterus", "min_size_cm": "", "bag_limit": "1", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Slinger", "scientific_name": "Chrysoblephus  puniceus", "min_size_cm": "25", "bag_limit": "5", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Snapper River  (Rock Salmon)", "scientific_name": "Lutjanus  argentimaculatus", "min_size_cm": "40", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Snoek Cape", "scientific_name": "Thyrsites atun", "min_size_cm": "60", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Springer  (Tenpounder)", "scientific_name": "Elops machnata", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Steenbras Bank", "scientific_name": "Chirodactylus  grandis", "min_size_cm": "", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Steenbras Red  (Copper Steenbras)", "scientific_name": "Petrus rupestris", "min_size_cm": "60", "bag_limit": "1", "closed_season": "1 Oct to  30 Nov", "other": "Recreational  species"}, {"common_name": "Steenbras  Westcoast", "scientific_name": "Lithognathus  aureti", "min_size_cm": "60", "bag_limit": "1", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Steenbras White  (Pignose Grunter)", "scientific_name": "Lithognathus  lithognathus", "min_size_cm": "60", "bag_limit": "1", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Steentjie", "scientific_name": "Spondyliosoma  emarginatum", "min_size_cm": "", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Strepie  (Karanteen)", "scientific_name": "Sarpa salpa", "min_size_cm": "15", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Stumpnose Cape", "scientific_name": "Rhabdosargus  holubi", "min_size_cm": "20", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Stumpnose Natal  (Yellowfin Bream)", "scientific_name": "Rhabdosargus  sarba", "min_size_cm": "25", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}, {"common_name": "Stumpnose Red  (Miss Lucy)", "scientific_name": "Chrysoblephus  gibbiceps", "min_size_cm": "30", "bag_limit": "1", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Stumpnose White", "scientific_name": "Rhabdosargus  globiceps", "min_size_cm": "25", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Swordfish  (Broadbill)", "scientific_name": "Xiphias gladius", "min_size_cm": "25 kg", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species***"}, {"common_name": "Tuna Bigeye", "scientific_name": "Thunnus obesus", "min_size_cm": "3.2 kg", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Tuna Bluefin", "scientific_name": "Thunnus maccoyii", "min_size_cm": "6.4 kg", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Tuna Longfin  (Albacore)", "scientific_name": "Thunnus alalunga", "min_size_cm": "", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Tuna Yellowfin", "scientific_name": "Thunnus albacares", "min_size_cm": "3.2 kg", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Wolfherring  (Silky)", "scientific_name": "Chirocentrus  dorab", "min_size_cm": "", "bag_limit": "", "closed_season": "None", "other": "Unlimited  baitfish  species"}, {"common_name": "Yellowtail Cape", "scientific_name": "Seriola lalandi", "min_size_cm": "", "bag_limit": "10", "closed_season": "None", "other": "Commercial  species"}, {"common_name": "Zebra  (Wildeperd)", "scientific_name": "Diplodus  hottentotus", "min_size_cm": "30", "bag_limit": "5", "closed_season": "None", "other": "Recreational  species"}];
+    const PROHIBITED = [{"common_name": "Basking shark (Koesterhaai)", "scientific_name": "Cetorhinus maximus", "status": "Prohibited (no-take)"}, {"common_name": "Brindle bass (Briekwabaars)", "scientific_name": "Epinephelus lanceolatus", "status": "Prohibited (no-take)"}, {"common_name": "Coelacanth (Selakant)", "scientific_name": "Latimeria chalumnae", "status": "Prohibited (no-take)"}, {"common_name": "Great white shark (Witdoodshaai)", "scientific_name": "Carcharodon carcharius", "status": "Prohibited (no-take)"}, {"common_name": "Natal wrasse (Natalse lipvis)", "scientific_name": "Anchichoerops natalensis", "status": "Prohibited (no-take)"}, {"common_name": "Pipefish & seahorses (Pypvis & seeperdjies)", "scientific_name": "Family Syngnathidae", "status": "Prohibited (no-take)"}, {"common_name": "Potato bass (Aartappel-baars)", "scientific_name": "Epinephelus tukula", "status": "Prohibited (no-take)"}, {"common_name": "Sawfishes (Saagvisse)", "scientific_name": "Family Pristidae", "status": "Prohibited (no-take)"}, {"common_name": "Seventy-four (Vier-en-sewentig)", "scientific_name": "Polysteganus undulosus", "status": "Prohibited (no-take)"}, {"common_name": "Whale shark (Walvishaai)", "scientific_name": "Rhincodon typus", "status": "Prohibited (no-take)"}, {"common_name": "Wreckfish (Wrakvis)", "scientific_name": "Polyprion spp.", "status": "Prohibited (no-take)"}];
+    const REGIONAL = [{"note": "*Kob caught from a boat at sea    (Cape Agulhas to Umtamvuna River)", "size": "50", "bag": "5 but only  1 > 110 cm", "closed": "None", "other": "None"}, {"note": "*Kob caught from a boat at sea    (in the province of KZN)", "size": "40", "bag": "5 but only  1 > 110 cm", "closed": "None", "other": "None"}, {"note": "*Kob caught from the shore and in       estuaries (east of Cape Agulhas)", "size": "60", "bag": "1", "closed": "None", "other": "None"}, {"note": "*Kob caught west of Cape Agulhas", "size": "50", "bag": "5", "closed": "None", "other": "None"}];
+
+    const q = document.getElementById('q');
+    const grid = document.getElementById('grid');
+    const meta = document.getElementById('results_meta');
+    const regList = document.getElementById('regional-notes');
+    const printBtn = document.getElementById('printBtn');
+    printBtn.addEventListener('click', () => window.print());
+
+    const chips = Array.from(document.querySelectorAll('button[data-filter]'));
+
+    function tagFromOther(other) { 
+      const o = (other || '').toLowerCase();
+      if (o.includes('unlimited baitfish')) return 'baitfish';
+      if (o.includes('recreational')) return 'recreational';
+      if (o.includes('commercial')) return 'commercial';
+      return 'other';
+    }
+
+    function toCard(item, type) {
+      const tag = type === 'prohibited' ? 'prohibited' : tagFromOther(item.other);
+      const badge = tag === 'prohibited' ? 
+        '<span class="badge" style="border-color:#c26b85;color:#f2b8c6">Prohibited</span>' :
+        tag === 'recreational' ? '<span class="badge" style="border-color:#63c5ea;color:#bfe9fb">Recreational</span>' :
+        tag === 'commercial' ? '<span class="badge" style="border-color:#6aa7ff;color:#c8ddff">Commercial</span>' :
+        tag === 'baitfish' ? '<span class="badge" style="border-color:#f2b366;color:#ffdca8">Baitfish</span>' :
+        '<span class="badge">Other</span>';
+
+      const hasClosed = (item.closed_season || '').length > 0 && !(item.closed_season || '').match(/^none$/i);
+      const closedBadge = hasClosed ? '<span class="badge" style="border-color:#b18ae6;color:#dcc9ff">Closed season</span>' : '';
+
+      const size = (item.min_size_cm || '').length ? item.min_size_cm + ' cm' : '-';
+      const bag = (item.bag_limit || '').length ? item.bag_limit : '-';
+      const closed = hasClosed ? item.closed_season : 'None';
+
+      const notes = (item.other || '').replaceAll('  ', ' ');
+
+      return `
+      <article>
+        <div class="flex items-center justify-between gap-2" style="margin-bottom:6px;">
+          <h3 class="leading-tight">${item.common_name || item.name}</h3>
+          <div class="flex gap-2" style="gap:6px;">${badge} ${closedBadge}</div>
+        </div>
+        <div class="text-xs text-dim italic" style="margin-bottom:10px;">${item.scientific_name || ''}</div>
+        ${type !== 'prohibited' ? `
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="label">Min Size</div>
+            <div class="value ${size!=='-' ? 'ok' : ''}">${size}</div>
+          </div>
+          <div class="stat">
+            <div class="label">Daily Bag</div>
+            <div class="value">${bag}</div>
+          </div>
+          <div class="stat">
+            <div class="label">Closed Season</div>
+            <div class="value ${hasClosed ? 'warning' : ''}">${closed}</div>
+          </div>
+        </div>
+        ` : `<div class="text-sm" style="color:#f2b8c6">No-take species. You may not target, keep or land this species.</div>`}
+        ${notes ? `<div class="text-sm text-dim" style="margin-top:10px;">${notes}</div>` : ''}
+      </article>`;
+    }
+
+    function render() {
+      const term = (q.value || '').trim().toLowerCase();
+      const active = chips.find(c => c.classList.contains('ring-2'))?.dataset.filter || 'all';
+
+      let items = [];
+      if (active === 'prohibited') {
+        items = PROHIBITED.map(p => ({...p, min_size_cm: '', bag_limit: '', closed_season: '', other: ''}));
+      } else {
+        items = PERMITTED.slice();
+      }
+
+      // Filter by chip
+      if (active === 'recreational') items = items.filter(i => (i.other||'').toLowerCase().includes('recreational'));
+      if (active === 'commercial') items = items.filter(i => (i.other||'').toLowerCase().includes('commercial'));
+      if (active === 'baitfish') items = items.filter(i => (i.other||'').toLowerCase().includes('baitfish'));
+      if (active === 'closed') items = items.filter(i => (i.closed_season||'').length && !(i.closed_season||'').match(/^none$/i));
+
+      // Search
+      if (term) {
+        items = items.filter(i => {
+          const hay = [i.common_name, i.scientific_name, i.other].join(' ').toLowerCase();
+          return hay.includes(term);
+        })
+      }
+
+      grid.innerHTML = items.map(i => toCard(i, active)).join('');
+      meta.textContent = `${items.length} result${items.length===1?'':'s'}`;
+    }
+
+    // Chip interactions
+    function setActiveChip(name) { 
+      chips.forEach(c => c.classList.remove('ring-2','ring-sky-500'));
+      const target = chips.find(c => c.dataset.filter === name);
+      if (target) target.classList.add('ring-2','ring-sky-500');
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => { setActiveChip(chip.dataset.filter); render(); });
+    });
+    setActiveChip('all');
+
+    // Regional notes
+    regList.innerHTML = REGIONAL.map(r => `<li><span class="font-medium">${r.note}</span> ${[r.size?('- Min size '+r.size+' cm'):'', r.bag?('- Bag '+r.bag):'', r.closed?('- Closed '+r.closed):'', r.other?('- '+r.other):''].join(' ')}</li>`).join('');
+
+    // Search interactions
+    q.addEventListener('input', render);
+    window.addEventListener('keydown', (e) => { if (e.key === '/' && !/(input|textarea)/i.test(document.activeElement.tagName)) { e.preventDefault(); q.focus(); } });
+    render();
+  </script>
+</body>
+</html>

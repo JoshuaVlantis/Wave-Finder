@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  
+    <title>Spearfishing Records – Algoa Underwater Club | Wave Finder</title>
+    <meta name="description" content="View official spearfishing records for the Algoa Underwater Club. See top catches, species records, and download the record book PDF." />
+    <link rel="canonical" href="https://wavefinder.org/records.html" />
+    
+  <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wavefinder.org/records.html">
+    <meta property="og:title" content="Spearfishing Records – Algoa Underwater Club | Wave Finder">
+    <meta property="og:description" content="View official spearfishing records for the Algoa Underwater Club. See top catches, species records, and download the record book PDF.">
+    <meta property="og:image" content="https://wavefinder.org/static/og-image.jpg">
+  <meta property="og:site_name" content="Wave Finder">
+  <meta property="og:locale" content="en_ZA">
+    
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://wavefinder.org/records.html">
+    <meta name="twitter:title" content="Spearfishing Records – Algoa Underwater Club | Wave Finder">
+    <meta name="twitter:description" content="View official spearfishing records for the Algoa Underwater Club. See top catches, species records, and download the record book PDF.">
+    <meta name="twitter:image" content="https://wavefinder.org/static/og-image.jpg">
+    
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Wave Finder",
+      "url": "https://wavefinder.org",
+      "description": "View official spearfishing records for the Algoa Underwater Club. See top catches, species records, and download the record book PDF.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://wavefinder.org/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>  
+
+  <!-- Fonts & perf hints -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="/static/logo32.png" imagesrcset="/static/logo32.png 1x" />
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1">
+
+  <!-- jsPDF core + AutoTable (text-only PDF) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.30/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+  
+  
+.brand{display:flex;align-items:center;gap:8px}
+.brand-text{font-size:28px;font-weight:700}
+
+    :root{--bg:#121212;--card:#1e1e1e;--accent:#4fc3f7;--gap:18px}
+    *{box-sizing:border-box;}
+    body{
+      margin:0;font-family:'Outfit',sans-serif;min-height:100vh;
+      display:flex;flex-direction:column;align-items:center;
+      padding:120px 20px 40px;background:var(--bg);position:relative;overflow-x:hidden;
+    }
+    body::before{
+      content:"";position:fixed;inset:0;
+      background:url('/static/auc_logo_white.png') center/59% no-repeat;
+      opacity:.6;pointer-events:none;z-index:-1;
+    }
+    #top-header{
+      position:fixed;top:10px;left:50%;transform:translateX(-50%);
+      background:rgba(44,62,80,.95);color:#fff;padding:12px 24px;border-radius:12px;
+      font-size:18px;font-weight:600;letter-spacing:.8px;box-shadow:0 2px 10px rgba(0,0,0,.25);
+      z-index:1001;display:flex;flex-direction:column;gap:2px;align-items:center;
+    }
+    .pill{
+      background:rgba(255,255,255,.15);color:#fff;padding:6px 14px;border-radius:999px;
+      font-size:14px;text-decoration:none;font-weight:500;transition:background .2s;
+    }
+    .pill:hover,.pill.active{background:rgba(255,255,255,.3)}
+    h1{color:#fff;margin:0 0 18px;text-align:center;font-size:2.1em;letter-spacing:.5px}
+
+    .records-grid{
+      width:100%;max-width:1100px;
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:var(--gap);
+    }
+    .record-card{
+      background:var(--card);border-radius:12px;padding:18px 20px;color:#fff;
+      box-shadow:0 2px 12px rgba(0,0,0,.35);
+      display:flex;flex-direction:column;overflow:hidden;
+    }
+    .record-card h2{
+      margin:0 0 12px;font-size:1.15em;color:var(--accent);
+      text-transform:uppercase;letter-spacing:.5px;word-wrap:break-word;hyphens:auto;
+    }
+
+    table{border-collapse:collapse;width:100%;font-size:.9em}
+    thead{border-bottom:1px solid #444}
+    th,td{padding:4px 6px;text-align:left;white-space:nowrap}
+    th:nth-child(1),td:nth-child(1){width:28px;text-align:center}
+    th:nth-child(3),td:nth-child(3){width:76px}
+    th:nth-child(4),td:nth-child(4){width:96px}
+    td:nth-child(2){max-width:140px;overflow:hidden;text-overflow:ellipsis}
+    tbody tr:nth-child(even){background:#2a2a2a}
+
+    .placeholder{color:#aaa;font-size:.9em}
+
+    #nav-pills{display:flex;gap:10px}
+
+    #dl-pdf{
+      background:#4fc3f7;color:#000;border:none;border-radius:8px;
+      padding:8px 16px;margin-bottom:22px;font-size:14px;font-weight:600;
+      cursor:pointer;transition:background .2s;
+    }
+    #dl-pdf:hover{background:#82d7ff}
+  </style>
+
+  <link rel="icon" href="/static/logo32.png" type="image/png" sizes="32x32">
+</head>
+<body>
+
+<div id="wf-header"></div>
+
+
+<h1>Algoa Underwater Club – Record Book 2025</h1>
+<button id="dl-pdf">⬇ Download PDF</button>
+
+<div class="records-grid"></div>
+
+<script src="/static/wf-header.js?v=2025-10-05-1" defer></script>
+<script>
+/* Populate the grid */
+const grid = document.querySelector('.records-grid');
+
+fetch('/api/records')
+  .then(r => r.json())
+  .then(data => {
+    data.forEach(rec => {
+      const card = document.createElement('div');
+      card.className = 'record-card';
+      card.innerHTML = `<h2>${rec.species}</h2>`;
+
+      if (!rec.entries.length) {
+        card.innerHTML += '<p class="placeholder">— no records yet —</p>';
+      } else {
+        const table = document.createElement('table');
+        table.innerHTML = `
+          <thead><tr><th>#</th><th>Diver</th><th>Weight</th><th>Date</th></tr></thead>`;
+        const tbody = document.createElement('tbody');
+
+        rec.entries.forEach((e,i) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${i+1}</td>
+            <td title="${e.diver}">${e.diver}</td>
+            <td>${e.weight}</td>
+            <td>${e.date}</td>`;
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        card.appendChild(table);
+      }
+      grid.appendChild(card);
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    grid.innerHTML =
+      '<p style="color:#fff;text-align:center;">Failed to load records 💔</p>';
+  });
+
+/* Text-based PDF exporter (jsPDF + AutoTable) */
+document.getElementById('dl-pdf').addEventListener('click', async () => {
+  const btn = document.getElementById('dl-pdf');
+  btn.disabled = true; btn.textContent = 'Building PDF…';
+
+  try {
+    const res  = await fetch('/api/records');
+    const data = await res.json();
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit:'pt', format:'a4', orientation:'portrait' });
+
+    const marginX = 40;
+    const pageW   = doc.internal.pageSize.getWidth();
+    const pageH   = doc.internal.pageSize.getHeight();
+    let cursorY   = 40;
+
+    doc.setFont('helvetica','bold').setFontSize(18);
+    doc.text('Wave Finder – AUC Record Book (2025)', pageW/2, cursorY, { align:'center' });
+    cursorY += 30;
+    doc.setFontSize(12);
+
+    data.forEach((rec, idx) => {
+      doc.setFont(undefined,'bold');
+      doc.text(rec.species, marginX, cursorY);
+      doc.setFont(undefined,'normal');
+      cursorY += 8;
+
+      const rows = rec.entries.length
+        ? rec.entries.map((e,i)=>[i+1, e.diver, e.weight, e.date])
+        : [['—','No records yet','','']];
+
+      doc.autoTable({
+        startY : cursorY,
+        head   : [['#','Diver','Weight','Date']],
+        body   : rows,
+        margin : { left:marginX, right:marginX },
+        headStyles : { fillColor:[79,195,247] },
+        styles : { fontSize:10 },
+      });
+      cursorY = doc.lastAutoTable.finalY + 20;
+
+      if (idx < data.length-1 && cursorY + 60 > pageH){
+        doc.addPage(); cursorY = 40;
+      }
+    });
+
+    doc.save('WaveFinder_Record_Book.pdf');
+  }
+  catch (err){
+    console.error(err);
+    alert('Failed to generate PDF 🙁');
+  }
+  finally{
+    btn.disabled = false; btn.textContent = '⬇ Download PDF';
+  }
+});
+</script>
+</body>
+</html>

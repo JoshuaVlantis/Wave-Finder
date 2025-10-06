@@ -1,0 +1,634 @@
+[
+  {
+    "common_name":"Anchovies",
+    "scientific_name":"Family  Engraulidae",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Baardman  (Tasselfish,  Belman)",
+    "scientific_name":"Umbrina  robinsoni",
+    "min_size_cm":"40",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Billfish  (Marlin, Sailfish)",
+    "scientific_name":"Family  Istiophoridae",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Blacktail  (Dassie, Kolstert)",
+    "scientific_name":"Diplodus capensis",
+    "min_size_cm":"20",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Bream Bronze  (Copper Bream,  Bluefish)",
+    "scientific_name":"Pachymetopon  grande",
+    "min_size_cm":"30",
+    "bag_limit":"2",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Bream River  (Perch, Slimjannie)",
+    "scientific_name":"Acanthopagrus  vagus",
+    "min_size_cm":"25",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Bream Stone  (Stinker, Stinkvis)",
+    "scientific_name":"Neoscorpis  lithophilus",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Carpenter  (Silverfish,  Karpenaar)",
+    "scientific_name":"Argyrozona  argyrozona",
+    "min_size_cm":"35",
+    "bag_limit":"4",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Catshark Leopard",
+    "scientific_name":"Poroderma  pantherinum",
+    "min_size_cm":"",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Catshark Striped",
+    "scientific_name":"Poroderma  africanum",
+    "min_size_cm":"",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Cutlassfish  (Walla Walla)",
+    "scientific_name":"Trichiurus  lepturus",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Dageraad",
+    "scientific_name":"Chrysoblephus  cristiceps",
+    "min_size_cm":"40",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Dane",
+    "scientific_name":"Porcostoma  dentata",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Elf  (Shad)",
+    "scientific_name":"Pomatomus  saltatrix",
+    "min_size_cm":"30",
+    "bag_limit":"4",
+    "closed_season":"1 Oct to  30 Nov",
+    "other":"No  commercial  sale in KZN"
+  },
+  {
+    "common_name":"Englishman",
+    "scientific_name":"Chrysoblephus  anglicus",
+    "min_size_cm":"40",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Fransmadam  (Karel Grootoog)",
+    "scientific_name":"Boopsoidea  inornata",
+    "min_size_cm":"",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Galjoen  (Damba)",
+    "scientific_name":"Dichistius capensis",
+    "min_size_cm":"35",
+    "bag_limit":"2",
+    "closed_season":"15 Oct to  end Feb",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Galjoen Banded",
+    "scientific_name":"Dichistius  multifasciatus",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Garfishes  (Needlefishes)",
+    "scientific_name":"Family Belonidae",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Geelbek  (Cape Salmon)",
+    "scientific_name":"Atractoscion  aequidens",
+    "min_size_cm":"60",
+    "bag_limit":"2",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Glassies",
+    "scientific_name":"Family  Ambassidae",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Grunter Olive  (Piggy, Pinky)",
+    "scientific_name":"Pomadasus  olivaceum",
+    "min_size_cm":"7.5",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Grunter Spotted",
+    "scientific_name":"Pomadasys  commersonnii",
+    "min_size_cm":"40",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Hake  (Stockfish)",
+    "scientific_name":"Merluccius spp.",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Halfbeaks",
+    "scientific_name":"Family  Hemiramphidae",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Hottentot",
+    "scientific_name":"Pachymetopon  blochii",
+    "min_size_cm":"22",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Hottentot Blue",
+    "scientific_name":"Pachymetopon  aeneum",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"John Brown",
+    "scientific_name":"Gymnocrotaphas  curvidens",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Kingfishes  (Trevallies)",
+    "scientific_name":"Caranx spp. &  Carangoides spp.",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Kingklip  (Cuskeel)",
+    "scientific_name":"Genypterus  capensis",
+    "min_size_cm":"",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Knifejaw Cape",
+    "scientific_name":"Oplegnathus  conwayi",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Knifejaw Natal  (Cuckoo Bass)",
+    "scientific_name":"Oplegnathus  robinsoni",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Kob Dusky  (Daga Salmon)",
+    "scientific_name":"Argyrosomus  japonicus",
+    "min_size_cm":"60",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Commercial  species*"
+  },
+  {
+    "common_name":"Kob Silver",
+    "scientific_name":"Argyrosomus  inodorus",
+    "min_size_cm":"50",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Commercial  species*"
+  },
+  {
+    "common_name":"Kob Squaretail  (Half Kob)",
+    "scientific_name":"Argyrosomus  thorpei",
+    "min_size_cm":"40",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Commercial  species*"
+  },
+  {
+    "common_name":"Leervis (Garrick)",
+    "scientific_name":"Lichia amia",
+    "min_size_cm":"70",
+    "bag_limit":"2",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Maasbanker  (Cape Horse  Mackerel)",
+    "scientific_name":"Trachurus spp.",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Mackerel Chub",
+    "scientific_name":"Scomber  japonicus",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Mackerel King  (Cuda)",
+    "scientific_name":"Scomberomorus  commerson",
+    "min_size_cm":"",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Mackerel Queen  (Natal Snoek)",
+    "scientific_name":"Scomberomorus  plurilineatus",
+    "min_size_cm":"",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Mullets (Harders)",
+    "scientific_name":"Family Mugilidae",
+    "min_size_cm":"",
+    "bag_limit":"50",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Musselcracker  Black (Poenskop)",
+    "scientific_name":"Cymatoceps  nasutus",
+    "min_size_cm":"50",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Musselcracker  White  (Brusher)",
+    "scientific_name":"Sparodon  durbanensis",
+    "min_size_cm":"60",
+    "bag_limit":"2",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Pompano  Largespotted  (Wave Garrick)",
+    "scientific_name":"Trachinotus botla",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Pompano  Southern",
+    "scientific_name":"Trachinotus  africanus",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Rockcod Catface",
+    "scientific_name":"Epinephelus  andersoni",
+    "min_size_cm":"50",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Rockcod  White-Edged  (Captain Fine)",
+    "scientific_name":"Epinephelus  albomarginatus",
+    "min_size_cm":"40",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Rockcod  Yellowbelly",
+    "scientific_name":"Epinephelus  marginatus",
+    "min_size_cm":"60",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Roman",
+    "scientific_name":"Chrysoblephus  laticeps",
+    "min_size_cm":"30",
+    "bag_limit":"2",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Santer  (Soldier)",
+    "scientific_name":"Cheimerius nufar",
+    "min_size_cm":"30",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Sardines  (Pilchard &  Red-Eye)",
+    "scientific_name":"Family Clupeidae",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Sauries",
+    "scientific_name":"Family  Scomberesocidae",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Scads",
+    "scientific_name":"Decapterus spp.",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Scotsman",
+    "scientific_name":"Polysteganus  praeorbitalis",
+    "min_size_cm":"40",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Shark  Raggedtooth",
+    "scientific_name":"Carcharius taurus",
+    "min_size_cm":"",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Shark  Hammerhead**",
+    "scientific_name":"Sphyrna spp.",
+    "min_size_cm":"",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"No  commercial  sale"
+  },
+  {
+    "common_name":"Shark Spotted  Gully",
+    "scientific_name":"Triakis  megalopterus",
+    "min_size_cm":"",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Slinger",
+    "scientific_name":"Chrysoblephus  puniceus",
+    "min_size_cm":"25",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Snapper River  (Rock Salmon)",
+    "scientific_name":"Lutjanus  argentimaculatus",
+    "min_size_cm":"40",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Snoek Cape",
+    "scientific_name":"Thyrsites atun",
+    "min_size_cm":"60",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Springer  (Tenpounder)",
+    "scientific_name":"Elops machnata",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Steenbras Bank",
+    "scientific_name":"Chirodactylus  grandis",
+    "min_size_cm":"",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Steenbras Red  (Copper Steenbras)",
+    "scientific_name":"Petrus rupestris",
+    "min_size_cm":"60",
+    "bag_limit":"1",
+    "closed_season":"1 Oct to  30 Nov",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Steenbras  Westcoast",
+    "scientific_name":"Lithognathus  aureti",
+    "min_size_cm":"60",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Steenbras White  (Pignose Grunter)",
+    "scientific_name":"Lithognathus  lithognathus",
+    "min_size_cm":"60",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Steentjie",
+    "scientific_name":"Spondyliosoma  emarginatum",
+    "min_size_cm":"",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Strepie  (Karanteen)",
+    "scientific_name":"Sarpa salpa",
+    "min_size_cm":"15",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Stumpnose Cape",
+    "scientific_name":"Rhabdosargus  holubi",
+    "min_size_cm":"20",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Stumpnose Natal  (Yellowfin Bream)",
+    "scientific_name":"Rhabdosargus  sarba",
+    "min_size_cm":"25",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  },
+  {
+    "common_name":"Stumpnose Red  (Miss Lucy)",
+    "scientific_name":"Chrysoblephus  gibbiceps",
+    "min_size_cm":"30",
+    "bag_limit":"1",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Stumpnose White",
+    "scientific_name":"Rhabdosargus  globiceps",
+    "min_size_cm":"25",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Swordfish  (Broadbill)",
+    "scientific_name":"Xiphias gladius",
+    "min_size_cm":"25 kg",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species***"
+  },
+  {
+    "common_name":"Tuna Bigeye",
+    "scientific_name":"Thunnus obesus",
+    "min_size_cm":"3.2 kg",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Tuna Bluefin",
+    "scientific_name":"Thunnus maccoyii",
+    "min_size_cm":"6.4 kg",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Tuna Longfin  (Albacore)",
+    "scientific_name":"Thunnus alalunga",
+    "min_size_cm":"",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Tuna Yellowfin",
+    "scientific_name":"Thunnus albacares",
+    "min_size_cm":"3.2 kg",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Wolfherring  (Silky)",
+    "scientific_name":"Chirocentrus  dorab",
+    "min_size_cm":"",
+    "bag_limit":"",
+    "closed_season":"None",
+    "other":"Unlimited  baitfish  species"
+  },
+  {
+    "common_name":"Yellowtail Cape",
+    "scientific_name":"Seriola lalandi",
+    "min_size_cm":"",
+    "bag_limit":"10",
+    "closed_season":"None",
+    "other":"Commercial  species"
+  },
+  {
+    "common_name":"Zebra  (Wildeperd)",
+    "scientific_name":"Diplodus  hottentotus",
+    "min_size_cm":"30",
+    "bag_limit":"5",
+    "closed_season":"None",
+    "other":"Recreational  species"
+  }
+]

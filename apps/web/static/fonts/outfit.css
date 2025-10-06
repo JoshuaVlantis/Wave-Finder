@@ -1,0 +1,16 @@
+/* Self-hosted Outfit font: add the woff2 files alongside this CSS.
+   Drop files as: Outfit-400.woff2, Outfit-600.woff2 */
+@font-face {
+  font-family: 'OutfitLocal';
+  src: url('/static/fonts/Outfit-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'OutfitLocal';
+  src: url('/static/fonts/Outfit-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,0 +1,37 @@
+# --- Node ---
+node_modules/
+apps/api/node_modules/
+npm-debug.log*
+yarn-error.log
+pnpm-lock.yaml
+
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- ML artifacts & local config ---
+apps/ml/models/
+apps/ml/predictions/
+apps/ml/data/debug_input_features_*.csv
+apps/ml/config.ini
+*.pkl
+*.meta.json
+
+# --- Env / secrets ---
+.env
+.env.*
+apps/api/.env
+apps/ml/.env
+
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
