@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wave Finder Blog</title>
+  <meta name="description" content="Updates, spot deep-dives, and tips from Wave Finder." />
+  <link rel="canonical" href="https://wavefinder.org/blog.html" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/static/logo32.png" type="image/png" sizes="32x32">
+  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1">
+  <style>
+    :root{ --c-bg:#121212; --c-panel:#1e1e1e; --c-border:#2b3440; --c-accent:#4fc3f7; --c-text:#eaeef5; --c-dim:#aab3c2; --r:12px }
+    *{ box-sizing:border-box }
+  body{ margin:0; font-family:'Outfit',system-ui,Segoe UI,Roboto,Arial; background:var(--c-bg); color:var(--c-text); position:relative }
+  
+  body::before{ content:""; position:fixed; top:0; left:0; right:0; height:560px; pointer-events:none; z-index:0;
+    background:radial-gradient(1200px 560px at 50% -12%, rgba(79,195,247,.08), transparent 70%); }
+    #top-header{ position:fixed; top:10px; left:50%; transform:translateX(-50%); background:rgba(44,62,80,.95); color:#fff; padding:12px 24px; border-radius:12px; font-size:18px; font-weight:600; letter-spacing:.8px; box-shadow:0 2px 10px rgba(0,0,0,.25); z-index:1001; display:flex; flex-direction:column; gap:2px; align-items:center }
+    #nav-pills{ display:flex; gap:10px }
+    .pill{ background:rgba(255,255,255,.15); color:#fff; padding:6px 14px; font-size:14px; border-radius:999px; text-decoration:none; font-weight:500; transition:background .2s }
+    .pill:hover,.pill.active{ background:rgba(255,255,255,.30) }
+    .brand{display:flex;align-items:center;gap:8px}
+    .brand-text{font-size:28px;font-weight:700}
+
+  main{ max-width:1200px; margin:0 auto; padding:120px 20px 40px; position:relative; z-index:1 }
+
+    .grid{ display:grid; grid-template-columns: 1fr; gap:18px }
+    @media (min-width: 820px){
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (min-width: 1100px){
+      .grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    article{ background:linear-gradient(180deg, rgba(34,39,46,.9), rgba(22,26,31,.95)); border:1px solid var(--c-border); border-radius:12px; padding:16px; display:flex; flex-direction:column; min-height:360px; box-shadow:0 10px 24px rgba(0,0,0,.22); transition:transform .18s ease, box-shadow .18s ease }
+  .card:hover article{ transform:translateY(-2px); box-shadow:0 14px 32px rgba(0,0,0,.3) }
+  h2{ margin:0 0 4px; font-size:18px; display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; text-align:center }
+    .meta{ color:var(--c-dim); font-size:12px; margin-bottom:8px; text-align:center }
+  .excerpt{ color:#cfd6e4; font-size:14px; display:-webkit-box; -webkit-line-clamp:3; line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; text-align:center }
+  .cover{ width:100%; aspect-ratio:16/9; height:auto; object-fit:cover; border-radius:8px; margin-bottom:8px; flex:0 0 auto }
+    a.card{ text-decoration:none; color:inherit; display:block }
+
+  
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:6px auto 18px; max-width:820px }
+    .chip{ display:inline-flex; align-items:center; padding:6px 10px; border:1px solid #3a4755; border-radius:999px; font-size:12px; color:#cfe3f6; background:rgba(255,255,255,.04); cursor:pointer }
+    .chip:hover{ background:rgba(255,255,255,.08) }
+    .chip.active{ outline:2px solid var(--c-accent); outline-offset:2px }
+
+  /* Search sits in normal flow to avoid overlapping hero */
+  .search-wrap{ position:relative; z-index:1; margin-bottom:10px }
+
+  
+  .card.featured article{ position:relative; padding:0; overflow:hidden; min-height:240px; border-radius:12px }
+  .card.featured .cover{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; margin:0 }
+  .card.featured .shade{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.68)) }
+  .card.featured .inner{ position:relative; padding:22px; display:flex; flex-direction:column; justify-content:flex-end; height:100% }
+    .card.featured h2,.card.featured .meta,.card.featured .excerpt{ text-align:left }
+  @media (min-width: 820px){ .grid .card.featured{ grid-column: span 1; min-height:280px } }
+  @media (max-width: 819px){ .card.featured article{ min-height:220px } }
+
+  
+  .card.overlay article{ position:relative; padding:0; overflow:hidden; border-radius:12px; aspect-ratio:16/9; min-height:0; display:block }
+  .card.overlay .cover{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; margin:0 }
+  .card.overlay .shade{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.45) 42%, rgba(0,0,0,.18) 75%, rgba(0,0,0,0) 100%) }
+  .card.overlay .inner{ position:relative; padding:16px; display:grid; grid-auto-rows:min-content; align-content:start; gap:6px; height:100% }
+  .card.overlay h2,.card.overlay .meta,.card.overlay .excerpt{ text-align:left; text-shadow:0 1px 2px rgba(0,0,0,.45) }
+  .card.overlay h2{ margin:0; color:#fff }
+  .card.overlay .meta{ margin:0; opacity:1; color:rgba(255,255,255,.92) }
+  .card.overlay .excerpt{ margin-top:2px; color:rgba(255,255,255,.96) }
+
+  
+  @supports not (aspect-ratio: 1 / 1) {
+    .card.overlay article{ aspect-ratio:auto }
+    .card.overlay article::before{ content:''; display:block; padding-top:56.25% }
+    .card.overlay .inner{ position:absolute; inset:0 }
+  }
+
+    
+    .search-wrap{ max-width:720px; margin:0 auto 14px; position:relative }
+  #blog-search{ width:100%; border:1px solid #2f3a45; background:rgba(255,255,255,0.06); color:#fff; padding:12px 14px; border-radius:999px; outline:none; font-family:inherit; backdrop-filter:saturate(1.1) blur(2px) }
+    #blog-search::placeholder{ color:rgba(255,255,255,0.6) }
+    .search-ico{ position:absolute; right:10px; top:0; bottom:0; display:flex; align-items:center; color:#9aa7b5; pointer-events:none }
+  </style>
+</head>
+<body>
+  <div id="wf-header"></div>
+
+  <main>
+  <h1 style="margin:0 0 12px; font-size:24px; text-align:center;">Wave Finder Blog</h1>
+    <div class="search-wrap">
+      <input id="blog-search" type="search" placeholder="Search blog titles…" autocomplete="off" />
+      <div class="search-ico">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+    <div id="tag-chips" class="chips"></div>
+    <div id="list" class="grid"></div>
+  </main>
+
+  <script src="/static/wf-header.js?v=2025-10-05-1" defer></script>
+  <script>
+    let ALL_POSTS = [];
+    let ALL_TAGS = [];
+    let SELECTED_TAG = 'all';
+    const READ_TIMES = new Map(); // slug -> "X min read"
+    function estimateReadMins(text){
+      const words = (text||'').trim().split(/\s+/).filter(Boolean).length;
+      const mins = Math.max(1, Math.round(words / 200));
+      return `${mins} min read`;
+    }
+    function sortByDateDesc(posts){
+      return posts.slice().sort((a,b)=>{
+        const da = new Date(a.date.replace(/-/g,'/')).getTime();
+        const db = new Date(b.date.replace(/-/g,'/')).getTime();
+        return (db||0) - (da||0);
+      });
+    }
+    function computeTags(posts){
+      const set = new Set();
+      posts.forEach(p => (p.tags||[]).forEach(t => set.add(t)));
+      return Array.from(set).sort();
+    }
+    function renderChips(){
+      const wrap = document.getElementById('tag-chips');
+      const tags = ['all', ...ALL_TAGS];
+      wrap.innerHTML = tags.map(t => `<button class="chip ${SELECTED_TAG===t?'active':''}" data-tag="${t}">${t==='all'?'All':t}</button>`).join('');
+      wrap.querySelectorAll('button').forEach(btn => btn.addEventListener('click', ()=>{
+        SELECTED_TAG = btn.dataset.tag;
+        renderChips();
+        renderPosts(document.getElementById('blog-search').value);
+      }));
+    }
+    function metaLine(p){
+      const read = READ_TIMES.get(p.slug);
+      const parts = [p.date, p.author];
+      if (read) parts.push(read);
+      if (p.tags && p.tags.length) parts.push(p.tags.join(', '));
+      return parts.join(' • ');
+    }
+
+    function renderPosts(term=''){
+      const list = document.getElementById('list');
+      const t = (term||'').trim().toLowerCase();
+      const bySearch = t ? ALL_POSTS.filter(p => (p.title||'').toLowerCase().includes(t)) : ALL_POSTS;
+      const filtered = bySearch.filter(p => SELECTED_TAG==='all' || (p.tags||[]).includes(SELECTED_TAG));
+      if (!filtered.length){
+        list.innerHTML = '<p style="color:#aab3c2">No posts found.</p>';
+        return;
+      }
+      list.innerHTML = filtered.map((p,idx)=>{
+        const slug = encodeURIComponent(p.slug);
+        const baseMeta = metaLine(p);
+        if (p.cover){
+          return `
+          <a class="card overlay" href="/post.html?slug=${slug}">
+            <article>
+              <img src="${p.cover}" alt="" class="cover" loading="lazy">
+              <div class="shade"></div>
+              <div class="inner">
+                <h2>${p.title}</h2>
+                <div class="meta">${baseMeta}</div>
+                <div class="excerpt">${p.excerpt || ''}</div>
+              </div>
+            </article>
+          </a>`;
+        }
+        return `
+          <a class="card" href="/post.html?slug=${slug}">
+            <article>
+              <h2>${p.title}</h2>
+              <div class="meta">${baseMeta}</div>
+              <div class="excerpt">${p.excerpt || ''}</div>
+            </article>
+          </a>`;
+      }).join('');
+    }
+    async function load(){
+      const res = await fetch('/data/blog_posts.json');
+      const posts = await res.json();
+      ALL_POSTS = sortByDateDesc(posts);
+      ALL_TAGS = computeTags(ALL_POSTS);
+      renderChips();
+      renderPosts('');
+      // Preload reading time lazily for visible posts
+      ALL_POSTS.forEach(async p => {
+        try{
+          const md = await fetch(`/content/posts/${encodeURIComponent(p.slug)}.md`).then(r=> r.ok ? r.text() : '');
+          READ_TIMES.set(p.slug, estimateReadMins(md));
+          // Rerender to show read time once computed
+          renderPosts(document.getElementById('blog-search').value);
+        }catch(e){ /* ignore */ }
+      });
+      const inp = document.getElementById('blog-search');
+      inp.addEventListener('input', ()=> renderPosts(inp.value));
+    }
+    load();
+  </script>
+</body>
+</html>

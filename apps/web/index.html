@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Wave Finder – Best Dive Spots in Port Elizabeth | Spearfishing & Scuba Guide</title>
+    <meta name="description" content="Discover the best dive spots in Port Elizabeth with Wave Finder. Real-time visibility, spearfishing tips, and local dive maps for Port Elizabeth." />
+  <link rel="canonical" href="https://wavefinder.org/" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wavefinder.org/">
+    <meta property="og:title" content="Wave Finder – Best Dive Spots in Port Elizabeth | Spearfishing & Scuba Guide">
+    <meta property="og:description" content="Discover the best dive spots in Port Elizabeth with Wave Finder. Real-time visibility, spearfishing tips, and local dive maps for Port Elizabeth.">
+    <meta property="og:image" content="https://wavefinder.org/static/og-image.jpg">
+  <meta property="og:site_name" content="Wave Finder">
+  <meta property="og:locale" content="en_ZA">
+    
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://wavefinder.org/">
+    <meta name="twitter:title" content="Wave Finder – Best Dive Spots in Port Elizabeth | Spearfishing & Scuba Guide">
+    <meta name="twitter:description" content="Discover the best dive spots in Port Elizabeth with Wave Finder. Real-time visibility, spearfishing tips, and local dive maps for Port Elizabeth.">
+    <meta name="twitter:image" content="https://wavefinder.org/static/og-image.jpg">
+    
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Wave Finder",
+      "url": "https://wavefinder.org",
+      "description": "Discover the best dive spots in Port Elizabeth with Wave Finder. Real-time visibility, spearfishing tips, and local dive maps for Port Elizabeth.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://wavefinder.org/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    
+  
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  
+  <link rel="preconnect" href="https://api.wavefinder.org" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="preconnect" href="https://server.arcgisonline.com" crossorigin>
+  <link rel="dns-prefetch" href="https://server.arcgisonline.com">
+  <link rel="stylesheet" href="/static/fonts/outfit.css" />
+  <link rel="preload" as="image" href="/static/logo32.png" imagesrcset="/static/logo32.png 1x" />
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+  
+  <link rel="preload" as="script" href="https://unpkg.com/leaflet/dist/leaflet.js" crossorigin>
+    <style>
+      :root {
+        --c-bg: #f0f4f8;
+        --c-panel: rgba(44, 62, 80, 1);
+        --c-accent: #0077b6;
+        --r: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+  font-family: 'OutfitLocal', Outfit, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, sans-serif;
+        background: var(--c-bg);
+        overflow: hidden;
+      }
+
+      
+      #app {
+        display: flex;
+        height: 100%;
+      }
+
+      #sidebar {
+        width: 300px;
+        max-width: 90vw;
+        background: var(--c-panel);
+        color: #fff;
+        padding: 16px 14px 20px;
+        height: 100%;
+        
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      #map {
+        flex: 1;
+  position: relative;
+      }
+
+      
+      .side-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .side-small {
+        font-size: 12px;
+        margin: 4px 0 8px;
+        opacity: 0.7;
+      }
+
+      
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .tab {
+        flex: 1;
+        text-align: center;
+        padding: 8px 0;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: #fff;
+        transition: background 0.2s;
+      }
+
+      .tab:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .tab.active {
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .panel {
+        display: none;
+        flex: 1;
+        flex-direction: column;
+        gap: 14px;
+        
+        min-height: 0;
+      }
+
+      .panel.active {
+        display: flex;
+      }
+
+      
+  .filters { display: flex; flex-direction: column; gap: 8px; }
+  .facet-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+      .filter {
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: none;
+        color: #fff;
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+      }
+
+      .filter.active,
+      .filter:hover {
+        background: #fff;
+        color: #000;
+        border-color: transparent;
+      }
+
+  .filter[disabled] { opacity: 0.45; cursor: not-allowed; }
+
+      
+      .search-wrap { position: relative; }
+      #spot-search {
+        width: 100%;
+        margin-top: 6px;
+        margin-bottom: 8px;
+  padding: 8px 34px 8px 10px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        outline: none;
+      }
+      #spot-clear {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255,255,255,0.18);
+        color: #fff;
+        line-height: 1;
+        font-size: 16px;
+        cursor: pointer;
+  display: none;
+      }
+      #spot-clear:hover { background: rgba(255,255,255,0.28); }
+      #spot-search::placeholder {
+        color: rgba(255, 255, 255, 0.65);
+      }
+
+      
+      #spot-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .spot-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        cursor: pointer;
+        font-size: 14px;
+        transition: background 0.2s;
+      }
+
+      .spot-item:hover {
+        background: rgba(255, 255, 255, 0.10);
+      }
+
+      .badge {
+        display: inline-flex;
+        width: 56px;
+        height: 24px;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 600;
+        color: #fff;
+        background: var(--c-accent);
+        border-radius: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .spot-item i,
+      .spot-item svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .spot-item .spot-name {
+        flex: 1;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      
+      .overlay-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.10);
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .overlay-option.active,
+      .overlay-option:hover {
+        background: var(--c-accent);
+      }
+
+      
+      .custom-pin {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+  bottom: -6px;
+        border-radius: 50%;
+        background: var(--pin-color, #28a745);
+        border: 1px solid #000;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+      }
+
+      .leaflet-div-icon {
+        background: transparent;
+        border: none;
+      }
+
+      @media (max-width: 600px) {
+        .custom-pin {
+          filter: contrast(115%) saturate(120%);
+        }
+
+        .custom-pin::after {
+          display: none;
+        }
+      }
+
+      .leaflet-popup-content-wrapper {
+        background: var(--c-panel);
+        color: #fff;
+        border-radius: var(--r);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        font-size: 13px;
+        width: 300px;
+        max-height: 400px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+      }
+
+      .leaflet-popup-tip {
+        background: var(--c-panel);
+      }
+
+      
+      .popup-img-wrap {
+        width: 100%;
+        height: 140px;
+        border-radius: 6px;
+        margin-bottom: 6px;
+  background-image: url('/static/temp.jpg'), url('/static/20.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+  overflow: hidden;
+      }
+
+      .popup-img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        
+      }
+
+      
+      .popup-img-bg {
+        width: 100%;
+        height: 140px;
+        border-radius: 6px;
+        margin-bottom: 6px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .spot-label {
+        background: var(--c-panel);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        border-radius: 999px;
+        padding: 0 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+      }
+
+      
+      .leaflet-control-zoom {
+        background: var(--c-panel);
+        border-radius: var(--r);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        margin-right: 10px;
+        margin-bottom: 20px;
+      }
+
+      .leaflet-control-zoom a {
+        background: none !important;
+        color: #fff !important;
+        font-size: 18px;
+        font-weight: 700;
+  width: 36px;
+        height: 36px;
+  padding: 0;
+        border: none !important;
+  display: flex;
+        align-items: center;
+        justify-content: center;
+  line-height: 1;
+        text-align: center;
+        transition: background 0.2s;
+      }
+
+      .leaflet-control-zoom a:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+      }
+
+      .home-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: #fff;
+        background: rgba(44, 62, 80, 0.85);
+        width: 32px;
+        height: 32px;
+        margin-bottom: 12px;
+        border-radius: var(--r);
+      }
+
+      .home-button:hover {
+        background: var(--c-accent);
+      }
+
+      
+      .mpa-label {
+        display: inline-block;
+        color: #18a558;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 1.15;
+        text-align: center;
+        
+        white-space: normal;
+        word-break: normal;
+        overflow-wrap: normal;
+        hyphens: none;
+        text-shadow:
+          0 0 2px rgba(0, 0, 0, .85),
+          0 0 6px rgba(0, 0, 0, .55);
+        pointer-events: none;
+      }
+
+      
+      #sidebarToggle {
+        display: none;
+      }
+
+      
+      @media (max-width: 768px) {
+
+        
+        #sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          width: 280px;
+          
+          max-width: 90vw;
+          background: var(--c-panel);
+          color: #fff;
+          padding: 16px 14px 20px;
+          
+          transform: translateX(-100%);
+          transition: transform 0.3s ease-in-out;
+          z-index: 1001;
+          
+        }
+
+        
+        #sidebar.show {
+          transform: translateX(0);
+          background: rgba(44, 62, 80, 1);
+          
+        }
+
+        
+        #sidebarToggle {
+          display: block;
+          
+          position: fixed;
+          top: 50%;
+          
+          left: 8px;
+          
+          transform: translateY(-50%);
+          z-index: 1002;
+          
+          width: 36px;
+          height: 36px;
+          background: var(--c-panel);
+          color: #fff;
+          border: none;
+          border-radius: var(--r);
+          font-size: 20px;
+          cursor: pointer;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        
+        #sidebarToggle:focus {
+          background: var(--c-accent);
+          outline: none;
+        }
+
+        
+        #sidebarToggle.open {
+          background: var(--c-accent);
+          /* same lighter‐blue you use on hover/focus */
+        }
+
+        
+        .panel {
+          min-height: 0;
+          
+        }
+
+        
+      }
+    
+/* Wind hover tooltip — WaveFinder style */
+.wind-tooltip.leaflet-popup {
+  width: auto !important;         /* kill any fixed width */
+  max-width: none !important;     /* kill default 300px max */
+}
+
+.wind-tooltip .leaflet-popup-content-wrapper {
+  background: #2c3e50f2; /* dark panel */
+  color: #e7eaf3;                     /* light text */
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 1px 4px;                   /* tighter */
+  display: inline-block;              /* shrink-to-fit */
+  min-width: 0 !important;            /* no minimum width */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+  backdrop-filter: saturate(1.1) blur(2px);
+  font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial;
+}
+
+.wind-tooltip .leaflet-popup-tip {
+  background: #2c3e50f2;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.wind-tooltip .leaflet-popup-content {
+  display: inline-block;              /* shrink-to-fit */
+  width: auto !important;             /* override Leaflet's width */
+  min-width: 0 !important;
+  margin: 0;                           /* no extra spacing */
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+
+
+
+/* Override popup width for wind hover only */
+.wind-tooltip.leaflet-popup .leaflet-popup-content-wrapper {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  display: inline-block;
+}
+.wind-tooltip.leaflet-popup .leaflet-popup-content {
+  width: auto !important;
+  min-width: 0 !important;
+  display: inline-block;
+  margin: 0;
+}
+
+	/* add somewhere in your <style> block */
+
+/* Wind loading badge */
+#wind-loading{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--c-panel);color:#fff;padding:8px 12px;border-radius:12px;box-shadow:0 2px 14px rgba(0,0,0,.3);z-index:1102;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s ease}
+#wind-loading.on{opacity:1}
+#wind-loading .spinner{width:12px;height:12px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:wfspin .9s linear infinite}
+@keyframes wfspin{to{transform:rotate(360deg)}}
+
+
+/* Spots loading overlay (shown only on slow loads) */
+#spots-loading{position:absolute;inset:0;background:transparent;z-index:1103;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease}
+#spots-loading.on{opacity:1}
+#spots-loading .box{display:flex;align-items:center;gap:10px;background:var(--c-panel);color:#fff;padding:10px 14px;border-radius:12px;box-shadow:0 2px 14px rgba(0,0,0,.3);font-size:14px;font-weight:700}
+#spots-loading .spinner{width:12px;height:12px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:wfspin .9s linear infinite}
+
+
+</style>
+  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1" />
+    <link rel="icon" href="/static/logo32.png" type="Images/png" sizes="32x32" />
+  </head>
+  <body>
+    <button id="sidebarToggle">☰</button>
+    <div id="wf-header"></div>
+    <div id="wind-loading" aria-live="polite" aria-atomic="true"><div class="spinner" aria-hidden="true"></div><span>Loading wind…</span></div>
+    <div id="app">
+      <aside id="sidebar">
+        <div>
+          <h2 class="side-title">Wave Finder</h2>
+          <p class="side-small" id="last-update">*Coming Soon*</p>
+        </div>
+        <div class="tabs">
+          <button class="tab active" data-tab="spots">Dive spots</button>
+          <button class="tab" data-tab="weather">Weather maps</button>
+        </div>
+        <div id="spots-panel" class="panel active">
+          <div class="filters">
+            <div class="facet-chips" id="filter-tags"></div>
+          </div>
+          <div class="search-wrap"><input id="spot-search" type="text" placeholder="Search spots..." autocomplete="off" /><button id="spot-clear" aria-label="Clear search" title="Clear">×</button></div>
+          <ul id="spot-list"></ul>
+        </div>
+        <div id="weather-panel" class="panel">
+          <div class="overlay-option" onclick="toggleWindOverlay(this)">
+            <i>💨</i> Wind overlay
+          </div>
+        </div>
+      </aside>
+      <div id="map">
+        <div id="spots-loading" role="status" aria-live="polite" aria-atomic="true">
+          <div class="box"><div class="spinner" aria-hidden="true"></div><span>Loading dive spots…</span></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      L.Marker.prototype._setPos = function(pos) {
+        L.DomUtil.setTransform(this._icon, pos);
+        if (this._shadow) {
+          L.DomUtil.setTransform(this._shadow, pos);
+        }
+      };
+    </script>
+    <script>
+      const BASE_OFFSET = 60;
+      const POPUP_MARGIN = 145;
+      const sidebar = document.getElementById('sidebar');
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      const setSidebarVar = (px) => document.documentElement.style.setProperty('--sidebar-width', px);
+      const mobileSidebarWidth = '280px';
+      sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+        if (sidebar.classList.contains('show')) {
+          sidebarToggle.classList.add('open');
+          setSidebarVar(mobileSidebarWidth);
+        } else {
+          sidebarToggle.classList.remove('open');
+          setSidebarVar('0px');
+        }
+        sidebarToggle.blur();
+        setTimeout(() => map.invalidateSize(), 350);
+      });
+      document.querySelectorAll('.tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById(btn.dataset.tab + '-panel').classList.add('active');
+          setTimeout(() => map.invalidateSize(), 350);
+        });
+      });
+      L.Popup.prototype.options.autoPan = false;
+      const bounds = L.latLngBounds(L.latLng(-25.037233432401287, 49.409594479172306), L.latLng(-43.27141534775741, 5.354436376104243));
+      const map = L.map('map', {
+        zoomControl: false,
+        minZoom: 7,
+        maxZoom: 18,
+        maxBounds: bounds,
+        maxBoundsViscosity: 1
+      }).setView([-34.0033, 25.6325], 12);
+      const defaultView = {
+        center: [-34.0033, 25.6325],
+        zoom: 12
+      };
+	  
+	  // Close the mobile sidebar when interacting with the map
+function closeSidebarIfMobile() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobile && sidebar.classList.contains('show')) {
+    sidebar.classList.remove('show');
+    sidebarToggle.classList.remove('open');
+    sidebarToggle.blur();
+    setSidebarVar('0px');
+    // let Leaflet reflow after the sidebar slides away
+    setTimeout(() => map.invalidateSize(), 250);
+  }
+}
+
+map.on('click', closeSidebarIfMobile);
+
+map.on('dragstart zoomstart', closeSidebarIfMobile);
+
+window.addEventListener('resize', () => {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (!isMobile) {
+    setSidebarVar('0px');
+  } else {
+    setSidebarVar(sidebar.classList.contains('show') ? mobileSidebarWidth : '0px');
+  }
+});
+
+      /* 
+      //Vector Map
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+      }).addTo(map);
+      */
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics',
+        maxZoom: 19
+      }).addTo(map);
+
+      function debounce(fn, ms = 120) {
+        let t;
+        return (...a) => {
+          clearTimeout(t);
+          t = setTimeout(() => fn(...a), ms);
+        };
+      }
+
+function overscanBounds(bounds, scale = 2.5) {
+  const sw = bounds.getSouthWest(), ne = bounds.getNorthEast();
+  const south = sw.lat, west = sw.lng, north = ne.lat, east = ne.lng;
+  const latC = (south + north) / 2, lngC = (west + east) / 2;
+  const latH = (north - south) / 2, lngH = (east - west) / 2;
+  let s = latC - latH * scale, n = latC + latH * scale, w = lngC - lngH * scale, e = lngC + lngH * scale;
+  if (s < -89.9) s = -89.9; if (n > 89.9) n = 89.9; if (w < -180) w = -180; if (e > 180) e = 180;
+  return { west: w, south: s, east: e, north: n };
+}
+function overscanForZoom(z){ if (z>=15) return 3.2; if (z>=14) return 3.0; if (z>=12) return 2.6; return 2.2; }
+function snapDown(val, origin, step){ return origin + Math.floor((val - origin) / step) * step; }
+function snapUp(val, origin, step){ return origin + Math.ceil((val - origin) / step) * step; }
+
+function _degToCardinal(d){
+  const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  const i = Math.round(((d % 360) / 22.5)) % 16;
+  return dirs[i];
+}
+function _arrowForDeg(d){
+  const arrows = ['↑','↗','→','↘','↓','↙','←','↖'];
+  const i = Math.round(((d % 360) / 45)) % 8;
+  return arrows[i];
+}
+function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
+
+
+      const MPA_MIN_ZOOM = 11;
+      const mpaLabels = L.layerGroup().addTo(map);
+      let mpaLayer = null;
+  fetch('/data/mpa_boundaries.geojson').then(r => r.json()).then(data => {
+        mpaLayer = L.geoJSON(data, {
+          style: {
+            color: '#00aa00',
+            opacity: 0.4,
+            weight: 2,
+            fillColor: '#00aa00',
+            fillOpacity: 0.09
+          }
+        }).addTo(map);
+        function polygonArea(coords) {
+          let a = 0;
+          for (let i = 0; i < coords.length; i++) {
+            const [x0, y0] = coords[i];
+            const [x1, y1] = coords[(i + 1) % coords.length];
+            a += x0 * y1 - x1 * y0;
+          }
+          return Math.abs(a) / 2;
+        }
+
+        function polygonCentroid(coords) {
+          let a = 0,
+            cx = 0,
+            cy = 0;
+          for (let i = 0; i < coords.length; i++) {
+            const [x0, y0] = coords[i];
+            const [x1, y1] = coords[(i + 1) % coords.length];
+            const f = x0 * y1 - x1 * y0;
+            a += f;
+            cx += (x0 + x1) * f;
+            cy += (y0 + y1) * f;
+          }
+          a *= 0.5;
+          if (!a) return coords[0];
+          return [cx / (6 * a), cy / (6 * a)];
+        }
+        const updateMpaLabels = () => {
+          mpaLabels.clearLayers();
+          const z = map.getZoom();
+          if (z < MPA_MIN_ZOOM) return;
+          mpaLayer.eachLayer(layer => {
+            const feat = layer.feature;
+            if (!feat || !feat.geometry) return;
+            const name = feat.properties?.name || feat.properties?.['name:en'];
+            if (!name) return;
+            let lngLat;
+            if (feat.geometry.type === 'Polygon') {
+              lngLat = polygonCentroid(feat.geometry.coordinates[0]);
+            } else if (feat.geometry.type === 'MultiPolygon') {
+              let best = null,
+                bestArea = 0;
+              for (const poly of feat.geometry.coordinates) {
+                const ring = poly[0];
+                const a = polygonArea(ring);
+                if (a > bestArea) {
+                  bestArea = a;
+                  best = ring;
+                }
+              }
+              lngLat = best ? polygonCentroid(best) : layer.getBounds().getCenter();
+            } else {
+              lngLat = layer.getBounds().getCenter();
+            }
+            const center = Array.isArray(lngLat) ? L.latLng(lngLat[1], lngLat[0]) : lngLat;
+            const b = layer.getBounds();
+            const sw = map.project(b.getSouthWest(), z);
+            const ne = map.project(b.getNorthEast(), z);
+            const pxWidth = Math.max(ne.x - sw.x, 1);
+            if (pxWidth < 50) return;
+            const fontPx = Math.min(16, 10 + (z - MPA_MIN_ZOOM));
+            const longestWord = name.split(/\s+/).reduce((m, w) => Math.max(m, w.length), 0);
+            const perChar = fontPx * 0.62; // rough width in px per char
+            const minWordWidth = Math.ceil(longestWord * perChar);
+            const labelPx = Math.max(minWordWidth, Math.min(Math.floor(pxWidth * 0.75), 320));
+            const html = `
+					<div class="mpa-label" style="max-width:${labelPx}px;font-size:${fontPx}px;">${name}</div>`;
+            L.marker(center, {
+              icon: L.divIcon({
+                className: '',
+                html,
+                iconSize: null
+              }),
+              interactive: false
+            }).addTo(mpaLabels);
+          });
+        };
+        const refresh = debounce(updateMpaLabels, 80);
+        updateMpaLabels();
+        map.on('zoomend moveend', refresh);
+      });
+      map.on('zoomend moveend', () => {
+        toggleLabels();
+        map.eachLayer(layer => {
+          if (layer instanceof L.Marker && layer.getTooltip()) {
+            layer.getTooltip().update();
+          }
+          if (layer instanceof L.Popup) {
+            layer.update();
+          }
+        });
+      });
+      L.control.zoom({
+        position: 'bottomright'
+      }).addTo(map);
+      const HomeControl = L.Control.extend({
+        options: {
+          position: 'bottomright'
+        },
+        onAdd: () => {
+          const btn = L.DomUtil.create('a', 'leaflet-bar leaflet-control home-button');
+          btn.innerHTML = '⌖';
+          btn.href = '#';
+          btn.title = 'Reset map view';
+          L.DomEvent.on(btn, 'click', L.DomEvent.stopPropagation).on(btn, 'click', L.DomEvent.preventDefault).on(btn, 'click', () => map.setView(defaultView.center, defaultView.zoom));
+          return btn;
+        }
+      });
+      map.addControl(new HomeControl());
+      if (window.matchMedia('(max-width:600px)').matches) {
+        map.setMinZoom(5);
+        if (map.getZoom() < 5) map.setZoom(5);
+        map.setMaxBounds(null);
+      }
+      
+  const spotList = document.getElementById('spot-list');
+  const spotSearch = document.getElementById('spot-search');
+  const filterTagsEl = document.getElementById('filter-tags');
+      let spotsData = [];
+      const markers = [];
+      const difficultyLabel = (l) => {
+        const n = Math.max(1, Math.min(5, Math.round(Number(l) || 1)));
+        switch (n) {
+          case 1: return 'Beginner-friendly';
+          case 2: return 'Easy';
+          case 3: return 'Intermediate';
+          case 4: return 'Advanced';
+          case 5: return 'Experienced';
+          default: return '—';
+        }
+      };
+      const markerColor = (l) => {
+        const n = Math.max(1, Math.min(5, Math.round(Number(l) || 1)));
+        switch (n) {
+          case 1: return '#2ecc71';   // green
+          case 2: return '#a3e635';   // lime
+          case 3: return '#f59e0b';   // amber
+          case 4: return '#ef4444';   // red
+          case 5: return '#7f1d1d';   // dark red
+          default: return '#2ecc71';
+        }
+      };
+
+      function makeSpotItem(spot, marker) {
+        const li = document.createElement('li');
+        li.className = 'spot-item';
+        li.innerHTML = `
+			
+					<span class="badge">${spot.min_depth}-${spot.max_depth}m</span>
+					<span class="spot-name">${spot.name}</span>`;
+        li.addEventListener('click', () => {
+          marker.fire('click');
+          sidebar.classList.remove('show');
+          sidebarToggle.classList.remove('open');
+          sidebarToggle.blur();
+        });
+        return li;
+      }
+
+      const _norm = s => (s || '').trim().toLowerCase();
+      const _csvTokens = s => (s || '').split(',').map(t => _norm(t)).filter(Boolean);
+      const _label = tok => tok.replace(/\b\w/g, c => c.toUpperCase());
+
+  let TAG_OPTIONS = [];
+  let TAG_SET = new Set();
+
+      function computeTagOptions(){
+        const bag = new Set();
+        for (const spot of spotsData){
+          _csvTokens(spot.entry_method).forEach(t => bag.add(t));
+          _csvTokens(spot.site_type).forEach(t => bag.add(t));
+        }
+        TAG_OPTIONS = Array.from(bag).sort();
+        TAG_SET = new Set(TAG_OPTIONS);
+      }
+
+      function parseSearchTokens(){
+        const q = (spotSearch?.value || '').trim().toLowerCase();
+        if (!q) return [];
+  const re = /\"([^\"]+)\"|(\S+)/g;
+        const toks = [];
+        let m;
+        while ((m = re.exec(q)) !== null){
+          const token = (m[1] || m[2] || '').trim();
+          if (token) toks.push(token);
+        }
+        return toks;
+      }
+
+      function _spotTagSet(spot){
+        const set = new Set();
+        _csvTokens(spot.entry_method).forEach(t => set.add(t));
+        _csvTokens(spot.site_type).forEach(t => set.add(t));
+        return set;
+      }
+
+      function matchesSearch(spot){
+        const tokens = parseSearchTokens();
+        if (tokens.length === 0) return true;
+        const text = `${spot.name} ${spot.site_type} ${spot.entry_method || ''} ${spot.wildlife || ''} ${spot.description || ''}`.toLowerCase();
+        const tags = _spotTagSet(spot);
+        return tokens.every(t => (TAG_SET.has(t) ? tags.has(t) : text.includes(t)));
+      }
+
+      function isSpotVisible(spot){
+        return matchesSearch(spot);
+      }
+
+      function countTagOption(tok){
+        const tokLower = _norm(tok);
+        const tokens = parseSearchTokens();
+        if (!tokens.includes(tokLower)) tokens.push(tokLower);
+        return spotsData.filter(spot => {
+          const text = `${spot.name} ${spot.site_type} ${spot.entry_method || ''} ${spot.wildlife || ''} ${spot.description || ''}`.toLowerCase();
+          const tags = _spotTagSet(spot);
+          return tokens.every(t => (TAG_SET.has(t) ? tags.has(t) : text.includes(t)));
+        }).length;
+      }
+
+      function renderTags(){
+        filterTagsEl.innerHTML = '';
+        const currentTokens = new Set(parseSearchTokens());
+        TAG_OPTIONS.forEach(tok => {
+          const count = countTagOption(tok);
+          const btn = document.createElement('button');
+          btn.className = 'filter' + (currentTokens.has(tok) ? ' active' : '');
+          btn.textContent = _label(tok);
+          if (!count && !currentTokens.has(tok)) btn.setAttribute('disabled', '');
+          btn.addEventListener('click', () => {
+            const tokens = parseSearchTokens();
+            if (currentTokens.has(tok)) {
+              const next = tokens.filter(t => t !== tok);
+              spotSearch.value = next.join(' ');
+            } else {
+              spotSearch.value = (spotSearch.value ? spotSearch.value + ' ' : '') + tok;
+            }
+            updateClearButtonVisibility();
+            updateUI();
+          });
+          filterTagsEl.appendChild(btn);
+        });
+      }
+
+      function updateMarkers() {
+        spotsData.forEach((spot, i) => {
+          const marker = markers[i];
+          if (isSpotVisible(spot)) { if (!map.hasLayer(marker)) marker.addTo(map); }
+          else { if (map.hasLayer(marker)) map.removeLayer(marker); }
+        });
+      }
+
+      function refreshList() {
+        spotList.innerHTML = '';
+        spotsData.forEach((spot, i) => {
+          if (isSpotVisible(spot)) spotList.appendChild(makeSpotItem(spot, markers[i]));
+        });
+      }
+
+      function updateClearButtonVisibility(){
+        const clearBtn = document.getElementById('spot-clear');
+        if (!clearBtn) return;
+        const hasTokens = parseSearchTokens().length > 0;
+        clearBtn.style.display = hasTokens ? 'inline-block' : 'none';
+      }
+
+      if (spotSearch) {
+        const onSearch = debounce(() => { updateClearButtonVisibility(); updateUI(); }, 180);
+        spotSearch.addEventListener('input', onSearch);
+      }
+
+      function toggleLabels() {
+        const show = map.getZoom() >= 15;
+        markers.forEach(m => {
+          const t = m.getTooltip();
+          if (!t) return;
+          if (show) {
+            m.openTooltip();
+          } else {
+            m.closeTooltip();
+          }
+        });
+      }
+      async function loadSpots() {
+        const spotsOverlay = document.getElementById('spots-loading');
+        let spotsTimer = setTimeout(()=>spotsOverlay?.classList.add('on'), 350);
+        try {
+          const res = await fetch('https://api.wavefinder.org/api/spots');
+          spotsData = await res.json();
+          document.getElementById('last-update').textContent = 'Updated at ' + new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          spotsData.forEach(spot => {
+            const col = markerColor(spot.difficulty);
+            const icon = L.divIcon({
+              html: `
+			
+					<div class="custom-pin" style="--pin-color:${col}"></div>`,
+              iconSize: [18, 24],
+              iconAnchor: [9, 24],
+              popupAnchor: [-3, 2]
+            });
+            const marker = L.marker([spot.latitude, spot.longitude], {
+              icon
+            }).addTo(map);
+            function createExpandableText(label, text, maxLength = 25) {
+              if (!text || text === '—' || text.length <= maxLength) {
+                return `<b>${label}:</b> ${text || '—'}`;
+              }
+              
+              const truncated = text.substring(0, maxLength).trim();
+              const uniqueId = `expand_${Math.random().toString(36).substr(2, 9)}`;
+              
+              return `
+                <b>${label}:</b> 
+                <span id="${uniqueId}_short">${truncated}... 
+                  <span onclick="toggleExpand('${uniqueId}')" style="color:#4fc3f7;cursor:pointer;text-decoration:underline;font-size:11px;">more</span>
+                </span>
+                <span id="${uniqueId}_full" style="display:none;">${text} 
+                  <span onclick="toggleExpand('${uniqueId}')" style="color:#4fc3f7;cursor:pointer;text-decoration:underline;font-size:11px;">less</span>
+                </span>
+              `;
+            }
+
+            const latStr = Number(spot.latitude).toFixed(5);
+            const lngStr = Number(spot.longitude).toFixed(5);
+            const popupHTML = `
+            
+			
+					<div style="font-weight:600;font-size:21px;text-align:center;margin-bottom:6px">
+              ${spot.name}
+            </div>
+					${spot.img && spot.img !== 'temp.jpg' && spot.img !== '—' && spot.img.trim() !== ''
+                ? `<div class="popup-img-wrap"><img src="/static/${spot.img}" alt="" role="presentation" draggable="false" class="popup-img" decoding="async" fetchpriority="high" onerror="this.style.display='none'"></div>`
+                : `<div class="popup-img-wrap"></div>`}
+            <div style="font-size:13px;color:#ddd;line-height:1.4;margin-bottom:8px">
+              <b>Type:</b> ${spot.site_type}<br>
+							<b>Depth:</b> ${spot.min_depth}-${spot.max_depth} m<br>
+							<b>Entry:</b> ${spot.entry_method}<br>
+							<b>Difficulty:</b> ${difficultyLabel(spot.difficulty)}<br>
+              ${createExpandableText('Desc', spot.description, 20)}<br>
+							${createExpandableText('Wildlife', spot.wildlife, 20)}<br>
+							${createExpandableText('Hazards', spot.hazards, 20)}
+											</div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 0 8px;gap:8px">
+              <div style="font-size:12px;color:#cfd7e3"><b>Coordinates:</b> ${latStr}, ${lngStr}</div>
+              <button onclick="copyCoords('${latStr}, ${lngStr}', this)" title="Copy coordinates" style="padding:5px 8px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:6px;cursor:pointer;font-size:12px;white-space:nowrap">Copy</button>
+            </div>
+											<button onclick="openRatingForm('${spot.name}')" style="padding:6px 10px;background:#0077b6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">
+              Rate Dive
+            </button>
+          `;
+            marker.once('click', () => {
+              marker.bindPopup(popupHTML);
+              marker.openPopup();
+            });
+            marker.on('popupopen', () => {
+              const ll = marker.getLatLng();
+              const targetZoom = Math.max(map.getZoom(),12);
+              const savedDy = marker._savedDy || 0;
+              const pt = map.project(ll, targetZoom).subtract([0, BASE_OFFSET + savedDy]);
+              const llUp = map.unproject(pt, targetZoom);
+              map.flyTo(llUp, targetZoom, {
+                duration: 0.5
+              });
+              setTimeout(() => {
+                const el = marker.getPopup().getElement();
+                if (!el) return;
+                const popupH = el.offsetHeight;
+                const markerPt = map.latLngToContainerPoint(ll);
+                const topOfPop = markerPt.y - popupH;
+                const overlap = POPUP_MARGIN - topOfPop;
+                if (overlap > 5) {
+                  map.panBy([0, -overlap], {
+                    animate: true,
+                    duration: 0.25
+                  });
+                  marker._savedDy = overlap;
+                }
+              }, 600);
+            });
+            marker.bindTooltip(spot.name, {
+              direction: 'top',
+              className: 'spot-label',
+              permanent: false,
+              offset: [-3, -5],
+              opacity: 0.9
+            });
+            marker.on('mouseover', function() {
+              if (map.getZoom() >= 15) return;
+              marker.openTooltip();
+            });
+            marker.on('mouseout', function() {
+              if (map.getZoom() >= 15) {
+                marker.openTooltip();
+                return;
+              }
+              marker.closeTooltip();
+            });
+            markers.push(marker);
+          });
+          computeTagOptions();
+          updateUI();
+          const clearBtn = document.getElementById('spot-clear');
+          if (clearBtn){
+            clearBtn.addEventListener('click', () => {
+              spotSearch.value = '';
+              updateClearButtonVisibility();
+              updateUI();
+            });
+            updateClearButtonVisibility();
+          }
+          toggleLabels();
+          clearTimeout(spotsTimer); spotsTimer = null; spotsOverlay?.classList.remove('on');
+        } catch (err) {
+          console.error('Failed to load spots', err);
+          clearTimeout(spotsTimer); spotsTimer = null; spotsOverlay?.classList.remove('on');
+        }
+      }
+      loadSpots();
+
+      function updateUI(){
+        renderTags();
+          updateClearButtonVisibility();
+        updateMarkers();
+        refreshList();
+      }
+ 
+let windLayer = null, windVisible = false;
+let _lastWindData = null; // for instant display while fetching
+// Client-side simple cache for recent wind responses keyed by snapped bbox
+const _windCache = new Map(); // key -> { data, t }
+let _windCoverage = null; // last fetched bbox coverage {west,south,east,north}
+let _windFetchCtrl = null;
+let _windSeq = 0;
+let _gridInfo = null; // { stepLon, stepLat, originLon, originLat }
+const _windLoadingEl = (()=>document.getElementById('wind-loading'))();
+const _windLoading = { on(){ _windLoadingEl?.classList.add('on'); }, off(){ _windLoadingEl?.classList.remove('on'); } };
+let _velocityLoaded = false, _velocityLoading = null;
+function _loadVelocityOnce(){
+  if (_velocityLoaded) return Promise.resolve();
+  if (_velocityLoading) return _velocityLoading;
+  _velocityLoading = new Promise((resolve, reject)=>{
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/leaflet-velocity/dist/leaflet-velocity.min.js';
+    s.async = true; s.onload = ()=>{ _velocityLoaded = true; resolve(); };
+    s.onerror = (e)=>reject(e);
+    document.head.appendChild(s);
+    const l = document.createElement('link');
+    l.rel = 'stylesheet'; l.href = 'https://unpkg.com/leaflet-velocity/dist/leaflet-velocity.min.css';
+    document.head.appendChild(l);
+  });
+  return _velocityLoading;
+}
+
+function _extractWindHeader(json){
+  const looks = h => h && typeof h==='object' && 'lo1' in h && 'la1' in h && 'lo2' in h && 'la2' in h;
+  if (!json) return null;
+  if (json.header && looks(json.header)) return json.header;
+  if (Array.isArray(json)){
+    for (const it of json){
+      if (it && looks(it.header)) return it.header;
+      if (it && it.data && Array.isArray(it.data)){
+        for (const it2 of it.data){ if (it2 && looks(it2.header)) return it2.header; }
+      }
+    }
+  }
+  if (json.data && Array.isArray(json.data)){
+    for (const it of json.data){ if (it && looks(it.header)) return it.header; }
+  }
+  if (json.uComp && looks(json.uComp.header)) return json.uComp.header;
+  if (json.vComp && looks(json.vComp.header)) return json.vComp.header;
+  return null;
+}
+
+function _overscanSnappedBBox(){
+  let scale = overscanForZoom(map.getZoom());
+  if (!_windCoverage) scale = Math.max(1.6, scale * 0.75);
+  const b = overscanBounds(map.getBounds(), scale);
+  if (!_gridInfo) return b;
+  const { stepLon, stepLat, originLon, originLat } = _gridInfo;
+  return {
+    west:  snapDown(b.west,  originLon, stepLon),
+    south: snapDown(b.south, originLat, stepLat),
+    east:  snapUp(b.east,    originLon, stepLon),
+    north: snapUp(b.north,   originLat, stepLat),
+  };
+}
+
+function _bboxKey(b){
+  const r = (x)=>Math.round(x*1000)/1000;
+  return `${r(b.west)}_${r(b.south)}_${r(b.east)}_${r(b.north)}`;
+}
+
+function _contains(outer, inner){
+  return outer && inner && outer.west<=inner.west && outer.south<=inner.south && outer.east>=inner.east && outer.north>=inner.north;
+}
+
+function _pruneWindCache(){
+  const now = Date.now();
+  for (const [k,v] of _windCache){ if (now - v.t > 5*60*1000) _windCache.delete(k); }
+  if (_windCache.size > 6){
+    const entries = Array.from(_windCache.entries()).sort((a,b)=>b[1].t - a[1].t);
+    _windCache.clear();
+    for (let i=0; i<Math.min(entries.length,6); i++) _windCache.set(entries[i][0], entries[i][1]);
+  }
+}
+
+async function _fetchWindForView(){
+  const bbox = _overscanSnappedBBox();
+  if (_windCoverage && _contains(_windCoverage, bbox)){
+    const key = _bboxKey(_windCoverage);
+    const c = _windCache.get(key);
+    if (c) return c.data;
+  }
+  const url = `https://api.wavefinder.org/api/wind?west=${encodeURIComponent(bbox.west)}&south=${encodeURIComponent(bbox.south)}&east=${encodeURIComponent(bbox.east)}&north=${encodeURIComponent(bbox.north)}`;
+  const r = await fetch(url, { signal: _windFetchCtrl?.signal, cache:'no-store' });
+  if (!r.ok) throw new Error('wind fetch failed: ' + r.status);
+  const json = await r.json();
+
+  const h = _extractWindHeader(json);
+  if (h && !_gridInfo){
+    const stepLon = Math.abs(h.dx || h.DX || (h.nx ? (Math.abs(h.lo2 - h.lo1) / (h.nx - 1)) : 0.25));
+    const stepLat = Math.abs(h.dy || h.DY || (h.ny ? (Math.abs(h.la2 - h.la1) / (h.ny - 1)) : 0.25));
+    const originLon = Math.min(h.lo1, h.lo2);
+    const originLat = Math.min(h.la1, h.la2);
+    _gridInfo = { stepLon, stepLat, originLon, originLat };
+  }
+  const key = _bboxKey(bbox); _windCache.set(key, { data: json, t: Date.now() });
+  _windCoverage = bbox;
+  _pruneWindCache();
+  return json;
+}
+
+async function addWind() {
+  try {
+    _windSeq++; const my=_windSeq;
+    if (_windFetchCtrl) try{ _windFetchCtrl.abort(); }catch(_){}
+    _windFetchCtrl = new AbortController();
+    _windLoading.on();
+    if (_lastWindData){
+      if (windLayer){
+        windLayer.setData(_lastWindData);
+        if (!map.hasLayer(windLayer)) windLayer.addTo(map);
+      } else {
+        windLayer = L.velocityLayer({ data:_lastWindData, displayValues:true, displayOptions:{ velocityType:'Wind', position:'bottomleft', emptyString:'No wind data', angleConvention:'meteoCW', speedUnit:'k/h' }, minVelocity:0, maxVelocity:25, velocityScale:0.006, particleAge:60, frameRate:16, particleMultiplier:0.009, opacity:0.95 }).addTo(map);
+      }
+    }
+
+  const data = await _fetchWindForView();
+    if (my!==_windSeq) return; // stale
+    if (windLayer) {
+      windLayer.setData(data);
+      if (!map.hasLayer(windLayer)) windLayer.addTo(map);
+    } else {
+      windLayer = L.velocityLayer({
+        data,
+        displayValues: true,
+        displayOptions: {
+          velocityType: 'Wind',
+          position: 'bottomleft',
+          emptyString: 'No wind data',
+          angleConvention: 'meteoCW',
+          speedUnit: 'k/h'
+        },
+        minVelocity: 0,
+        maxVelocity: 25,
+        velocityScale: 0.006,
+        particleAge: 60,
+        frameRate: 16,
+        particleMultiplier: 0.009,
+        opacity: 0.95
+      }).addTo(map);
+    }
+    _lastWindData = data;
+    if (windVisible) _prefetchAround();
+    _windLoading.off();
+  } catch (err) {
+    console.error('Wind update failed:', err);
+    _windLoading.off();
+  }
+}
+
+function toggleWindOverlay(el) {
+  el.classList.toggle('active');
+  if (windVisible) {
+    if (_windFetchCtrl) try{ _windFetchCtrl.abort(); }catch(_){}
+    if (windLayer) map.removeLayer(windLayer);
+    _detachWindHover();
+    _windLoading.off();
+  } else {
+    _loadVelocityOnce().then(()=>{
+      addWind();
+      _attachWindHover();
+    }).catch(err=>{
+      console.error('Failed to load wind overlay assets:', err);
+      el.classList.remove('active');
+    });
+  }
+  windVisible = !windVisible;
+}
+
+const refreshWind = debounce(() => { if (windVisible) addWind(); }, 350);
+map.on('moveend zoomend', refreshWind);
+
+async function _prefetchAround(){
+  try{
+    const z = map.getZoom();
+    const scale = overscanForZoom(z) * 1.2; // a bit wider than current
+    const b = overscanBounds(map.getBounds(), scale);
+    const url = `https://api.wavefinder.org/api/wind?west=${encodeURIComponent(b.west)}&south=${encodeURIComponent(b.south)}&east=${encodeURIComponent(b.east)}&north=${encodeURIComponent(b.north)}`;
+    const r = await fetch(url, { cache:'no-store' });
+    if (!r.ok) return;
+    const json = await r.json();
+    const key = _bboxKey(b); _windCache.set(key, { data: json, t: Date.now() });
+    _pruneWindCache();
+  }catch(_){ }
+}
+
+let _windHoverPopup = L.popup({ closeButton:false, autoPan:false, className:'wind-tooltip', offset:[0,-6] });
+let _windHoverOnMove = null;
+
+function _attachWindHover(){
+  if (_windHoverOnMove) return;
+  _windHoverOnMove = debounce((e)=>{
+    if (!windVisible || !windLayer || !windLayer._windy) { 
+      try { map.closePopup(_windHoverPopup); } catch(_){}
+      return; 
+    }
+    const ll = e.latlng;
+    let sample;
+    try { sample = windLayer._windy.interpolatePoint(ll.lng, ll.lat); } catch(_){ sample = null; }
+    if (!sample) { try { map.closePopup(_windHoverPopup); } catch(_){ } return; }
+
+    const u = sample.u ?? sample.x ?? sample[0];
+    const v = sample.v ?? sample.y ?? sample[1];
+    if (typeof u !== 'number' || typeof v !== 'number') { try { map.closePopup(_windHoverPopup); } catch(_){ } return; }
+
+    const speed_ms = Math.sqrt(u*u + v*v);
+const dirFrom = (Math.atan2(u, v) * 180 / Math.PI + 360) % 360;
+const deg = Math.round((dirFrom + 180) % 360);
+
+const kmh = _formatSpeedKmh(speed_ms);
+const html = `${kmh} km/h  ${deg}°`;
+
+
+    _windHoverPopup.setLatLng(ll).setContent(html);
+    if (!map.hasLayer(_windHoverPopup)) _windHoverPopup.openOn(map);
+  }, 50);
+
+  map.on('mousemove', _windHoverOnMove);
+  map.on('mouseout', () => { try { map.closePopup(_windHoverPopup); } catch(_){ } });
+}
+
+function _detachWindHover(){
+  if (_windHoverOnMove){
+    map.off('mousemove', _windHoverOnMove);
+    _windHoverOnMove = null;
+  }
+  try { map.closePopup(_windHoverPopup); } catch(_){}
+}
+
+
+
+
+      function toggleExpand(id) {
+        const shortEl = document.getElementById(id + '_short');
+        const fullEl = document.getElementById(id + '_full');
+        
+        if (shortEl.style.display === 'none') {
+          shortEl.style.display = 'inline';
+          fullEl.style.display = 'none';
+        } else {
+          shortEl.style.display = 'none';
+          fullEl.style.display = 'inline';
+        }
+      }
+
+      function copyCoords(text, btnEl) {
+        const doCopy = async () => {
+          try {
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(text);
+            } else {
+              const ta = document.createElement('textarea');
+              ta.value = text;
+              ta.style.position = 'fixed';
+              ta.style.top = '-9999px';
+              document.body.appendChild(ta);
+              ta.focus(); ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+            }
+            if (btnEl) {
+              const prev = btnEl.textContent;
+              btnEl.textContent = 'Copied!';
+              btnEl.style.background = '#2c7be5';
+              btnEl.style.borderColor = 'transparent';
+              setTimeout(() => { btnEl.textContent = prev; btnEl.style.background = 'transparent'; btnEl.style.borderColor = 'rgba(255,255,255,0.25)'; }, 1300);
+            }
+          } catch (e) {
+            console.error('Copy failed', e);
+            if (btnEl) { btnEl.textContent = 'Copy failed'; setTimeout(() => btnEl.textContent = 'Copy', 1500); }
+          }
+        };
+        doCopy();
+      }
+
+      function openRatingForm(name) {
+        console.log('Rate →', name);
+      }
+    </script>
+  <script src="/static/wf-header.js?v=2025-10-05-1" defer></script>
+  </body>
+</html>

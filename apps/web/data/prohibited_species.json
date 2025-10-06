@@ -1,0 +1,57 @@
+[
+  {
+    "common_name":"Basking shark (Koesterhaai)",
+    "scientific_name":"Cetorhinus maximus",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Brindle bass (Briekwabaars)",
+    "scientific_name":"Epinephelus lanceolatus",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Coelacanth (Selakant)",
+    "scientific_name":"Latimeria chalumnae",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Great white shark (Witdoodshaai)",
+    "scientific_name":"Carcharodon carcharius",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Natal wrasse (Natalse lipvis)",
+    "scientific_name":"Anchichoerops natalensis",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Pipefish & seahorses (Pypvis & seeperdjies)",
+    "scientific_name":"Family Syngnathidae",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Potato bass (Aartappel-baars)",
+    "scientific_name":"Epinephelus tukula",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Sawfishes (Saagvisse)",
+    "scientific_name":"Family Pristidae",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Seventy-four (Vier-en-sewentig)",
+    "scientific_name":"Polysteganus undulosus",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Whale shark (Walvishaai)",
+    "scientific_name":"Rhincodon typus",
+    "status":"Prohibited (no-take)"
+  },
+  {
+    "common_name":"Wreckfish (Wrakvis)",
+    "scientific_name":"Polyprion spp.",
+    "status":"Prohibited (no-take)"
+  }
+]
