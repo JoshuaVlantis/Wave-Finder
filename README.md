@@ -1,4 +1,5 @@
 # Wave Finder
+[Wave Finder](https://wavefinder.org)
 
 Clean, fast tools for South African marine recreation:
 
