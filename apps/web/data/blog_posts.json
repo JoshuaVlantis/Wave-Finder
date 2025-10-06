@@ -7,5 +7,14 @@
     "tags": ["updates"],
     "excerpt": "What’s new on Wave Finder and what’s coming next.",
     "cover": "/Images/sharkrockpier.jpg"
+  },
+  {
+    "slug": "wavefinder-is-open-source",
+    "title": "Wave Finder is now Open Source",
+    "date": "2025-10-06",
+    "author": "Joshua Vlantis",
+    "tags": ["open-source", "community", "dev"],
+    "excerpt": "The code behind Wave Finder is public. Fork it, run it locally, and help shape what's next.",
+    "cover": "/Images/LogoName.png"
   }
 ]
