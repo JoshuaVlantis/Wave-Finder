@@ -97,6 +97,11 @@
           const ext = u.startsWith('/') ? '' : ' target="_blank" rel="noopener"';
           return `<a href="${u}"${ti}${ext}>${t}</a>`;
         });
+        // auto-link plain URLs (http/https) not already in markdown link syntax
+        // prefix is start, whitespace, or '>' (avoids matching inside attributes)
+        s = s.replace(/(^|[\s>])((https?:\/\/[^\s<]+))/g, (m, prefix, url) => {
+          return `${prefix}<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+        });
         // inline code: `code`
         s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
         // bold: **text** or __text__ (do before italic)
@@ -178,6 +183,41 @@
       if (post.cover && coverEl){
         coverEl.src = post.cover;
         coverEl.style.display = 'block';
+
+        // Optional per-post fit: 'cover' (default) or 'contain' to avoid cropping logos
+        const fit = (post.coverFit || 'cover').toLowerCase();
+        const pos = (post.coverPosition || 'center').toLowerCase();
+
+        if (fit === 'contain') {
+          // Use natural aspect, center, and limit height so logos don't dominate the page
+          coverEl.style.objectFit = 'contain';
+          // Remove the fixed 16:9 ratio
+          coverEl.style.aspectRatio = 'auto';
+          // Use natural size within bounds
+          coverEl.style.width = 'auto';
+          coverEl.style.maxWidth = '100%';
+          coverEl.style.height = 'auto';
+          coverEl.style.maxHeight = (post.coverMaxHeight ? String(post.coverMaxHeight) : '320') + 'px';
+          // Center horizontally
+          coverEl.style.margin = '0 auto 12px';
+          // A subtle background helps transparent logos
+          coverEl.style.background = post.coverBg || 'rgba(255,255,255,0.04)';
+          // Optional inner padding for logos with transparent edges
+          coverEl.style.padding = (post.coverPadding ? String(post.coverPadding) : '6') + 'px';
+        } else {
+          // Photo-style cover that fills the 16:9 frame
+          coverEl.style.objectFit = 'cover';
+          // Keep 16:9 from CSS; allow custom focal point
+          coverEl.style.objectPosition = pos;
+          // Ensure defaults for spacing/background
+          coverEl.style.removeProperty('padding');
+          coverEl.style.removeProperty('background');
+          coverEl.style.removeProperty('max-height');
+          coverEl.style.removeProperty('width');
+          coverEl.style.removeProperty('height');
+          coverEl.style.removeProperty('max-width');
+          coverEl.style.removeProperty('margin');
+        }
       }
 
   const md = await fetch(`/content/posts/${slug}.md`).then(r=>r.text()).catch(()=> '# Missing post');

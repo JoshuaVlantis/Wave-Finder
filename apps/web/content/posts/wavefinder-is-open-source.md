@@ -43,3 +43,5 @@ Wave Finder is community-driven. Opening the code helps the project grow faster 
 If you’ve read this far: thank you. Your feedback and contributions make this better.
 
 — Joshua
+
+> In open source, your work belongs to no one and everyone at the same time. That is the true power of freedom.

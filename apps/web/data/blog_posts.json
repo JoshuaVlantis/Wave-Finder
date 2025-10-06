@@ -13,8 +13,12 @@
     "title": "Wave Finder is now Open Source",
     "date": "2025-10-06",
     "author": "Joshua Vlantis",
-    "tags": ["open-source", "community", "dev"],
+    "tags": ["updates", "development"],
     "excerpt": "The code behind Wave Finder is public. Fork it, run it locally, and help shape what's next.",
-    "cover": "/Images/LogoName.png"
+    "cover": "/Images/LogoName.png",
+    "coverFit": "contain",
+    "coverMaxHeight": 380,
+    "coverPadding": 8,
+    "coverBg": "rgba(255,255,255,0.03)"
   }
 ]
