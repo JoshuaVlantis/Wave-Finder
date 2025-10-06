@@ -36,10 +36,9 @@
   .wf-nav-mobile .wf-burger{margin-left:6px}
   .wf-burger{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:var(--wf-pill-bg);color:#fff;border:none}
   .wf-burger:hover{background:var(--wf-pill-bg-hover)}
-  
-  :root { --sidebar-width: 0px; }
-  
-  .wf-header{left:50%; transform:translateX(calc(-50% + var(--sidebar-width, 0px) / 2)); transition:transform .3s ease}
+
+  /* Always center header on mobile; do not shift when any sidebar is opened */
+  .wf-header{left:50%; transform:translateX(-50%); transition:transform .2s ease}
 }
 .wf-drawer{position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);display:none;z-index:1100}
 .wf-drawer .panel{position:absolute;top:0;right:0;bottom:0;width:240px;background:var(--wf-bg);padding:14px;display:flex;flex-direction:column;gap:8px}
