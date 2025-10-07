@@ -24,9 +24,8 @@
 
 - 🚀 Features
 - 🌐 Live + repo layout
-- ️ Web app
+- 🗺️ Web app
 - 🤖 ML: docs coming soon
-- 🧰 Dev tips & hygiene
 - ☁️ Deploy locally (Coolify)
 - 📄 License & data sources
 
@@ -39,7 +38,7 @@
 ## 🌐 Live + repo layout
 
 - Live site: https://wavefinder.org
-- Source map: https://github.com/JoshuaVlantis/Wave-Finder
+- Source repo: https://github.com/JoshuaVlantis/Wave-Finder
 
 Monorepo layout
 ```
