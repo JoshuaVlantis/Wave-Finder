@@ -56,83 +56,43 @@
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
   <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1" />
   <style>
+    :root{ --c-bg:#121212; --c-panel:#1e1e1e; --c-border:#2b3440; --c-accent:#4fc3f7; --c-text:#eaeef5; --c-dim:#aab3c2; --r:12px }
+    *{ box-sizing:border-box }
+    .brand{display:flex;align-items:center;gap:8px}
+    .brand-text{font-size:28px;font-weight:700}
 
-.brand{display:flex;align-items:center;gap:8px}
-.brand-text{font-size:28px;font-weight:700}
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: var(--c-bg);
+      color: var(--c-text);
+      position: relative;
+    }
+    /* Soft radial glow like post.html */
+    body::before{ content:""; position:fixed; top:0; left:0; right:0; height:560px; pointer-events:none; z-index:0;
+      background:radial-gradient(1200px 560px at 50% -12%, rgba(79,195,247,.08), transparent 70%); }
 
-      body {
-        margin: 0;
-        font-family: 'Outfit', sans-serif;
-        background: #121212;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 120px 20px 40px;
-      }
+    main{ max-width:960px; margin:0 auto; padding:120px 20px 40px; position:relative; z-index:1 }
+    @media (min-width: 1400px){ main{ max-width:1040px } }
+
+    /* Card container, matching blog post style */
+    .post{ background:linear-gradient(180deg, rgba(34,39,46,.9), rgba(22,26,31,.95)); border:1px solid var(--c-border); border-radius:12px; padding:20px; box-shadow:0 12px 28px rgba(0,0,0,.28) }
 
       
-      #top-header {
-        position: fixed;
-        top: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(44, 62, 80, .95);
-        color: #fff;
-        padding: 12px 24px;
-        border-radius: 12px;
-        font-size: 18px;
-        font-weight: 600;
-        letter-spacing: .8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
-        z-index: 1001;
-        display: flex;
-		flex-direction: column;
-        gap: 2px;
-        align-items: center
-      }
-
-      #nav-pills {
-        display: flex;
-        gap: 10px;
-      }
-
-      .pill {
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        padding: 6px 14px;
-        font-size: 14px;
-        border-radius: 999px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: background 0.2s;
-      }
-
-      .pill:hover,
-      .pill.active {
-        background: rgba(255, 255, 255, 0.25);
-      }
-
-      .content {
-        max-width: 800px;
-        text-align: center;
-      }
+      .content { text-align: center; color:#d9e2ef; font-size:16px; line-height:1.75 }
 
       h1 {
-        font-size: 2em;
-        color: #fff;
+        font-size: 2em; color: #fff;
         margin-bottom: 10px;
       }
       h2 {
-        font-size: 1.4em;
-        color: #fff;
+        font-size: 1.4em; color: #fff;
         margin-top: 32px;
         margin-bottom: 8px;
       }
 
       p {
-        font-size: 1.1em;
-        color: #ccc;
-        line-height: 1.6;
+        font-size: 1.05em; color: #cfd8e3; line-height: 1.7;
       }
 
       a.mail-link {
@@ -186,65 +146,67 @@
   <body>
 <div id="wf-header"></div>
 
+    <main>
+      <article class="post">
+        <div class="content">
+          <h1>About Wave Finder</h1>
+          <p>
+            Wave Finder is a visibility and weather insights tool designed to help
+            divers, spearfishers, and ocean lovers locate the best conditions along
+            the Port Elizabeth coastline.
+          </p>
+          <p>
+            It combines local measurements, custom machine-learning models, and
+            community ratings to predict underwater visibility accurately.
+          </p>
+          <p>
+            Questions or feedback? Write to
+            <a class="mail-link" href="mailto:joshvlantis@gmail.com"
+              >joshvlantis@gmail.com</a
+            >
+          </p>
+          <p>
+            <br>Find Wave Finder helpful?<br>
+            Help keep the site online with a small donation, every contribution goes directly toward server costs.
+          </p>
 
-    <div class="content">
-      <h1>About Wave Finder</h1>
-      <p>
-        Wave Finder is a visibility and weather insights tool designed to help
-        divers, spearfishers, and ocean lovers locate the best conditions along
-        the Port Elizabeth coastline.
-      </p>
-      <p>
-        It combines local measurements, custom machine-learning models, and
-        community ratings to predict underwater visibility accurately.
-      </p>
-      <p>
-        Questions or feedback? Write to
-        <a class="mail-link" href="mailto:joshvlantis@gmail.com"
-          >joshvlantis@gmail.com</a
-        >
-      </p>
-	  <p>
-		<br>Find Wave Finder helpful?<br>
-		Help keep the site online with a small donation, every contribution goes directly toward server costs.
-      </p>
+          <a
+            href="https://www.paypal.com/donate/?hosted_button_id=EYNBR6NB2S6ZL"
+            target="_blank"
+            rel="noopener"
+            class="donate-button"
+            >Donate</a
+          >
 
-      
-      <a
-        href="https://www.paypal.com/donate/?hosted_button_id=EYNBR6NB2S6ZL"
-        target="_blank"
-        rel="noopener"
-        class="donate-button"
-        >Donate</a
-      >
-      
-      <div class="qr-container">
-        <img
-          src="/static/qrcode.png"
-          alt="Wave Finder Donation QR Code"
-        />
-        <div class="qr-caption">Scan to donate via PayPal</div>
-      </div>
+          <div class="qr-container">
+            <img
+              src="/static/qrcode.png"
+              alt="Wave Finder Donation QR Code"
+            />
+            <div class="qr-caption">Scan to donate via PayPal</div>
+          </div>
 
-      <h2>License & Source</h2>
-      <p>
-        Wave Finder is open source software licensed under
-        <a href="https://github.com/JoshuaVlantis/Wave-Finder/blob/main/LICENSE" target="_blank" rel="noopener">AGPL-3.0-or-later</a>.
-        Unless otherwise noted, website content, posts, images, docs, and data are
-        licensed under
-        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons BY 4.0</a>.
-      </p>
-      <p>
-        View the source code and contribute on GitHub:
-        <a href="https://github.com/JoshuaVlantis/Wave-Finder" target="_blank" rel="noopener">github.com/JoshuaVlantis/Wave-Finder</a>.
-      </p>
-      <p>
-        For details and third‑party notices, see
-        <a href="https://github.com/JoshuaVlantis/Wave-Finder/blob/main/LICENSES.md" target="_blank" rel="noopener">LICENSES.md</a>
-        and
-        <a href="https://github.com/JoshuaVlantis/Wave-Finder/blob/main/NOTICE" target="_blank" rel="noopener">NOTICE</a>.
-      </p>
-    </div>
+          <h2>License & Source</h2>
+          <p>
+            Wave Finder is open source software licensed under
+            <a href="https://github.com/JoshuaVlantis/Wave-Finder/blob/main/LICENSE" target="_blank" rel="noopener">AGPL-3.0-or-later</a>.
+            Unless otherwise noted, website content, posts, images, docs, and data are
+            licensed under
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons BY 4.0</a>.
+          </p>
+          <p>
+            View the source code and contribute on GitHub:
+            <a href="https://github.com/JoshuaVlantis/Wave-Finder" target="_blank" rel="noopener">github.com/JoshuaVlantis/Wave-Finder</a>.
+          </p>
+          <p>
+            For details and third‑party notices, see
+            <a href="https://github.com/JoshuaVlantis/Wave-Finder/blob/main/LICENSES.md" target="_blank" rel="noopener">LICENSES.md</a>
+            and
+            <a href="https://github.com/JoshuaVlantis/Wave-Finder/blob/main/NOTICE" target="_blank" rel="noopener">NOTICE</a>.
+          </p>
+        </div>
+      </article>
+    </main>
   <script src="/static/wf-header.js?v=2025-10-05-1" defer></script>
   </body>
 </html>
