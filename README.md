@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="apps/web/static/og-image.jpg" alt="Wave Finder banner" width="820" />
+  <img src="https://wavefinder.org/static/logo32.png" alt="Wave Finder banner" width="820" />
 </p>
 
 <h1 align="center">Wave Finder</h1>
@@ -7,7 +7,7 @@
 <p align="center">
   Clean, fast tools for South African marine recreation — maps, wind overlays, MPAs, regs, records, and visibility ML.
   <br />
-  <a href="https://wavefinder.org"><strong>wavefinder.org »</strong></a>
+  <a href="https://wavefinder.org"><strong>wavefinder.org</strong></a>
 </p>
 
 <p align="center">
