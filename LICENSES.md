@@ -8,6 +8,7 @@ This repository contains multiple kinds of artifacts. To make reuse clear and si
   - apps/ml/** (Python code)
 - Content and media: Creative Commons Attribution 4.0 International (CC BY 4.0)
   - apps/web/content/posts/** (blog posts)
+  - apps/web/data/** (JSON/GeoJSON and other data produced in-repo)
   - apps/web/static/** (images and other media under this repo)
   - apps/web/docs/** (documentation you authored)
 - Third-party assets and services: Their original licenses/terms apply
