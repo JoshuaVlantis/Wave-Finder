@@ -325,7 +325,34 @@
         width: 300px;
         max-height: 400px;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: auto; /* avoid showing a scrollbar when not needed */
+        color-scheme: dark; /* hint to render dark UI (incl. scrollbars) */
+        /* Firefox scrollbar styling */
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255,255,255,0.35) rgba(255,255,255,0.08);
+      }
+      /* Chromium/WebKit scrollbar styling (scoped to popup and spot list) */
+      .leaflet-popup-content-wrapper::-webkit-scrollbar,
+      #spot-list::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      .leaflet-popup-content-wrapper::-webkit-scrollbar-track,
+      #spot-list::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.08);
+        border-radius: 10px;
+      }
+      .leaflet-popup-content-wrapper::-webkit-scrollbar-thumb,
+      #spot-list::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.35);
+        border-radius: 10px;
+        border: 2px solid transparent;    /* create padding */
+        background-clip: content-box;     /* keep rounded look */
+      }
+      .leaflet-popup-content-wrapper::-webkit-scrollbar-thumb:hover,
+      #spot-list::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,255,255,0.5);
+        background-clip: content-box;
       }
 
       .leaflet-popup-tip {
