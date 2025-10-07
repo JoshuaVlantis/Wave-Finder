@@ -9,6 +9,7 @@
     { href:'/about.html', label:'About', key:'about' }
   ];
   const linksMore = [
+    { href:'/updates.html', label:'Updates', key:'updates' },
     { href:'/limits.html', label:'Limits', key:'limits' },
     { href:'/records.html', label:'AUC', key:'auc' },
     { href:'https://github.com/JoshuaVlantis/Wave-Finder', label:'Source (AGPL)', key:'source' },
@@ -21,6 +22,7 @@
     if (p.includes('/post')) return 'blog';
     if (p.includes('/about')) return 'about';
     if (p.includes('/records')) return 'auc';
+    if (p.includes('/updates')) return 'updates';
     return '';
   }
   function pill(href,label,key){
