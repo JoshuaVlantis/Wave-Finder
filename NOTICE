@@ -1,0 +1,28 @@
+Third-party notices and attributions
+====================================
+
+Client libraries
+----------------
+- Leaflet (BSD-2-Clause) — https://leafletjs.com/
+  © 2010–present Vladimir Agafonkin; 2010–2011 CloudMade. License: https://github.com/Leaflet/Leaflet/blob/main/LICENSE
+- Leaflet-Velocity (MIT) — https://github.com/danwild/leaflet-velocity
+- Google Fonts (Outfit) — Fonts under SIL Open Font License 1.1 (https://scripts.sil.org/OFL), CSS delivery under Apache-2.0
+
+Map tiles and imagery
+---------------------
+- Esri World Imagery and related services — © Esri, Maxar, Earthstar Geographics, and the GIS User Community.
+  Terms of Use: https://www.esri.com/legal/licensing-transparency
+  Attribution must remain visible to end users.
+
+Data sources
+------------
+- Open‑Meteo (Marine + Weather) — https://open-meteo.com/ (follow their terms and attribution guidance)
+
+Server/ML dependencies
+----------------------
+- Express (MIT), MariaDB Node.js client (LGPL-2.1), pandas/numpy/scikit-learn (BSD), XGBoost (Apache-2.0), LightGBM (MIT)
+  See each project’s repository for full license texts.
+
+Notes
+-----
+- Inclusion of third-party materials does not relicense them under AGPL or CC BY. Original terms apply.

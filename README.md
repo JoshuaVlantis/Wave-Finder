@@ -361,6 +361,10 @@ git --no-pager grep -InE "(password|passwd|pwd|secret|apikey|api[_-]?key|token|b
 
 ## License
 
-This repository is licensed under the GNU Affero General Public License (AGPL-3.0). See `LICENSE`.
+- Software (server, web app, ML code): AGPL-3.0-or-later. See `LICENSE`.
+- Content and media (blog posts, images, authored docs): CC BY 4.0. See LICENSE files under `apps/web/content/posts/`, `apps/web/static/`, and `apps/web/docs/`.
+- Third-party assets/services keep their own licenses/terms (see `NOTICE`).
+
+See also `LICENSES.md` for a folder-by-folder overview.
 
 Data sources: Open‑Meteo (Marine + Weather). Respect their terms.
