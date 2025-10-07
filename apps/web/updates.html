@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--
+  SPDX-License-Identifier: AGPL-3.0-or-later
+  Copyright (C) 2025 Joshua Vlantis
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+
+    <title>Updates – Wave Finder</title>
+    <meta name="description" content="Track recent changes and improvements to Wave Finder." />
+    <link rel="canonical" href="https://wavefinder.org/updates.html" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wavefinder.org/updates.html">
+    <meta property="og:title" content="Updates – Wave Finder">
+    <meta property="og:description" content="Track recent changes and improvements to Wave Finder.">
+    <meta property="og:image" content="https://wavefinder.org/static/og-image.jpg">
+    <meta property="og:site_name" content="Wave Finder">
+    <meta property="og:locale" content="en_ZA">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://wavefinder.org/updates.html">
+    <meta name="twitter:title" content="Updates – Wave Finder">
+    <meta name="twitter:description" content="Track recent changes and improvements to Wave Finder.">
+    <meta name="twitter:image" content="https://wavefinder.org/static/og-image.jpg">
+
+    <link rel="preload" href="/static/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/static/fonts/Outfit-600.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/static/fonts/outfit.css" />
+    <link rel="preload" as="image" href="/static/logo32.png" imagesrcset="/static/logo32.png 1x" />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1" />
+    <link rel="icon" href="/static/logo32.png" type="image/png" sizes="32x32" />
+    <style>
+      :root{ --c-bg:#121212; --c-panel:#1e1e1e; --c-border:#2b3440; --c-accent:#4fc3f7; --c-text:#eaeef5; --c-dim:#aab3c2; --r:12px }
+      *{ box-sizing:border-box }
+      body { margin: 0; font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, sans-serif; background: var(--c-bg); color: var(--c-text); }
+      main{ max-width:960px; margin:0 auto; padding:120px 20px 40px }
+      .post{ background:linear-gradient(180deg, rgba(34,39,46,.9), rgba(22,26,31,.95)); border:1px solid var(--c-border); border-radius:12px; padding:20px; box-shadow:0 12px 28px rgba(0,0,0,.28) }
+      h1{ font-size: 2em; margin: 0 0 10px }
+      p.lead{ color:#cfd8e3; margin-top:0 }
+      .updates{ display:flex; flex-direction:column; gap:14px; margin-top:16px }
+      .item{ border:1px solid #2b3440; border-radius:10px; padding:12px 14px; background:#1a222d }
+      .meta{ display:flex; gap:8px; align-items:center; font-size:12px; color:#aab3c2 }
+      .title{ font-weight:700; color:#eaeef5; margin:6px 0 4px }
+      .summary{ color:#cfd8e3; font-size:14px; line-height:1.6; margin:0 0 4px }
+      .tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px }
+      .tag{ background:#213041; color:#b9e6ff; font-size:11px; padding:2px 8px; border-radius:999px }
+      .links{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px }
+      .links a{ color:#4fc3f7; text-decoration:none; font-size:12px }
+      .links a:hover{ text-decoration:underline }
+      .controls{ display:flex; gap:8px; align-items:center; margin-top:8px }
+      .controls input{ background:#1b2634; border:1px solid #314056; color:#eaeef5; border-radius:8px; padding:6px 10px; outline:none }
+      .controls input::placeholder{ color:#90a4b8 }
+    </style>
+  </head>
+  <body>
+    <div id="wf-header"></div>
+    <main>
+      <article class="post">
+        <h1>Updates</h1>
+        <p class="lead">Automatic log of site changes and improvements.
+        </p>
+        <div class="controls">
+          <input id="q" type="text" placeholder="Filter by keyword or tag (e.g. ui bugfix)" autocomplete="off" />
+        </div>
+        <div id="list" class="updates" aria-live="polite" aria-atomic="true"></div>
+      </article>
+    </main>
+    <script>
+      const listEl = document.getElementById('list');
+      const qEl = document.getElementById('q');
+      let updates = [];
+      function norm(s){ return (s||'').toLowerCase(); }
+      function match(u, tokens){
+        if (!tokens.length) return true;
+        const hay = [u.title, u.summary, ...(u.tags||[])].map(norm).join(' ');
+        return tokens.every(t => hay.includes(t));
+      }
+      function render(){
+        const tokens = (norm(qEl.value).match(/\S+/g) || []);
+        const items = updates.filter(u=>match(u, tokens));
+        listEl.innerHTML = items.map(u=>{
+          const tags = (u.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('');
+          const links = (u.links||[]).map(l=>`<a href="${l.href}" target="_blank" rel="noopener">${l.label}</a>`).join('');
+          return `<div class="item">
+            <div class="meta">📅 <time datetime="${u.date}">${u.date}</time></div>
+            <div class="title">${u.title}</div>
+            <p class="summary">${u.summary}</p>
+            <div class="tags">${tags}</div>
+            <div class="links">${links}</div>
+          </div>`;
+        }).join('');
+        if (!items.length){ listEl.innerHTML = '<div class="item"><div class="summary">No updates match your filter.</div></div>'; }
+      }
+      fetch('/data/updates.json', { cache:'no-store' })
+        .then(r=>r.json())
+        .then(json=>{ updates = json.sort((a,b)=> (a.date<b.date?1:-1)); render(); })
+        .catch(()=>{ listEl.innerHTML = '<div class="item"><div class="summary">Failed to load updates.</div></div>'; });
+      qEl.addEventListener('input', render);
+    </script>
+    <script src="/static/wf-header.js?v=2025-10-05-1" defer></script>
+  </body>
+</html>
