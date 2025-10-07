@@ -1109,8 +1109,8 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
               ${spot.name}
             </div>
               ${spot.img && spot.img !== 'temp.jpg' && spot.img !== '—' && spot.img.trim() !== ''
-                ? `<div class="popup-img-wrap"><img src="/static/${spot.img}" alt="" role="presentation" draggable="false" class="popup-img" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none'"></div>`
-                : `<div class="popup-img-wrap"></div>`}
+                ? `<div class="popup-img-wrap"><img src="/static/${spot.img}" alt="" role="presentation" draggable="false" class="popup-img" loading="lazy" decoding="async" fetchpriority="low" onerror="this.onerror=null; this.src='/static/temp.jpg';"></div>`
+                : `<div class="popup-img-wrap"><img src="/static/temp.jpg" alt="" role="presentation" draggable="false" class="popup-img" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none'"></div>`}
             <div style="font-size:13px;color:#ddd;line-height:1.4;margin-bottom:8px">
               <b>Type:</b> ${spot.site_type}<br>
 							<b>Depth:</b> ${spot.min_depth}-${spot.max_depth} m<br>
