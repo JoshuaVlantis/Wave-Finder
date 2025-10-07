@@ -52,7 +52,7 @@ LICENSES.md, NOTICE, LICENSE
 
 ## 🗺️ Web app
 
-Best‑supported: run via Docker with Coolify (see [Deploy locally (Coolify)](#-deploy-locally-coolify) below).
+Best‑supported: run via Docker with Coolify (see [Deploy locally (Coolify)](https://github.com/JoshuaVlantis/Wave-Finder?tab=readme-ov-file#%EF%B8%8F-deploy-locally-coolify) below).
 
 You can also deploy the static site directly from `apps/web/` on any CDN/static host, but official docs currently cover Coolify.
 
