@@ -7,6 +7,7 @@
   const linksMore = [
     { href:'/limits.html', label:'Limits', key:'limits' },
     { href:'/records.html', label:'AUC', key:'auc' },
+    { href:'https://github.com/JoshuaVlantis/Wave-Finder', label:'Source (AGPL)', key:'source' },
   ];
   function activeKey(){
     const p = location.pathname;
