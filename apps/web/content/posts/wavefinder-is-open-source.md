@@ -17,7 +17,7 @@ Everything lives in a single repo:
 
 You can host the website locally with Coolify and still use the production API. The README has a step-by-step guide:
 
-- README (Local hosting with Coolify): https://github.com/JoshuaVlantis/Wave-Finder#local-hosting-with-coolify
+- README (Local hosting with Coolify): https://github.com/JoshuaVlantis/Wave-Finder?tab=readme-ov-file#%EF%B8%8F-deploy-locally-coolify
 
 If you prefer Docker Compose from Git, there’s an example in the `deploy/` folder.
 
