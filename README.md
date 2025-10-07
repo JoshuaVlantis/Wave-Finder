@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://wavefinder.org/static/logo32.png" alt="Wave Finder banner" width="820" />
+  <img src="https://wavefinder.org/Images/LogoName.png" alt="Wave Finder banner" width="100" />
 </p>
 
 <h1 align="center">Wave Finder</h1>
