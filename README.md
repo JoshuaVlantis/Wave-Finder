@@ -52,7 +52,11 @@ LICENSES.md, NOTICE, LICENSE
 
 ## 🗺️ Web app
 
-Static site in `apps/web/` (deploy on any CDN/static host):
+Best‑supported: run via Docker with Coolify (see [Deploy locally (Coolify)](#-deploy-locally-coolify) below).
+
+You can also deploy the static site directly from `apps/web/` on any CDN/static host, but official docs currently cover Coolify.
+
+Contents of the web app:
 - Data: `apps/web/data/*` (e.g., `mpa_boundaries.geojson`, `blog_posts.json`)
 - Blog: `apps/web/content/posts/*.md`
 - Assets: `apps/web/static/*` (shared CSS/JS/images/fonts)
@@ -135,6 +139,10 @@ map $http_upgrade $connection_upgrade { default upgrade; '' close; }
 Use your own API by changing `proxy_pass` to your API origin.
 
 </details>
+
+## 🤖 API: docs coming soon
+
+API docs are being prepared. Code lives under `apps/api/`.
 
 ## 🤖 ML: docs coming soon
 
