@@ -11,6 +11,10 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', o);
     res.setHeader('Vary', 'Origin');
   }
+  // Advertise source (AGPL network notice convenience)
+  res.setHeader('Link', ['<https://github.com/JoshuaVlantis/Wave-Finder>; rel="source"', '<https://www.gnu.org/licenses/agpl-3.0.html>; rel="license"'].join(', '));
+  // Expose the Link header to browsers
+  res.setHeader('Access-Control-Expose-Headers', 'Link');
   next();
 });
 
