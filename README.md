@@ -1,370 +1,151 @@
-# Wave Finder
-[wavefinder.org](https://wavefinder.org)
+<p align="center">
+  <img src="apps/web/static/og-image.jpg" alt="Wave Finder banner" width="820" />
+</p>
 
-Clean, fast tools for South African marine recreation.
+<h1 align="center">Wave Finder</h1>
 
-## Features
-- Static website with a Leaflet map, wind overlay, MPA data, blog, size & bag limits, and records
-- Minimal Node.js API (Express + MariaDB) for spots and records
-- Python ML scripts to train and predict underwater visibility (in meters)
+<p align="center">
+  Clean, fast tools for South African marine recreation — maps, wind overlays, MPAs, regs, records, and visibility ML.
+  <br />
+  <a href="https://wavefinder.org"><strong>wavefinder.org »</strong></a>
+</p>
 
-## Local hosting with Coolify
+<p align="center">
+  <a href="https://wavefinder.org"><img alt="Website" src="https://img.shields.io/badge/website-live-2ea043?logo=google-chrome" /></a>
+  <a href="https://github.com/JoshuaVlantis/Wave-Finder/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/AGPL-3.0--or--later-0a7ea4" /></a>
+  <a href="apps/web/content/posts/LICENSE"><img alt="Content License" src="https://img.shields.io/badge/Content-CC%20BY%204.0-7a5ea7" /></a>
+  <img alt="Node" src="https://img.shields.io/badge/Node-%E2%89%A518-43853d?logo=node.js&logoColor=white" />
+  <img alt="Python" src="https://img.shields.io/badge/Python-%E2%89%A53.10-3670A0?logo=python&logoColor=white" />
+  <img alt="MariaDB" src="https://img.shields.io/badge/MariaDB-supported-003545?logo=mariadb" />
+  <a href="https://github.com/JoshuaVlantis/Wave-Finder/issues"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-ff9800" /></a>
+</p>
 
-This section walks you through hosting the Wave Finder website locally using Coolify, while still consuming the production API. No code changes are required.
+## Table of contents
 
-If you prefer to use your own API instead, see the note near the end of this section.
+- 🚀 Features
+- 🌐 Live + repo layout
+- ️ Web app
+- 🤖 ML: docs coming soon
+- 🧰 Dev tips & hygiene
+- ☁️ Deploy locally (Coolify)
+- 📄 License & data sources
 
-### Prerequisites
+## 🚀 Features
 
-- A Linux machine (tested with Ubuntu/Debian)
-- Sudo access
+- Static web: Leaflet map, wind overlay (Leaflet‑Velocity), MPA outlines, blog, size & bag limits, records
+- API: Express + MariaDB for spots, records, and wind proxy
+- ML: Python feature engineering + model zoo to predict underwater visibility (m)
 
-### Step 1: Install Docker, Git, and Coolify
+## 🌐 Live + repo layout
 
-Run the following commands on your machine:
+- Live site: https://wavefinder.org
+- Source map: https://github.com/JoshuaVlantis/Wave-Finder
+
+Monorepo layout
+```
+apps/
+  api/   # Express API (MariaDB-backed)
+  web/   # Static site (any CDN/static host)
+  ml/    # Training + prediction utilities
+LICENSES.md, NOTICE, LICENSE
+```
+
+## 🗺️ Web app
+
+Static site in `apps/web/` (deploy on any CDN/static host):
+- Data: `apps/web/data/*` (e.g., `mpa_boundaries.geojson`, `blog_posts.json`)
+- Blog: `apps/web/content/posts/*.md`
+- Assets: `apps/web/static/*` (shared CSS/JS/images/fonts)
+- Pages: `index.html`, `blog.html`, `post.html`, `about.html`, `limits.html`, `records.html`
+
+> Tip: The UI includes a “Source (AGPL)” link for network‑use attribution.
+
+## ☁️ Deploy locally (Coolify)
+
+Run the website locally via Nginx with zero code changes while proxying the production API.
+
+<details>
+<summary>Show Coolify guide</summary>
+
+Prereqs: Linux (Ubuntu/Debian), sudo.
+
+1) Install Docker, Git, Coolify
 
 ```bash
 sudo apt update && sudo apt upgrade -y
-
 sudo apt install -y curl git ca-certificates
-
-# Install Docker
 curl -fsSL https://get.docker.com | sudo bash
 sudo usermod -aG docker $USER
-
-# Install Coolify
 curl -fsSL https://cdn.coollabs.io/coolify/install.sh | sudo bash
 ```
 
-Log out and back in (or reboot) to ensure your user is in the `docker` group.
-
-### Step 2: Fork and clone the repository
-
-First, fork this repository to your own GitHub account, then clone your fork locally.
-
-1. Open the repo on GitHub: https://github.com/JoshuaVlantis/Wave-Finder
-2. Click “Fork” to create your own copy under your GitHub account
-3. Clone your fork to your machine and enter the project directory:
+2) Fork + clone this repo
 
 ```bash
-git clone https://github.com/<your-github-username>/Wave-Finder.git
+git clone https://github.com/<your-gh-username>/Wave-Finder.git
 cd Wave-Finder
 ```
 
-You’ll use this local path later for the directory mount in Coolify (e.g., `/home/<your-user>/Documents/GitHub/Wave-Finder/apps/web`).
+3) In Coolify: create a Project → Add Resource → Docker Image `nginx:alpine`
 
-### Step 3: Open Coolify
+4) Networking: expose `80`, map host `18080:80`
 
-Open your browser and go to:
-
-- http://127.0.0.1:8000
-
-Register your account in Coolify.
-
-### Step 4: Create a project
-
-In Coolify:
-
-1. In the left sidebar, click “Projects” or visit http://127.0.0.1:8000/projects
-2. Click “Add” and give it a name, e.g. “Wave Finder Development”
-3. Open the new project
-
-### Step 5: Add the website resource
-
-1. Click “Add Resource”
-2. Choose “Docker Image”
-3. Enter the image: `nginx:alpine`
-4. Click “Save”
-
-### Step 6: Configure the website resource
-
-In the resource settings:
-
-- General
-	- Name: `Wave Finder`
-	- Description: optional
-	- Remove any Coolify-managed domain (not needed for local hosting)
-
-- Networking
-	- Exposes: `80`
-	- Port mapping: `18080:80`
-		- This maps the container’s port 80 to your host’s port 18080 (you can choose a different host port if you want)
-
-Click “Save”.
-
-### Step 7: Add persistent storage
-
-You’ll add two mounts: a file mount for Nginx configuration and a directory mount for the website files.
-
-1) File mount (Nginx config)
-
-- Go to “Persistent Storage” → “Add” → “File Mount”
-- Path inside container: `/etc/nginx/conf.d/default.conf`
-- Paste the following content:
+5) Storage: add file mount `/etc/nginx/conf.d/default.conf` with this config:
 
 ```nginx
 server {
-	listen 80;
-	server_name _;
+  listen 80;
+  server_name _;
+  root /usr/share/nginx/web;
+  index index.html;
+  resolver 127.0.0.11 ipv6=off valid=10s;
 
-	root /usr/share/nginx/web;
-	index index.html;
+  location = /api { return 301 /api/; }
+  location ^~ /api/ {
+    proxy_http_version 1.1;
+    proxy_set_header Host api.wavefinder.org;
+    proxy_ssl_server_name on;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_pass https://api.wavefinder.org/;
+    proxy_connect_timeout 5s; proxy_send_timeout 60s; proxy_read_timeout 60s; proxy_redirect off;
+  }
 
-	resolver 127.0.0.11 ipv6=off valid=10s;
+  location / {
+    sub_filter_once off;
+    sub_filter_types text/html application/javascript;
+    sub_filter "https://api.wavefinder.org" "/api";
+    try_files $uri /index.html;
+  }
 
-	# Proxy for API (strip /api/ prefix)
-	location = /api { return 301 /api/; }
-	location ^~ /api/ {
-		proxy_http_version 1.1;
-
-		# HTTPS upstream + correct Host/SNI
-		proxy_set_header Host api.wavefinder.org;
-		proxy_ssl_server_name on;
-
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_set_header X-Forwarded-Proto $scheme;
-		proxy_set_header X-Forwarded-Host $host;
-
-		# WS/SSE
-		proxy_set_header Upgrade $http_upgrade;
-		proxy_set_header Connection $connection_upgrade;
-
-		# trailing slash strips /api prefix
-		proxy_pass https://api.wavefinder.org/;
-
-		proxy_connect_timeout 5s;
-		proxy_send_timeout 60s;
-		proxy_read_timeout 60s;
-		proxy_redirect off;
-	}
-
-	# Serve app and rewrite absolute API URLs in HTML/JS at response time
-	location / {
-		sub_filter_once off;
-		sub_filter_types text/html application/javascript;
-		sub_filter "https://api.wavefinder.org" "/api";
-		try_files $uri /index.html;
-	}
-
-	# Static caching
-	location ~* \.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?)$ {
-		expires 7d; access_log off;
-	}
+  location ~* \.(js|css|png|jpg|jpeg|gif|svg|ico|woff2?)$ { expires 7d; access_log off; }
 }
 
-# Map for Upgrade header
-map $http_upgrade $connection_upgrade {
-	default upgrade;
-	''      close;
-}
+map $http_upgrade $connection_upgrade { default upgrade; '' close; }
 ```
 
-This lets the container proxy API requests and rewrite absolute API URLs at serve time, so the frontend can load data without any code changes.
+6) Storage: add directory mount → host path to `apps/web` → container `/usr/share/nginx/web`
 
-2) Directory mount (website files)
+7) Deploy → open http://127.0.0.1:18080
 
-- Click “Add” → “Directory Mount”
-- Source directory (on the host running Coolify): the path to your cloned repo’s web app. For example:
-	- `/home/<your-user>/Documents/GitHub/Wave-Finder/apps/web`
-- Destination directory (in the container): `/usr/share/nginx/web`
+Use your own API by changing `proxy_pass` to your API origin.
 
-Click “Save”.
+</details>
 
-### Step 8: Deploy and test
+## 🤖 ML: docs coming soon
 
-1. Scroll to the top and click “Save/Deploy” (or the Deploy button)
-2. Visit your site at: http://127.0.0.1:18080
+Training and nowcast docs are being prepared. Code lives under `apps/ml/`.
 
-You should see the site and API-driven content loading.
+## 📄 License & data sources
 
-### Using your own API (optional)
+- Software (server, web, ML): AGPL‑3.0‑or‑later. See `LICENSE`.
+- Content/media/data (blog, images, authored docs, data): CC BY 4.0.
+  - See LICENSE files in `apps/web/content/posts/`, `apps/web/data/`, `apps/web/static/`, `apps/web/docs/`.
+- Third‑party assets/services retain their own terms — see `NOTICE`.
+- See also `LICENSES.md` for a folder‑by‑folder map.
 
-If you want to use your own API instead of the public one:
-
-- In the Nginx config above, change:
-
-```nginx
-proxy_pass https://api.wavefinder.org/;
-```
-
-to your API endpoint, e.g.:
-
-```nginx
-proxy_pass http://192.168.0.10:3001/;
-```
-
-We’ll add a full API and database setup section later.
-
-## Contributing
-
-Once you’re hosting locally, you can start making changes to the files under `apps/web/`. Refresh your browser to see updates. Pull requests are welcome.
-
-## Troubleshooting
-
-- Blank page or 404 when visiting the site:
-	- Ensure the directory mount points to the correct local path and that it contains `index.html`.
-- API not loading:
-	- Confirm the file mount for `/etc/nginx/conf.d/default.conf` was added and saved.
-	- Open the browser DevTools Network tab and check that requests go to `/api/...` and return 200.
-	- If needed, restart the resource in Coolify to reload the Nginx config.
-
-## Project overview
-
-
-### Repository layout
-
-```
-.
-├── apps/
-│   ├── api/                 # Express API (MariaDB-backed)
-│   │   ├── spots-api.js     # Server entry
-│   │   ├── package.json
-│   │   └── .env.example     # Example env (copy to .env; keep secrets out of git)
-│   ├── web/                 # Static site (served by any static host)
-│   │   ├── index.html       # Map and wind overlay UI
-│   │   ├── blog.html, post.html, about.html, limits.html, records.html
-│   │   ├── data/            # JSON/GeoJSON used by the site
-│   │   ├── content/posts/   # Blog markdown sources
-│   │   ├── docs/            # Public docs (e.g., Linefishing PDF)
-│   │   └── static/          # Shared assets (css/js/images/fonts)
-│   └── ml/                  # ML training & prediction utilities
-│       ├── temporal_features.py
-│       ├── train_model_from_db.py
-│       ├── predict_visibility_from_db.py
-│       ├── config.example.ini
-│       ├── models/          # Saved models (.pkl + .meta.json)
-│       ├── predictions/     # Latest predictions (txt)
-│       └── data/            # Debug feature vectors
-├── LICENSE
-├── README.md                # You are here
-└── .gitignore               # Ignores env files, configs, artifacts, etc.
-```
-
-
-## Developer quick start (optional)
-
-Prereqs:
-- Node.js 18+ for the API
-- Python 3.10+ for ML scripts (optional)
-- MariaDB instance with your data (for API/ML)
-
-Clone and install API deps
-```bash
-cd apps/api
-npm install
-# Copy example env and set your values
-cp .env.example .env
-# Edit .env: DB_HOST, DB_USER, DB_PASS, DB_NAME
-# Start the API (if you add a start script) or run directly:
-node spots-api.js
-```
-
-Open the static web
-```bash
-# Serve the static site (any static server works)
-cd ../web
-npx serve .  # optional quick server
-```
-
-ML environment (optional)
-```bash
-cd ../ml
-python -m venv .venv
-source .venv/bin/activate
-pip install -U pip
-# Install project packages (pandas, numpy, scikit-learn, pymysql, joblib; optional: xgboost, lightgbm, shap)
-# Copy example config and set DB values
-cp config.example.ini config.ini
-```
-
-
-## Running the API
-
-`apps/api/spots-api.js` exposes:
-- GET `/api/spots`  → active dive spots from MariaDB `locations`
-- GET `/api/records` → top 3 records per species (grouped)
-- GET `/health` → liveness
-
-Environment variables (see `.env.example`):
-- `PORT` (default 3001), `DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME`, `DB_POOL` (optional)
-
-Security: the server requires all DB vars to be present and has no hardcoded credentials.
-
-
-## Static website
-
-Located in `apps/web/` and deployable on any static host or CDN.
-- Data from: `apps/web/data/*` (e.g., `mpa_boundaries.geojson`, `blog_posts.json`)
-- Blog posts: `apps/web/content/posts/*.md`
-- Shared assets: `apps/web/static/*` (includes `wf-header.css/js`)
-- Limits page links the PDF under `apps/web/docs/`
-
-Pages
-- `index.html` main map (Leaflet + optional wind overlay via Leaflet-Velocity)
-- `blog.html` + `post.html` markdown-based blog
-- `limits.html` size & bag limits UI
-- `records.html` fetches `/api/records` and exports PDF via jsPDF
-- `about.html` project info
-
-
-## ML: train and predict visibility (meters)
-
-Scripts live under `apps/ml/`. They read from MariaDB tables you maintain and emit models/predictions locally.
-
-1) Configure DB access
-```ini
-# apps/ml/config.ini (not committed)
-[db]
-host = 127.0.0.1
-port = 3306
-user = your_user
-password = your_password
-database = wavefinder
-```
-
-2) Train
-```powershell
-python train_model_from_db.py "Bay Side"
-```
-
-3) Predict nowcast
-```powershell
-python predict_visibility_from_db.py "Bay Side"
-```
-
-Outputs
-- `models/` saved pipelines (.pkl) with `.meta.json`
-- `predictions/visibility_prediction_<loc>__<model>.txt`
-- `data/debug_input_features_<loc>__multiwindow.csv`
-
-
-## Secrets and hygiene
-
-- Keep secrets out of git. Root `.gitignore` excludes:
-	- `.env`, `.env.*`, `apps/api/.env`, `apps/ml/.env`
-	- `apps/ml/config.ini`
-	- ML artifacts (`*.pkl`, `*.meta.json`, `apps/ml/predictions/`, `apps/ml/data/debug_input_features_*.csv`)
-- API uses only environment variables; no hardcoded DB credentials.
-- Before pushing public, you can run a quick local scan for common secrets:
-```powershell
-git --no-pager grep -InE "(password|passwd|pwd|secret|apikey|api[_-]?key|token|bearer|authorization|client[_-]?secret|BEGIN [A-Z ]+ PRIVATE KEY|aws_access_key_id|aws_secret_access_key|DATABASE_URL|MONGODB_URI|POSTGRES_|MYSQL_|MARIADB_)"
-```
-
-
-## Deployment notes
-
-- Web: host `apps/web/` on a static host/CDN (Cloudflare, Netlify, etc.). Keep only HTML in the web root; assets under `static/`, data under `data/`.
-- API: deploy `apps/api/` to your Node host (Docker/VM/Service). Provide env vars securely.
-- ML: run on a job/VM; keep `config.ini` off-repo and out of images. Persist `models/` and `predictions/` if needed.
-
-
-## License
-
-- Software (server, web app, ML code): AGPL-3.0-or-later. See `LICENSE`.
-- Content and media (blog posts, data, images, authored docs): CC BY 4.0. See LICENSE files under `apps/web/content/posts/`, `apps/web/data/`, `apps/web/static/`, and `apps/web/docs/`.
-- Third-party assets/services keep their own licenses/terms (see `NOTICE`).
-
-See also `LICENSES.md` for a folder-by-folder overview.
-
-Data sources: Open‑Meteo (Marine + Weather). Respect their terms.
+Data sources: Open‑Meteo (Marine + Weather). Please respect their terms.
