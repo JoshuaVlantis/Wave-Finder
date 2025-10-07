@@ -53,9 +53,9 @@
   <link rel="dns-prefetch" href="https://unpkg.com">
   <link rel="preconnect" href="https://server.arcgisonline.com" crossorigin>
   <link rel="dns-prefetch" href="https://server.arcgisonline.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="preload" href="/static/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/static/fonts/Outfit-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/fonts/outfit.css">
   <link rel="preload" as="image" href="/static/logo32.png" imagesrcset="/static/logo32.png 1x" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
   
@@ -76,7 +76,7 @@
       body {
         height: 100%;
         margin: 0;
-  font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, sans-serif;
+  font-family: 'OutfitLocal', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, sans-serif;
         background: var(--c-bg);
         overflow: hidden;
       }
@@ -624,16 +624,19 @@
         </div>
       </div>
     </div>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js" crossorigin="anonymous" defer></script>
     <script>
-      L.Marker.prototype._setPos = function(pos) {
-        L.DomUtil.setTransform(this._icon, pos);
-        if (this._shadow) {
-          L.DomUtil.setTransform(this._shadow, pos);
-        }
-      };
+      window.addEventListener('DOMContentLoaded', () => {
+        L.Marker.prototype._setPos = function(pos) {
+          L.DomUtil.setTransform(this._icon, pos);
+          if (this._shadow) {
+            L.DomUtil.setTransform(this._shadow, pos);
+          }
+        };
+      });
     </script>
     <script>
+      window.addEventListener('DOMContentLoaded', () => {
       const BASE_OFFSET = 60;
       const POPUP_MARGIN = 145;
       const sidebar = document.getElementById('sidebar');
@@ -663,12 +666,14 @@
       });
       L.Popup.prototype.options.autoPan = false;
       const bounds = L.latLngBounds(L.latLng(-25.037233432401287, 49.409594479172306), L.latLng(-43.27141534775741, 5.354436376104243));
+      // Prefer Canvas for better performance with many markers on low-end devices
       const map = L.map('map', {
         zoomControl: false,
         minZoom: 7,
         maxZoom: 18,
         maxBounds: bounds,
-        maxBoundsViscosity: 1
+        maxBoundsViscosity: 1,
+        preferCanvas: true
       }).setView([-34.0033, 25.6325], 12);
       const defaultView = {
         center: [-34.0033, 25.6325],
@@ -707,9 +712,16 @@ window.addEventListener('resize', () => {
       attribution: '© OpenStreetMap'
       }).addTo(map);
       */
+      const NET = (navigator.connection && navigator.connection.effectiveType) || '';
+      const SLOW_NET = /(^|-)2g|(^|-)3g/i.test(NET);
+
       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics',
-        maxZoom: 19
+        maxZoom: 19,
+        updateWhenIdle: true,
+        updateWhenZooming: false,
+        keepBuffer: 1,
+        detectRetina: false
       }).addTo(map);
 
       function debounce(fn, ms = 120) {
@@ -729,7 +741,7 @@ function overscanBounds(bounds, scale = 2.5) {
   if (s < -89.9) s = -89.9; if (n > 89.9) n = 89.9; if (w < -180) w = -180; if (e > 180) e = 180;
   return { west: w, south: s, east: e, north: n };
 }
-function overscanForZoom(z){ if (z>=15) return 3.2; if (z>=14) return 3.0; if (z>=12) return 2.6; return 2.2; }
+function overscanForZoom(z){ let s = (z>=15) ? 3.2 : (z>=14) ? 3.0 : (z>=12) ? 2.6 : 2.2; if (SLOW_NET) s *= 0.85; return s; }
 function snapDown(val, origin, step){ return origin + Math.floor((val - origin) / step) * step; }
 function snapUp(val, origin, step){ return origin + Math.ceil((val - origin) / step) * step; }
 
@@ -749,7 +761,7 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
       const MPA_MIN_ZOOM = 11;
       const mpaLabels = L.layerGroup().addTo(map);
       let mpaLayer = null;
-  fetch('/data/mpa_boundaries.geojson').then(r => r.json()).then(data => {
+      function initMpa(data){
         mpaLayer = L.geoJSON(data, {
           style: {
             color: '#00aa00',
@@ -838,7 +850,13 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
         const refresh = debounce(updateMpaLabels, 80);
         updateMpaLabels();
         map.on('zoomend moveend', refresh);
-      });
+      }
+      function fetchAndInitMpa(){
+        fetch('/data/mpa_boundaries.geojson')
+          .then(r => r.json())
+          .then(data => initMpa(data))
+          .catch(()=>{});
+      }
       map.on('zoomend moveend', () => {
         toggleLabels();
         map.eachLayer(layer => {
@@ -1090,8 +1108,8 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
 					<div style="font-weight:600;font-size:21px;text-align:center;margin-bottom:6px">
               ${spot.name}
             </div>
-					${spot.img && spot.img !== 'temp.jpg' && spot.img !== '—' && spot.img.trim() !== ''
-                ? `<div class="popup-img-wrap"><img src="/static/${spot.img}" alt="" role="presentation" draggable="false" class="popup-img" decoding="async" fetchpriority="high" onerror="this.style.display='none'"></div>`
+              ${spot.img && spot.img !== 'temp.jpg' && spot.img !== '—' && spot.img.trim() !== ''
+                ? `<div class="popup-img-wrap"><img src="/static/${spot.img}" alt="" role="presentation" draggable="false" class="popup-img" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none'"></div>`
                 : `<div class="popup-img-wrap"></div>`}
             <div style="font-size:13px;color:#ddd;line-height:1.4;margin-bottom:8px">
               <b>Type:</b> ${spot.site_type}<br>
@@ -1173,6 +1191,11 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
           }
           toggleLabels();
           clearTimeout(spotsTimer); spotsTimer = null; spotsOverlay?.classList.remove('on');
+          // Defer MPA fetch to idle/after initial content
+          setTimeout(() => {
+            if ('requestIdleCallback' in window) requestIdleCallback(fetchAndInitMpa, { timeout: 2000 });
+            else fetchAndInitMpa();
+          }, 500);
         } catch (err) {
           console.error('Failed to load spots', err);
           clearTimeout(spotsTimer); spotsTimer = null; spotsOverlay?.classList.remove('on');
@@ -1470,6 +1493,7 @@ function _detachWindHover(){
       function openRatingForm(name) {
         console.log('Rate →', name);
       }
+    });
     </script>
   <script src="/static/wf-header.js?v=2025-10-05-1" defer></script>
   </body>
