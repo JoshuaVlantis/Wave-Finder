@@ -244,24 +244,5 @@
         "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/54d1680"
       }
     ]
-  },
-  {
-    "date": "2025-10-08",
-    "title": "Minor UI improvements for cleaner look",
-    "summary": "Added minor UI improvements to make the site look cleaner and more polished. These changes enhance readability and consistency across pages.",
-    "tags": [
-      "ui",
-      "styling"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/0d6999dd6c0c8fd9634d774980da505a78bc4279"
-      },
-      {
-        "label": "Page",
-        "href": "/"
-      }
-    ]
   }
 ]
