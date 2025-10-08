@@ -1,0 +1,39 @@
+/*
+  SPDX-License-Identifier: AGPL-3.0-or-later
+  Global decorative background glow for Wave Finder pages
+  Adjust variables below to tune color, intensity, and spread site-wide.
+*/
+:root{
+  /* Base glow color (approx. sky blue) */
+  --glow-color: 79, 195, 247; /* r,g,b */
+  /* Intensities (alphas) */
+  --glow-a1: 0.26; /* outer/main */
+  --glow-a2: 0.12; /* outer falloff */
+  --glow-a3: 0.15; /* inner/secondary */
+  /* Sizes & positions */
+  --glow-size-1: 1600px 900px;
+  --glow-pos-1: 50% -20%;
+  --glow-size-2: 900px 500px;
+  --glow-pos-2: 50% -10%;
+}
+
+/* Draw beneath content; use ::after to avoid clashing with any page-specific ::before */
+body::after{
+  content:"";
+  position: fixed;
+  inset: 0;
+  min-height: 100vh;
+  pointer-events: none;
+  /* Behind page content and any ::before overlays like records.html’s logo */
+  z-index: -2;
+  background:
+    radial-gradient(var(--glow-size-1) at var(--glow-pos-1), rgba(var(--glow-color), var(--glow-a1)) 0%, rgba(var(--glow-color), var(--glow-a2)) 46%, rgba(var(--glow-color), 0) 90%),
+    radial-gradient(var(--glow-size-2) at var(--glow-pos-2), rgba(var(--glow-color), var(--glow-a3)) 0%, rgba(var(--glow-color), 0) 78%);
+  /* Prevent Windows forced-colors from stripping decorative backgrounds */
+  forced-color-adjust: none;
+}
+
+/* Accessibility: disable decorative glow in Windows High Contrast */
+@media (forced-colors: active){
+  body::after{ forced-color-adjust:auto; background:none }
+}
