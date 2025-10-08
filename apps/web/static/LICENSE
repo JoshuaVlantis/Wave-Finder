@@ -12,3 +12,11 @@ Under the following terms:
 Full license text: https://creativecommons.org/licenses/by/4.0/
 
 Third-party items retain their original licenses/terms and must be attributed accordingly.
+
+## Third-Party Licenses
+
+### marked.js (marked.min.js)
+- Version: 11.1.1
+- License: MIT License
+- Source: https://github.com/markedjs/marked
+- Copyright (c) 2011-2024, Christopher Jeffrey and contributors
