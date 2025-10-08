@@ -20,3 +20,10 @@ Third-party items retain their original licenses/terms and must be attributed ac
 - License: MIT License
 - Source: https://github.com/markedjs/marked
 - Copyright (c) 2011-2024, Christopher Jeffrey and contributors
+
+### Blog Creator Interface (create-blog.html)
+- Inspired by: Typo markdown editor
+- License: MIT License
+- Source: https://github.com/rossrobino/typo
+- Copyright (c) 2023 Ross Robino
+- Note: UI patterns and editor concepts adapted for Wave Finder's blog creation system

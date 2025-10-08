@@ -1,0 +1,792 @@
+<!doctype html>
+<!--
+  SPDX-License-Identifier: AGPL-3.0-or-later
+  Copyright (C) 2025 Joshua Vlantis
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Blog Post – Wave Finder</title>
+  <meta name="description" content="Create and contribute blog posts to Wave Finder." />
+  <link rel="canonical" href="https://wavefinder.org/create-blog.html" />
+  <meta name="robots" content="noindex,nofollow" />
+  
+  <link rel="preload" href="/static/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/static/fonts/Outfit-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/fonts/outfit.css">
+  <link rel="icon" href="/static/logo32.png" type="image/png" sizes="32x32">
+  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1">
+  <link rel="stylesheet" href="/static/wf-glow.css?v=2025-10-08-1">
+  
+  <!-- Load marked.js for preview -->
+  <script src="/static/marked.min.js"></script>
+  
+  <style>
+    :root{ --c-bg:#121212; --c-panel:#1e1e1e; --c-border:#2b3440; --c-accent:#4fc3f7; --c-text:#eaeef5; --c-dim:#aab3c2; --r:12px }
+    *{ box-sizing:border-box }
+    body{ margin:0; font-family:'Outfit',system-ui,Segoe UI,Roboto,Arial; background:var(--c-bg); color:var(--c-text); position:relative }
+    
+    main{ max-width:1400px; margin:0 auto; padding:120px 20px 40px; position:relative; z-index:1 }
+    
+    .creator{ background:linear-gradient(180deg, rgba(34,39,46,.9), rgba(22,26,31,.95)); border:1px solid var(--c-border); border-radius:12px; box-shadow:0 12px 28px rgba(0,0,0,.28); overflow:hidden }
+    
+    .creator-header{ padding:20px; border-bottom:1px solid var(--c-border); background:rgba(255,255,255,.02) }
+    .creator-header h1{ margin:0 0 8px; font-size:24px; text-align:center }
+    .creator-header p{ margin:0; color:var(--c-dim); text-align:center; font-size:14px }
+    
+    .creator-body{ display:grid; grid-template-columns:1fr 1fr; min-height:600px }
+    @media (max-width: 1200px){ .creator-body{ grid-template-columns:1fr; } }
+    
+    .editor-panel{ display:flex; flex-direction:column }
+    .preview-panel{ border-left:1px solid var(--c-border); display:flex; flex-direction:column }
+    @media (max-width: 1200px){ .preview-panel{ border-left:0; border-top:1px solid var(--c-border) } }
+    
+    .panel-header{ padding:12px 16px; background:rgba(255,255,255,.03); border-bottom:1px solid var(--c-border); display:flex; justify-content:space-between; align-items:center; font-size:14px; font-weight:600 }
+    
+    .toolbar{ display:flex; flex-wrap:wrap; gap:4px; padding:8px 12px; border-bottom:1px solid var(--c-border); background:rgba(255,255,255,.02) }
+    .tool-btn{ background:rgba(255,255,255,.08); border:1px solid var(--c-border); color:var(--c-text); padding:6px 8px; border-radius:6px; font-size:12px; cursor:pointer; transition:all .2s; font-family:inherit; display:flex; align-items:center; gap:4px }
+    .tool-btn:hover{ background:rgba(255,255,255,.15); transform:translateY(-1px) }
+    .tool-btn:active{ transform:translateY(0) }
+    .tool-btn svg{ width:14px; height:14px }
+    
+    .editor{ flex:1; background:var(--c-bg); border:0; outline:0; padding:16px; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:14px; line-height:1.6; color:var(--c-text); resize:none }
+    .editor::placeholder{ color:var(--c-dim); opacity:0.7 }
+    
+    .preview{ flex:1; padding:16px; background:rgba(255,255,255,.01); overflow-y:auto }
+    
+    /* Preview styling matches post.html */
+    .preview-content{ color:#d9e2ef; font-size:16px; line-height:1.75; max-width:none }
+    .preview-content h1{ font-size:28px; margin-top:24px; margin-bottom:8px }
+    .preview-content h2{ font-size:22px; margin-top:18px; margin-bottom:6px }
+    .preview-content h3{ font-size:18px; margin-top:14px; margin-bottom:4px }
+    .preview-content h4{ font-size:16px; margin-top:12px; margin-bottom:4px; font-weight:600 }
+    .preview-content h5{ font-size:14px; margin-top:10px; margin-bottom:3px; font-weight:600 }
+    .preview-content h6{ font-size:13px; margin-top:8px; margin-bottom:3px; font-weight:600; color:var(--c-dim) }
+    .preview-content p{ margin:10px 0 }
+    .preview-content a{ color:var(--c-accent); text-decoration:underline }
+    .preview-content strong{ font-weight:600 }
+    .preview-content em{ font-style:italic }
+    .preview-content del{ text-decoration:line-through; opacity:0.7 }
+    .preview-content ul, .preview-content ol{ margin:10px 0 10px 20px }
+    .preview-content li{ margin:4px 0 }
+    .preview-content li > ul, .preview-content li > ol{ margin:4px 0 4px 20px }
+    .preview-content code{ background:rgba(255,255,255,0.06); padding:0 4px; border-radius:4px; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.95em }
+    .preview-content pre{ background:rgba(255,255,255,0.04); border:1px solid var(--c-border); border-radius:8px; padding:12px; margin:12px 0; overflow-x:auto }
+    .preview-content pre code{ background:none; padding:0; border-radius:0; font-size:14px }
+    .preview-content table{ border-collapse:collapse; width:100%; margin:12px 0; border-radius:8px; overflow:hidden; border:1px solid var(--c-border) }
+    .preview-content th, .preview-content td{ padding:8px 12px; text-align:left; border-bottom:1px solid var(--c-border) }
+    .preview-content th{ background:rgba(255,255,255,0.04); font-weight:600 }
+    .preview-content tr:last-child td{ border-bottom:0 }
+    .preview-content tr:nth-child(even){ background:rgba(255,255,255,0.02) }
+    .preview-content blockquote{ border-left:3px solid var(--c-accent); margin:12px 0; padding:8px 12px; color:#c9d6e8; background:rgba(79,195,247,.06); border-radius:6px }
+    .preview-content img{ max-width:100%; border-radius:8px; display:block; margin:10px auto }
+    .preview-content hr{ border:0; border-top:1px solid var(--c-border); margin:16px 0 }
+    
+    .metadata-panel{ padding:20px; border-top:1px solid var(--c-border) }
+    .form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px }
+    @media (max-width: 800px){ .form-grid{ grid-template-columns:1fr } }
+    
+    .form-group{ display:flex; flex-direction:column; gap:6px }
+    .form-group.full{ grid-column:1/-1 }
+    
+    .form-label{ font-size:14px; font-weight:600; color:var(--c-text) }
+    .form-input, .form-textarea{ background:rgba(255,255,255,.06); border:1px solid var(--c-border); color:var(--c-text); padding:8px 12px; border-radius:8px; font-family:inherit; font-size:14px }
+    .form-input:focus, .form-textarea:focus{ outline:2px solid var(--c-accent); outline-offset:-1px }
+    .form-input::placeholder, .form-textarea::placeholder{ color:var(--c-dim); opacity:0.7 }
+    .form-textarea{ resize:vertical; min-height:60px; font-family:inherit }
+    
+    .tag-input-wrapper{ position:relative }
+    .tag-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px }
+    .tag-chip{ background:var(--c-accent); color:var(--c-bg); padding:4px 8px; border-radius:999px; font-size:12px; display:flex; align-items:center; gap:4px }
+    .tag-remove{ cursor:pointer; font-weight:700; opacity:0.7 }
+    .tag-remove:hover{ opacity:1 }
+    
+    .actions{ display:flex; gap:12px; justify-content:center; padding:20px; border-top:1px solid var(--c-border) }
+    .btn{ background:var(--c-accent); color:var(--c-bg); border:0; padding:12px 24px; border-radius:8px; font-weight:600; font-family:inherit; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:8px }
+    .btn:hover{ background:#5dd4ff; transform:translateY(-1px) }
+    .btn:active{ transform:translateY(0) }
+    .btn-secondary{ background:transparent; color:var(--c-text); border:1px solid var(--c-border) }
+    .btn-secondary:hover{ background:rgba(255,255,255,.08) }
+    
+    .stats{ font-size:12px; color:var(--c-dim); margin-left:auto }
+    
+    .help-text{ font-size:12px; color:var(--c-dim); margin-top:4px }
+    
+    /* Image Dialog */
+    .image-dialog{ position:fixed; inset:0; background:rgba(0,0,0,0.8); display:none; z-index:1000; align-items:center; justify-content:center }
+    .image-dialog.show{ display:flex }
+    .dialog-content{ background:var(--c-panel); border:1px solid var(--c-border); border-radius:12px; padding:24px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto }
+    .dialog-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:20px }
+    .dialog-title{ font-size:18px; font-weight:600; margin:0 }
+    .dialog-close{ background:none; border:none; color:var(--c-text); font-size:24px; cursor:pointer; padding:0; line-height:1 }
+    
+    .image-options{ display:grid; gap:16px; margin-bottom:20px }
+    .image-option{ padding:16px; border:1px solid var(--c-border); border-radius:8px; cursor:pointer; transition:all .2s; text-align:center }
+    .image-option:hover{ background:rgba(255,255,255,.04); border-color:var(--c-accent) }
+    .image-option.active{ background:rgba(79,195,247,.1); border-color:var(--c-accent) }
+    
+    .file-input{ display:none }
+    .upload-area{ border:2px dashed var(--c-border); border-radius:8px; padding:32px; text-align:center; margin:12px 0; transition:all .2s }
+    .upload-area:hover, .upload-area.dragover{ border-color:var(--c-accent); background:rgba(79,195,247,.05) }
+    
+    .image-preview{ max-width:100%; max-height:200px; border-radius:8px; margin:12px 0; display:none }
+    .image-info{ font-size:12px; color:var(--c-dim); margin:8px 0 }
+    
+    .dialog-actions{ display:flex; gap:12px; justify-content:flex-end; margin-top:20px }
+  </style>
+</head>
+<body>
+  <div id="wf-header"></div>
+
+  <main>
+    <div class="creator">
+      <div class="creator-header">
+        <h1>Create Blog Post</h1>
+        <p>Write your blog post in markdown and generate files to contribute to Wave Finder</p>
+      </div>
+      
+      <div class="creator-body">
+        <!-- Editor Panel -->
+        <div class="editor-panel">
+          <div class="panel-header">
+            <span>📝 Editor</span>
+            <div class="stats" id="stats">0 words • 0 chars</div>
+          </div>
+          
+          <div class="toolbar">
+            <button class="tool-btn" onclick="insertText('# ', 'block')" title="Heading">
+              <strong>H</strong>
+            </button>
+            <button class="tool-btn" onclick="wrapText('**')" title="Bold">
+              <strong>B</strong>
+            </button>
+            <button class="tool-btn" onclick="wrapText('*')" title="Italic">
+              <em>I</em>
+            </button>
+            <button class="tool-btn" onclick="insertText('- ', 'block')" title="Bullet List">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3.75-1.5a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5zm0 5a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5zm0 5a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-8.5zM2 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg>
+            </button>
+            <button class="tool-btn" onclick="insertText('1. ', 'block')" title="Numbered List">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2.003 2.5a.5.5 0 0 0-.723-.447l-1.003.5a.5.5 0 0 0 .446.894l.28-.14V6H.5a.5.5 0 0 0 0 1h2.006a.5.5 0 1 0 0-1h-.503V2.5zM5 3.25a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5A.75.75 0 0 1 5 3.25zm0 5a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5A.75.75 0 0 1 5 8.25zm0 5a.75.75 0 0 1 .75-.75h8.5a.75.75 0 0 1 0 1.5h-8.5a.75.75 0 0 1-.75-.75zM.924 10.32l.003-.004a.851.851 0 0 1 .144-.329c.08-.12.18-.253.32-.422.28-.338.655-.822 1.097-1.432C2.987 7.58 3.5 6.75 3.5 6a2.5 2.5 0 0 0-5 0 .5.5 0 1 0 1 0 1.5 1.5 0 0 1 3 0c0 .555-.301 1.185-.796 1.72-.247.267-.497.573-.747.88-.125.153-.249.308-.372.462-.061.077-.120.155-.18.230a2.34 2.34 0 0 0-.123.172.827.827 0 0 0-.029.05l-.004.008v.001l.001.001a.5.5 0 0 0 .039.64.75.75 0 0 0 .569.25h2.5a.5.5 0 0 0 0-1H.924z"/></svg>
+            </button>
+            <button class="tool-btn" onclick="insertText('> ', 'block')" title="Blockquote">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1h-11zm5 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm0 3a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1h-6zm-5-3a.5.5 0 0 0-.5-.5.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5.5.5 0 0 0 .5-.5V6z"/></svg>
+            </button>
+            <button class="tool-btn" onclick="wrapText('`')" title="Code">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M5.854 4.854a.5.5 0 1 0-.708-.708l-3.5 3.5a.5.5 0 0 0 0 .708l3.5 3.5a.5.5 0 0 0 .708-.708L2.707 8l3.147-3.146zm4.292 0a.5.5 0 0 1 .708-.708l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 0 1-.708-.708L13.293 8l-3.147-3.146z"/></svg>
+            </button>
+            <button class="tool-btn" onclick="insertLink()" title="Link">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 9.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/><path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z"/></svg>
+            </button>
+            <button class="tool-btn" onclick="showImageDialog()" title="Add Image">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/></svg>
+            </button>
+            <button class="tool-btn" onclick="insertTable()" title="Table">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/></svg>
+            </button>
+            <button class="tool-btn" onclick="insertText('---\n\n', 'block')" title="Horizontal Rule">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M12 8a1 1 0 0 1 1 1v2.5h2.5a.5.5 0 0 1 0 1H13V15a1 1 0 0 1-2 0v-2.5H8.5a.5.5 0 0 1 0-1H11V9a1 1 0 0 1 1-1zm-6-8a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1a1 1 0 0 1 1-1zM1 8a1 1 0 0 1 1-1h2.5a.5.5 0 0 1 0 1H2v6.5a.5.5 0 0 1-1 0V8z"/></svg>
+            </button>
+          </div>
+          
+          <textarea id="editor" class="editor" placeholder="# Your Blog Post Title
+
+Write your blog post content here using markdown...
+
+## Example Section
+
+You can use all standard markdown features:
+
+- **Bold text**
+- *Italic text*  
+- `inline code`
+- [Links](https://example.com)
+- Images: ![Alt text](image-url.jpg)
+
+> Blockquotes for important notes
+
+```javascript
+// Code blocks with syntax highlighting
+console.log('Hello Wave Finder!');
+```
+
+### Tables
+
+| Feature | Supported |
+|---------|-----------|
+| Headers | ✅ |
+| Lists | ✅ |
+| Code | ✅ |
+
+---
+
+*Happy writing!*"></textarea>
+        </div>
+        
+        <!-- Preview Panel -->
+        <div class="preview-panel">
+          <div class="panel-header">
+            <span>👀 Preview</span>
+          </div>
+          <div class="preview">
+            <div id="preview-content" class="preview-content">
+              <p><em>Your markdown preview will appear here...</em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Metadata Panel -->
+      <div class="metadata-panel">
+        <h3 style="margin:0 0 16px; font-size:18px">📋 Post Metadata</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="title">Title *</label>
+            <input type="text" id="title" class="form-input" placeholder="Your Blog Post Title" required>
+            <div class="help-text">This will be the main title displayed on your blog post</div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="author">Author *</label>
+            <input type="text" id="author" class="form-input" placeholder="Your Name" required>
+            <div class="help-text">Your name as you want it to appear</div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="slug">Slug *</label>
+            <input type="text" id="slug" class="form-input" placeholder="my-blog-post" required>
+            <div class="help-text">URL-friendly version (lowercase, hyphens only)</div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="date">Date</label>
+            <input type="date" id="date" class="form-input">
+            <div class="help-text">Publication date (defaults to today)</div>
+          </div>
+          
+          <div class="form-group full">
+            <label class="form-label" for="excerpt">Excerpt *</label>
+            <textarea id="excerpt" class="form-textarea" placeholder="A brief summary of your blog post (1-2 sentences)" required></textarea>
+            <div class="help-text">This appears in the blog listing and search results</div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="tags">Tags</label>
+            <div class="tag-input-wrapper">
+              <input type="text" id="tags" class="form-input" placeholder="Press Enter to add tags">
+              <div class="help-text">Type a tag and press Enter. Examples: diving, spearfishing, spots</div>
+            </div>
+            <div id="tag-chips" class="tag-chips"></div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label" for="cover">Cover Image URL</label>
+            <input type="text" id="cover" class="form-input" placeholder="/Images/my-image.jpg">
+            <div class="help-text">Optional: Path to cover image (relative to Wave Finder)</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Actions -->
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="resetForm()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/><path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/></svg>
+          Reset
+        </button>
+        <button class="btn" onclick="generateFiles()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+          Generate Files
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Image Dialog -->
+  <div id="image-dialog" class="image-dialog">
+    <div class="dialog-content">
+      <div class="dialog-header">
+        <h3 class="dialog-title">Add Image</h3>
+        <button class="dialog-close" onclick="closeImageDialog()">×</button>
+      </div>
+      
+      <div class="image-options">
+        <div class="image-option active" onclick="selectImageType('upload')">
+          <h4 style="margin:0 0 8px">📁 Upload from Computer</h4>
+          <p style="margin:0; color:var(--c-dim); font-size:14px">Select an image file from your device</p>
+        </div>
+        <div class="image-option" onclick="selectImageType('url')">
+          <h4 style="margin:0 0 8px">🔗 Use URL/Path</h4>
+          <p style="margin:0; color:var(--c-dim); font-size:14px">Enter an image URL or Wave Finder path</p>
+        </div>
+      </div>
+      
+      <div id="upload-section">
+        <input type="file" id="image-file" class="file-input" accept="image/*" onchange="handleImageUpload(event)">
+        <div class="upload-area" onclick="document.getElementById('image-file').click()">
+          <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor" style="opacity:0.5; margin-bottom:8px">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+          </svg>
+          <p style="margin:0; color:var(--c-text)">Click to select image or drag & drop</p>
+          <p style="margin:4px 0 0; color:var(--c-dim); font-size:12px">Supports: JPG, PNG, GIF, WebP</p>
+        </div>
+        <img id="image-preview" class="image-preview" alt="Preview">
+        <div id="image-info" class="image-info"></div>
+        <div style="background:rgba(255,193,7,.1); border:1px solid rgba(255,193,7,.3); border-radius:6px; padding:12px; margin:12px 0; font-size:13px; color:#ffc107">
+          <strong>📤 Remember:</strong> You'll need to email this image file along with your blog post files. The image will be embedded as a preview, but the actual file needs to be uploaded to Wave Finder's server.
+        </div>
+      </div>
+      
+      <div id="url-section" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Image URL or Path</label>
+          <input type="text" id="image-url" class="form-input" placeholder="/Images/my-image.jpg or https://example.com/image.jpg">
+          <div class="help-text">For Wave Finder paths, use /Images/filename.jpg</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Alt Text (for accessibility)</label>
+        <input type="text" id="image-alt" class="form-input" placeholder="Describe the image">
+        <div class="help-text">Brief description for screen readers and SEO</div>
+      </div>
+      
+      <div class="dialog-actions">
+        <button class="btn btn-secondary" onclick="closeImageDialog()">Cancel</button>
+        <button class="btn" onclick="insertImageFromDialog()">Insert Image</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/wf-header.js?v=2025-10-07-1" defer></script>
+  <script>
+    // Configure marked.js
+    marked.setOptions({
+      gfm: true,
+      breaks: false,
+      pedantic: false,
+      sanitize: false,
+      smartypants: false
+    });
+
+    // Custom renderer for external links and lazy images
+    const renderer = new marked.Renderer();
+    const originalLink = renderer.link;
+    renderer.link = function(href, title, text) {
+      const isExternal = href && !href.startsWith('/') && !href.startsWith('#') && !href.includes(window.location.hostname);
+      const link = originalLink.call(this, href, title, text);
+      if (isExternal) {
+        return link.replace('<a ', '<a target="_blank" rel="noopener" ');
+      }
+      return link;
+    };
+
+    const originalImage = renderer.image;
+    renderer.image = function(href, title, text) {
+      const img = originalImage.call(this, href, title, text);
+      return img.replace('<img ', '<img loading="lazy" ');
+    };
+
+    // State
+    const editor = document.getElementById('editor');
+    const previewContent = document.getElementById('preview-content');
+    const stats = document.getElementById('stats');
+    const tagChips = document.getElementById('tag-chips');
+    const tagInput = document.getElementById('tags');
+    
+    let tags = [];
+
+    // Auto-generate slug from title
+    document.getElementById('title').addEventListener('input', (e) => {
+      const slug = e.target.value
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+      document.getElementById('slug').value = slug;
+    });
+
+    // Set default date to today
+    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+    // Editor functions
+    function getSelectionInfo() {
+      return {
+        start: editor.selectionStart,
+        end: editor.selectionEnd,
+        text: editor.value.substring(editor.selectionStart, editor.selectionEnd)
+      };
+    }
+
+    function insertAtCursor(text) {
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      const before = editor.value.substring(0, start);
+      const after = editor.value.substring(end);
+      
+      editor.value = before + text + after;
+      editor.focus();
+      editor.selectionStart = editor.selectionEnd = start + text.length;
+      updatePreview();
+    }
+
+    function insertText(text, type = 'inline') {
+      const selection = getSelectionInfo();
+      
+      if (type === 'block') {
+        // Insert at beginning of current line
+        const beforeCursor = editor.value.substring(0, selection.start);
+        const lineStart = beforeCursor.lastIndexOf('\n') + 1;
+        const line = editor.value.substring(lineStart, selection.start);
+        
+        // If line is empty or only whitespace, insert at current position
+        if (line.trim() === '') {
+          insertAtCursor(text);
+        } else {
+          // Insert at beginning of line
+          editor.selectionStart = editor.selectionEnd = lineStart;
+          insertAtCursor(text);
+        }
+      } else {
+        insertAtCursor(text);
+      }
+    }
+
+    function wrapText(wrapper) {
+      const selection = getSelectionInfo();
+      
+      if (selection.text) {
+        const wrappedText = wrapper + selection.text + wrapper;
+        insertAtCursor(wrappedText);
+        // Select the wrapped content
+        editor.selectionStart = selection.start + wrapper.length;
+        editor.selectionEnd = selection.start + wrapper.length + selection.text.length;
+      } else {
+        insertAtCursor(wrapper + wrapper);
+        // Position cursor between wrappers
+        editor.selectionStart = editor.selectionEnd = selection.start + wrapper.length;
+      }
+    }
+
+    function insertLink() {
+      const selection = getSelectionInfo();
+      const text = selection.text || 'link text';
+      const linkMd = `[${text}](https://example.com)`;
+      insertAtCursor(linkMd);
+    }
+
+    // Image handling
+    let selectedImageType = 'upload';
+    let currentImageFile = null;
+    
+    function showImageDialog() {
+      document.getElementById('image-dialog').classList.add('show');
+      document.getElementById('image-alt').value = '';
+      document.getElementById('image-url').value = '';
+      document.getElementById('image-file').value = '';
+      document.getElementById('image-preview').style.display = 'none';
+      document.getElementById('image-info').textContent = '';
+      currentImageFile = null;
+    }
+    
+    function closeImageDialog() {
+      document.getElementById('image-dialog').classList.remove('show');
+    }
+    
+    function selectImageType(type) {
+      selectedImageType = type;
+      
+      // Update active option
+      document.querySelectorAll('.image-option').forEach(opt => opt.classList.remove('active'));
+      document.querySelectorAll('.image-option')[type === 'upload' ? 0 : 1].classList.add('active');
+      
+      // Show/hide sections
+      document.getElementById('upload-section').style.display = type === 'upload' ? 'block' : 'none';
+      document.getElementById('url-section').style.display = type === 'url' ? 'block' : 'none';
+    }
+    
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+      
+      // Validate file size (5MB limit)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        alert('Image file is too large. Please choose a file under 5MB.');
+        return;
+      }
+      
+      currentImageFile = file;
+      
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const preview = document.getElementById('image-preview');
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        
+        // Show file info
+        const sizeKB = Math.round(file.size / 1024);
+        document.getElementById('image-info').textContent = 
+          `File: ${file.name} (${sizeKB} KB, ${file.type})`;
+          
+        // Auto-fill alt text if empty
+        const altInput = document.getElementById('image-alt');
+        if (!altInput.value) {
+          // Generate alt text from filename
+          const altText = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+          altInput.value = altText;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    function insertImageFromDialog() {
+      let imageSrc = '';
+      let altText = document.getElementById('image-alt').value.trim() || 'Image';
+      
+      if (selectedImageType === 'upload') {
+        if (!currentImageFile) {
+          alert('Please select an image file');
+          return;
+        }
+        
+        // For uploaded files, we'll use a data URL for preview
+        // but also note that they need to send the file
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const imageMd = `![${altText}](${e.target.result})`;
+          insertAtCursor(imageMd);
+          
+          // Add a note about the uploaded file
+          const note = `\n\n<!-- NOTE: Image "${currentImageFile.name}" needs to be sent separately -->\n\n`;
+          insertAtCursor(note);
+          
+          closeImageDialog();
+          
+          // Show reminder
+          alert(`Image added! 📸\n\nRemember to email the image file "${currentImageFile.name}" along with your blog post files.`);
+        };
+        reader.readAsDataURL(currentImageFile);
+      } else {
+        imageSrc = document.getElementById('image-url').value.trim();
+        if (!imageSrc) {
+          alert('Please enter an image URL or path');
+          return;
+        }
+        
+        const imageMd = `![${altText}](${imageSrc})`;
+        insertAtCursor(imageMd);
+        closeImageDialog();
+      }
+    }
+    
+    function insertImage() {
+      showImageDialog();
+    }
+
+    function insertTable() {
+      const tableMd = `| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |\n| Cell 3   | Cell 4   |\n\n`;
+      insertAtCursor(tableMd);
+    }
+
+    // Preview update
+    function updatePreview() {
+      const markdown = editor.value;
+      try {
+        const html = marked.parse(markdown, { renderer });
+        previewContent.innerHTML = html || '<p><em>Start writing to see the preview...</em></p>';
+      } catch (error) {
+        previewContent.innerHTML = '<p><em>Error parsing markdown</em></p>';
+      }
+      updateStats();
+    }
+
+    function updateStats() {
+      const text = editor.value;
+      const chars = text.length;
+      const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+      stats.textContent = `${words} words • ${chars} chars`;
+    }
+
+    // Tag management
+    function addTag(tag) {
+      tag = tag.trim().toLowerCase();
+      if (tag && !tags.includes(tag)) {
+        tags.push(tag);
+        renderTags();
+      }
+    }
+
+    function removeTag(tag) {
+      tags = tags.filter(t => t !== tag);
+      renderTags();
+    }
+
+    function renderTags() {
+      tagChips.innerHTML = tags.map(tag => 
+        `<span class="tag-chip">${tag}<span class="tag-remove" onclick="removeTag('${tag}')">×</span></span>`
+      ).join('');
+    }
+
+    // Tag input handling
+    tagInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addTag(e.target.value);
+        e.target.value = '';
+      }
+    });
+
+    // File generation
+    function generateFiles() {
+      // Validate required fields
+      const title = document.getElementById('title').value.trim();
+      const author = document.getElementById('author').value.trim();
+      const slug = document.getElementById('slug').value.trim();
+      const excerpt = document.getElementById('excerpt').value.trim();
+      
+      if (!title || !author || !slug || !excerpt) {
+        alert('Please fill in all required fields (Title, Author, Slug, Excerpt)');
+        return;
+      }
+
+      // Validate slug format
+      if (!/^[a-z0-9-]+$/.test(slug)) {
+        alert('Slug must contain only lowercase letters, numbers, and hyphens');
+        return;
+      }
+
+      if (!editor.value.trim()) {
+        alert('Please write some content for your blog post');
+        return;
+      }
+
+      // Generate metadata JSON
+      const metadata = {
+        slug: slug,
+        title: title,
+        date: document.getElementById('date').value || new Date().toISOString().split('T')[0],
+        author: author,
+        tags: tags,
+        excerpt: excerpt
+      };
+
+      const cover = document.getElementById('cover').value.trim();
+      if (cover) {
+        metadata.cover = cover;
+      }
+
+      // Download markdown file
+      const markdownBlob = new Blob([editor.value], { type: 'text/markdown' });
+      const markdownUrl = URL.createObjectURL(markdownBlob);
+      const markdownLink = document.createElement('a');
+      markdownLink.href = markdownUrl;
+      markdownLink.download = `${slug}.md`;
+      markdownLink.click();
+      URL.revokeObjectURL(markdownUrl);
+
+      // Download metadata JSON
+      const jsonBlob = new Blob([JSON.stringify(metadata, null, 2)], { type: 'application/json' });
+      const jsonUrl = URL.createObjectURL(jsonBlob);
+      const jsonLink = document.createElement('a');
+      jsonLink.href = jsonUrl;
+      jsonLink.download = `${slug}-metadata.json`;
+      jsonLink.click();
+      URL.revokeObjectURL(jsonUrl);
+
+      // Show success message
+      alert(`Files generated successfully!\n\n1. ${slug}.md - Your blog post content\n2. ${slug}-metadata.json - Metadata for blog_posts.json\n\nPlease email both files to contribute your post to Wave Finder!`);
+    }
+
+    function resetForm() {
+      if (confirm('Are you sure you want to reset the form? All content will be lost.')) {
+        document.getElementById('title').value = '';
+        document.getElementById('author').value = '';
+        document.getElementById('slug').value = '';
+        document.getElementById('excerpt').value = '';
+        document.getElementById('cover').value = '';
+        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+        editor.value = '';
+        tags = [];
+        renderTags();
+        updatePreview();
+      }
+    }
+
+    // Drag and drop for image upload
+    const uploadArea = document.querySelector('.upload-area');
+    
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+    
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    ['dragenter', 'dragover'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+      uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+    });
+    
+    uploadArea.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        document.getElementById('image-file').files = files;
+        handleImageUpload({ target: { files } });
+      }
+    });
+    
+    // Close dialog when clicking outside
+    document.getElementById('image-dialog').addEventListener('click', (e) => {
+      if (e.target.id === 'image-dialog') {
+        closeImageDialog();
+      }
+    });
+    
+    // Initialize
+    editor.addEventListener('input', updatePreview);
+    editor.addEventListener('scroll', () => {
+      // Sync scroll between editor and preview (optional)
+      const scrollPercent = editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
+      const previewPanel = document.querySelector('.preview');
+      previewPanel.scrollTop = scrollPercent * (previewPanel.scrollHeight - previewPanel.clientHeight);
+    });
+
+    // Keyboard shortcuts
+    editor.addEventListener('keydown', (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+          case 'b':
+            e.preventDefault();
+            wrapText('**');
+            break;
+          case 'i':
+            e.preventDefault();
+            wrapText('*');
+            break;
+          case 'k':
+            e.preventDefault();
+            insertLink();
+            break;
+        }
+      }
+    });
+
+    // Initial preview update
+    updatePreview();
+  </script>
+</body>
+</html>
