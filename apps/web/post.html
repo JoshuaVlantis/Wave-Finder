@@ -42,15 +42,47 @@
     .tags{ display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:14px }
     .tag{ display:inline-flex; align-items:center; padding:4px 8px; border:1px solid #3a4755; border-radius:999px; font-size:12px; color:#cfe3f6; background:rgba(255,255,255,.04) }
     .content{ color:#d9e2ef; font-size:16px; line-height:1.75 }
+    
+    /* Headers - all levels supported */
+    .content h1{ font-size:28px; margin-top:24px; margin-bottom:8px }
     .content h2{ font-size:22px; margin-top:18px; margin-bottom:6px }
     .content h3{ font-size:18px; margin-top:14px; margin-bottom:4px }
+    .content h4{ font-size:16px; margin-top:12px; margin-bottom:4px; font-weight:600 }
+    .content h5{ font-size:14px; margin-top:10px; margin-bottom:3px; font-weight:600 }
+    .content h6{ font-size:13px; margin-top:8px; margin-bottom:3px; font-weight:600; color:var(--c-dim) }
+    
+    /* Text elements */
     .content p{ margin:10px 0 }
+    .content a{ color:var(--c-accent); text-decoration:underline }
+    .content strong{ font-weight:600 }
+    .content em{ font-style:italic }
+    .content del{ text-decoration:line-through; opacity:0.7 }
+    
+    /* Lists */
     .content ul, .content ol{ margin:10px 0 10px 20px }
     .content li{ margin:4px 0 }
-    .content a{ color:var(--c-accent); text-decoration:underline }
+    .content li > ul, .content li > ol{ margin:4px 0 4px 20px }
+    .content ul ul, .content ol ol, .content ul ol, .content ol ul{ margin-top:0; margin-bottom:0 }
+    
+    /* Task lists */
+    .content input[type="checkbox"]{ margin-right:6px }
+    .content li.task-list-item{ list-style:none; margin-left:-20px }
+    
+    /* Code */
+    .content code{ background:rgba(255,255,255,0.06); padding:0 4px; border-radius:4px; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.95em }
+    .content pre{ background:rgba(255,255,255,0.04); border:1px solid var(--c-border); border-radius:8px; padding:12px; margin:12px 0; overflow-x:auto }
+    .content pre code{ background:none; padding:0; border-radius:0; font-size:14px }
+    
+    /* Tables */
+    .content table{ border-collapse:collapse; width:100%; margin:12px 0; border-radius:8px; overflow:hidden; border:1px solid var(--c-border) }
+    .content th, .content td{ padding:8px 12px; text-align:left; border-bottom:1px solid var(--c-border) }
+    .content th{ background:rgba(255,255,255,0.04); font-weight:600 }
+    .content tr:last-child td{ border-bottom:0 }
+    .content tr:nth-child(even){ background:rgba(255,255,255,0.02) }
+    
+    /* Other elements */
     .content blockquote{ border-left:3px solid var(--c-accent); margin:12px 0; padding:8px 12px; color:#c9d6e8; background:rgba(79,195,247,.06); border-radius:6px }
     .content img{ max-width:100%; border-radius:8px; display:block; margin:10px auto }
-    .content code{ background:rgba(255,255,255,0.06); padding:0 4px; border-radius:4px; font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:.95em }
     .content hr{ border:0; border-top:1px solid var(--c-border); margin:16px 0 }
   
   /* High Contrast handling lives in /static/wf-glow.css */
@@ -69,99 +101,39 @@
     </article>
   </main>
 
+  <!-- Load marked.js for full markdown compliance -->
+  <script src="/static/marked.min.js"></script>
   <script>
-  function mdToHtml(md){
-      // Minimal Markdown renderer: headers, lists, paragraphs, links, images
-      const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-      const lines = String(md || '').replace(/\r\n?/g,'\n').split('\n');
-      let html = '';
-      let inList = null; // 'ul' | 'ol' | null
-      let para = [];
+    // Configure marked for standard markdown compliance
+    marked.setOptions({
+      gfm: true, // GitHub Flavored Markdown
+      breaks: false, // Don't convert \n to <br>
+      pedantic: false, // Don't be overly strict
+      sanitize: false, // Allow HTML (we trust our content)
+      smartypants: false // Don't convert quotes/dashes
+    });
 
-      const closeList = () => { if (inList) { html += inList==='ol' ? '</ol>' : '</ul>'; inList = null; } };
-      const flushPara = () => {
-        if (!para.length) return;
-        const text = para.join(' ').trim();
-        if (text) html += `<p>${inline(text)}</p>`;
-        para = [];
-      };
-      function inline(s){
-        // escape first, then allow specific inline HTML for links/images
-        s = esc(s);
-        // images: ![alt](url)
-        s = s.replace(/!\[([^\]]*)\]\(([^\s)]+)(?:\s+"([^"]+)")?\)/g, (m, alt, url, title) => {
-          const a = (alt||'').replace(/"/g,'&quot;');
-          const u = (url||'').replace(/"/g,'&quot;');
-          const t = title ? ` title="${title.replace(/"/g,'&quot;')}"` : '';
-          return `<img src="${u}" alt="${a}"${t} loading="lazy">`;
-        });
-        // links: [text](url)
-        s = s.replace(/\[([^\]]+)\]\(([^\s)]+)(?:\s+"([^"]+)")?\)/g, (m, text, url, title) => {
-          const t = (text||'').replace(/"/g,'&quot;');
-          const u = (url||'').replace(/"/g,'&quot;');
-          const ti = title ? ` title="${title.replace(/"/g,'&quot;')}"` : '';
-          const ext = u.startsWith('/') ? '' : ' target="_blank" rel="noopener"';
-          return `<a href="${u}"${ti}${ext}>${t}</a>`;
-        });
-        // auto-link plain URLs (http/https) not already in markdown link syntax
-        // prefix is start, whitespace, or '>' (avoids matching inside attributes)
-        s = s.replace(/(^|[\s>])((https?:\/\/[^\s<]+))/g, (m, prefix, url) => {
-          return `${prefix}<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
-        });
-        // inline code: `code`
-        s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
-        // bold: **text** or __text__ (do before italic)
-        s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-        s = s.replace(/__([^_]+)__/g, '<strong>$1</strong>');
-        // italic: *text* or _text_
-        s = s.replace(/(^|\s)\*([^*]+)\*(?=\s|[.,;!?)]|$)/g, '$1<em>$2</em>');
-        s = s.replace(/(^|\s)_([^_]+)_(?=\s|[.,;!?)]|$)/g, '$1<em>$2</em>');
-        return s;
+    // Custom renderer to add target="_blank" to external links
+    const renderer = new marked.Renderer();
+    const originalLink = renderer.link;
+    renderer.link = function(href, title, text) {
+      const isExternal = href && !href.startsWith('/') && !href.startsWith('#') && !href.includes(window.location.hostname);
+      const link = originalLink.call(this, href, title, text);
+      if (isExternal) {
+        return link.replace('<a ', '<a target="_blank" rel="noopener" ');
       }
+      return link;
+    };
 
-      for (let i=0; i<lines.length; i++){
-        let raw = lines[i];
-        const line = raw.trimEnd();
-        if (!line.trim()) { closeList(); flushPara(); continue; }
-        // horizontal rules
-        if (/^(?:-{3,}|\*{3,}|_{3,})\s*$/.test(line)) { closeList(); flushPara(); html += '<hr>'; continue; }
-        let m;
-        // blockquote: > text
-        if ((m = line.match(/^>\s+(.*)$/))) {
-          closeList(); flushPara();
-          let q = [m[1]];
-          // consume following quote lines
-          while (i+1 < lines.length && /^>\s+/.test(lines[i+1])) { q.push(lines[++i].replace(/^>\s+/, '')); }
-          html += `<blockquote>${inline(q.join(' '))}</blockquote>`; continue;
-        }
-        if ((m = line.match(/^###\s+(.*)$/))) {
-          closeList(); flushPara(); html += `<h3>${inline(m[1])}</h3>`; continue;
-        }
-        if ((m = line.match(/^##\s+(.*)$/))) {
-          closeList(); flushPara(); html += `<h2>${inline(m[1])}</h2>`; continue;
-        }
-        if ((m = line.match(/^#\s+(.*)$/))) {
-          closeList(); flushPara(); html += `<h1>${inline(m[1])}</h1>`; continue;
-        }
-        // unordered list: - item OR * item
-        if ((m = line.match(/^(?:\-|\*)\s+(.*)$/))) {
-          flushPara();
-          if (inList !== 'ul') { closeList(); html += '<ul>'; inList = 'ul'; }
-          html += `<li>${inline(m[1])}</li>`;
-          continue;
-        }
-        // ordered list: 1. item
-        if ((m = line.match(/^\d+\.\s+(.*)$/))) {
-          flushPara();
-          if (inList !== 'ol') { closeList(); html += '<ol>'; inList = 'ol'; }
-          html += `<li>${inline(m[1])}</li>`;
-          continue;
-        }
-        // paragraph text (preserve soft breaks by joining with a space)
-        para.push(line.trim());
-      }
-      closeList(); flushPara();
-      return html;
+    // Add loading="lazy" to images
+    const originalImage = renderer.image;
+    renderer.image = function(href, title, text) {
+      const img = originalImage.call(this, href, title, text);
+      return img.replace('<img ', '<img loading="lazy" ');
+    };
+
+    function mdToHtml(md) {
+      return marked.parse(md || '', { renderer });
     }
 
     function estimateReadMins(text){
