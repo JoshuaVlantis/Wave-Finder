@@ -22,7 +22,7 @@
   <!-- Load marked.js for preview -->
   <script src="/static/marked.min.js"></script>
   <!-- Load JSZip for file packaging -->
-  <script src="static/jszip.min.js"></script>
+  <script src="/static/jszip.min.js"></script>
   
   <style>
     :root{ --c-bg:#121212; --c-panel:#1e1e1e; --c-border:#2b3440; --c-accent:#4fc3f7; --c-text:#eaeef5; --c-dim:#aab3c2; --r:12px }
@@ -300,6 +300,9 @@
       <div class="creator-header">
         <h1>Create Blog Post</h1>
         <p>Write your blog post in markdown and generate files to contribute to Wave Finder</p>
+        <p style="color: var(--c-dim); font-size: 14px; margin-top: 8px;">
+          Write using Markdown syntax, save your work with "Generate ZIP File", and email the completed file to <strong>admin@wavefinder.org</strong> to publish your post.
+        </p>
         
         <div class="load-section">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -507,22 +510,165 @@ console.log('Hello Wave Finder!');
       smartypants: false
     });
 
+    // --- Basic HTML Sanitizer (conservative whitelist) ---
+    function sanitizeHtml(dirty) {
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(`<div>${dirty}</div>`, 'text/html');
+        const container = doc.body.firstElementChild;
+
+        const ALLOWED_TAGS = new Set([
+          'A','ABBR','B','BLOCKQUOTE','BR','CODE','DIV','EM','H1','H2','H3','H4','H5','H6','HR','I','IMG','LI','OL','P','PRE','SPAN','STRONG','UL'
+        ]);
+        const URI_ATTRS = new Set(['href','src']);
+        const ALLOWED_ATTRS = new Set(['href','src','alt','title','target','rel','loading']);
+        const SAFE_LINK_PROTOCOLS = ['http:','https:','mailto:','tel:'];
+        const SAFE_IMG_PROTOCOLS = ['http:','https:','data:','blob:'];
+
+        function isSafeLinkUrl(url) {
+          try {
+            if (url == null) return false;
+            if (url.startsWith('#')) return true;
+            if (url.startsWith('/')) return true;
+            const u = new URL(url, window.location.origin);
+            return SAFE_LINK_PROTOCOLS.includes(u.protocol);
+          } catch { return false; }
+        }
+
+        function isSafeImgUrl(url) {
+          try {
+            if (url == null) return false;
+            if (url.startsWith('/')) return true;
+            const u = new URL(url, window.location.origin);
+            if (u.protocol === 'data:') {
+              // Allow only images in data URL
+              return url.startsWith('data:image/');
+            }
+            return SAFE_IMG_PROTOCOLS.includes(u.protocol);
+          } catch {
+            // data URLs won’t parse with URL(), check manually
+            if (typeof url === 'string' && url.startsWith('data:image/')) return true;
+            return false;
+          }
+        }
+
+        (function walk(node){
+          // Remove comments
+          for (let i = node.childNodes.length - 1; i >= 0; i--) {
+            const child = node.childNodes[i];
+            if (child.nodeType === Node.COMMENT_NODE) node.removeChild(child);
+          }
+
+          const children = Array.from(node.children);
+          for (const el of children) {
+            if (!ALLOWED_TAGS.has(el.tagName)) {
+              // Replace disallowed tag with its text content
+              const text = doc.createTextNode(el.textContent || '');
+              el.replaceWith(text);
+              continue;
+            }
+
+            // Clean attributes
+            const attrs = Array.from(el.attributes);
+            for (const attr of attrs) {
+              const name = attr.name.toLowerCase();
+              if (name.startsWith('on')) { el.removeAttribute(attr.name); continue; }
+              if (!ALLOWED_ATTRS.has(attr.name)) { el.removeAttribute(attr.name); continue; }
+
+              if (URI_ATTRS.has(attr.name)) {
+                const val = attr.value || '';
+                if (el.tagName === 'A') {
+                  if (!isSafeLinkUrl(val)) { el.removeAttribute(attr.name); continue; }
+                } else if (el.tagName === 'IMG') {
+                  if (!isSafeImgUrl(val)) { el.removeAttribute(attr.name); continue; }
+                }
+              }
+            }
+
+            // Add safe defaults for links
+            if (el.tagName === 'A') {
+              const href = el.getAttribute('href') || '';
+              let external = false;
+              try {
+                if (href && !href.startsWith('#')) {
+                  const u = new URL(href, window.location.origin);
+                  external = u.origin !== window.location.origin;
+                }
+              } catch {}
+              if (external) {
+                el.setAttribute('target', '_blank');
+                el.setAttribute('rel', 'noopener noreferrer');
+              }
+            }
+
+            walk(el);
+          }
+        })(container);
+
+        return container.innerHTML;
+      } catch {
+        return '';
+      }
+    }
+
+    // Helpers for safe attribute/text output
+    function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])); }
+    function escapeAttr(s) { return String(s).replace(/[&"']/g, c => ({'&':'&amp;','"':'&quot;','\'':'&#39;'}[c])); }
+    function isSafeHref(href) {
+      try {
+        if (!href) return false;
+        if (href.startsWith('#') || href.startsWith('/')) return true;
+        const u = new URL(href, window.location.origin);
+        return ['http:','https:','mailto:','tel:'].includes(u.protocol);
+      } catch { return false; }
+    }
+    function isSafeImgSrc(src) {
+      try {
+        if (!src) return false;
+        if (src.startsWith('/')) return true;
+        if (typeof src === 'string' && src.startsWith('data:image/')) return true;
+        const u = new URL(src, window.location.origin);
+        return ['http:','https:','blob:'].includes(u.protocol);
+      } catch {
+        return typeof src === 'string' && src.startsWith('data:image/');
+      }
+    }
+
     // Custom renderer for external links and lazy images
     const renderer = new marked.Renderer();
-    const originalLink = renderer.link;
     renderer.link = function(href, title, text) {
-      const isExternal = href && !href.startsWith('/') && !href.startsWith('#') && !href.includes(window.location.hostname);
-      const link = originalLink.call(this, href, title, text);
-      if (isExternal) {
-        return link.replace('<a ', '<a target="_blank" rel="noopener" ');
+      const safeText = escapeHtml(text || '');
+      if (!isSafeHref(href)) {
+        // Fallback to just text when URL is unsafe
+        return safeText;
       }
-      return link;
+      let external = false;
+      try {
+        if (href && !href.startsWith('#')) {
+          const u = new URL(href, window.location.origin);
+          external = u.origin !== window.location.origin;
+        }
+      } catch {}
+      const attrs = [
+        `href="${escapeAttr(href)}"`,
+        title ? `title="${escapeAttr(title)}"` : null,
+        external ? 'target="_blank" rel="noopener noreferrer"' : null
+      ].filter(Boolean).join(' ');
+      return `<a ${attrs}>${safeText}</a>`;
     };
 
-    const originalImage = renderer.image;
     renderer.image = function(href, title, text) {
-      const img = originalImage.call(this, href, title, text);
-      return img.replace('<img ', '<img loading="lazy" ');
+      if (!isSafeImgSrc(href)) {
+        // Drop unsafe images entirely
+        return '';
+      }
+      const attrs = [
+        `src="${escapeAttr(href)}"`,
+        `alt="${escapeAttr(text || '')}"`,
+        'loading="lazy"',
+        title ? `title="${escapeAttr(title)}"` : null
+      ].filter(Boolean).join(' ');
+      return `<img ${attrs}>`;
     };
 
     // State
@@ -659,9 +805,10 @@ console.log('Hello Wave Finder!');
         const imageMd = `![${altText}](${placeholder})`;
         insertAtCursor(imageMd);
         
-        // Add a comment with file details
-        const comment = `\n<!-- 📎 ATTACHED FILE: "${fileName}" (${Math.round(file.size/1024)}KB) - Remember to send this file! -->\n`;
-        insertAtCursor(comment);
+  // Add a non-rendered Markdown comment with file details (safer than HTML comments)
+  const safeFileName = fileName.replace(/[()<>\n\r]/g, '_');
+  const comment = `\n[//]: # (📎 ATTACHED FILE: "${safeFileName}" (${Math.round(file.size/1024)}KB) - Remember to send this file!)\n`;
+  insertAtCursor(comment);
         
         // Store the file reference for later
         if (!window.attachedImages) window.attachedImages = [];
@@ -691,7 +838,7 @@ console.log('Hello Wave Finder!');
           font-size: 13px;
           box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         `;
-        notification.innerHTML = `✅ Image "${fileName}" added`;
+  notification.textContent = `✅ Image "${fileName}" added`;
         document.body.appendChild(notification);
         
         setTimeout(() => {
@@ -807,18 +954,21 @@ console.log('Hello Wave Finder!');
       return new Promise((resolve) => {
         const overlay = document.createElement('div');
         overlay.className = 'modal-overlay';
-        
+
         const dialog = document.createElement('div');
         dialog.className = 'modal-dialog';
-        
-        dialog.innerHTML = `
-          <div class="modal-title">${title}</div>
-          <div class="modal-message">${message}</div>
-          <div class="modal-buttons"></div>
-        `;
-        
-        const buttonsContainer = dialog.querySelector('.modal-buttons');
-        
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'modal-title';
+        titleEl.textContent = String(title);
+
+        const msgEl = document.createElement('div');
+        msgEl.className = 'modal-message';
+        msgEl.textContent = String(message);
+
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.className = 'modal-buttons';
+
         buttons.forEach((btn, index) => {
           const button = document.createElement('button');
           button.className = `modal-btn ${btn.primary ? 'modal-btn-primary' : btn.danger ? 'modal-btn-danger' : 'modal-btn-secondary'}`;
@@ -829,13 +979,17 @@ console.log('Hello Wave Finder!');
           };
           buttonsContainer.appendChild(button);
         });
-        
+
+        dialog.appendChild(titleEl);
+        dialog.appendChild(msgEl);
+        dialog.appendChild(buttonsContainer);
+
         overlay.appendChild(dialog);
         document.body.appendChild(overlay);
-        
+
         // Focus first button
-        buttonsContainer.firstElementChild.focus();
-        
+        if (buttonsContainer.firstElementChild) buttonsContainer.firstElementChild.focus();
+
         // Close on overlay click
         overlay.onclick = (e) => {
           if (e.target === overlay) {
@@ -843,7 +997,7 @@ console.log('Hello Wave Finder!');
             resolve(false);
           }
         };
-        
+
         // Close on Escape key
         const handleEscape = (e) => {
           if (e.key === 'Escape') {
@@ -867,7 +1021,7 @@ console.log('Hello Wave Finder!');
       ]);
     }
 
-    // Simple blog preview function using post.html styling
+    // Simple blog preview function using post.html styling (sanitized)
     function openBlogPreview() {
       const title = document.getElementById('title').value.trim() || 'Untitled Blog Post';
       const author = document.getElementById('author').value.trim() || 'Anonymous';
@@ -886,7 +1040,7 @@ console.log('Hello Wave Finder!');
         });
       }
       
-      const previewWindow = window.open('', 'blog-preview', 'width=1000,height=800,scrollbars=yes,resizable=yes');
+  const previewWindow = window.open('', 'blog-preview', 'width=1000,height=800,scrollbars=yes,resizable=yes');
       
       if (previewWindow) {
         const formattedDate = new Date(date).toLocaleDateString('en-US', { 
@@ -896,8 +1050,15 @@ console.log('Hello Wave Finder!');
         });
         
         // Create a simple preview that loads post.html styles
-        previewWindow.document.open();
-        previewWindow.document.write('<!doctype html><html><head><title>Preview: ' + title + '</title>');
+  // Pre-render and sanitize content HTML in parent for safer injection
+  const renderedHtml = marked.parse(content, { renderer });
+  const sanitizedHtml = sanitizeHtml(renderedHtml);
+
+  const safeCoverSrcRaw = (window.imageMap && window.imageMap.has(cover) ? window.imageMap.get(cover) : cover) || '';
+  const safeCoverSrc = isSafeImgSrc(safeCoverSrcRaw) ? safeCoverSrcRaw : '';
+
+  previewWindow.document.open();
+  previewWindow.document.write('<!doctype html><html><head><title>Preview</title>');
         previewWindow.document.write('<link rel="stylesheet" href="/static/fonts/outfit.css">');
         previewWindow.document.write('<link rel="stylesheet" href="/static/wf-glow.css">');
         previewWindow.document.write('<style>');
@@ -929,30 +1090,27 @@ console.log('Hello Wave Finder!');
         previewWindow.document.write('</style></head><body>');
         previewWindow.document.write('<div class="preview-banner">🔍 PREVIEW MODE - Wave Finder Blog Post</div>');
         previewWindow.document.write('<article class="post">');
-        if (cover) {
-          const coverSrc = window.imageMap && window.imageMap.has(cover) ? window.imageMap.get(cover) : cover;
-          previewWindow.document.write('<img class="cover" src="' + coverSrc + '" alt="Cover Image">');
-        }
-        previewWindow.document.write('<h1 class="title">' + title + '</h1>');
-        previewWindow.document.write('<div class="meta">' + formattedDate + ' • ' + author + '</div>');
-        if (tags.length > 0) {
-          previewWindow.document.write('<div class="tags">');
-          tags.forEach(tag => {
-            previewWindow.document.write('<span class="tag">' + tag + '</span>');
-          });
-          previewWindow.document.write('</div>');
-        }
+        previewWindow.document.write('<img class="cover" id="cover-img" alt="Cover Image" style="display:none;">');
+        previewWindow.document.write('<h1 class="title" id="title"></h1>');
+        previewWindow.document.write('<div class="meta" id="meta"></div>');
+        previewWindow.document.write('<div class="tags" id="tags"></div>');
         previewWindow.document.write('<div class="content" id="content"></div>');
         previewWindow.document.write('</article>');
-        previewWindow.document.write('<sc' + 'ript src="/static/marked.min.js"></sc' + 'ript>');
+        const previewData = {
+          title: title,
+          author: author,
+          dateText: formattedDate,
+          tags: Array.isArray(tags) ? tags.slice(0, 50) : [],
+          coverSrc: safeCoverSrc,
+          contentHtml: sanitizedHtml
+        };
         previewWindow.document.write('<sc' + 'ript>');
-        previewWindow.document.write('marked.setOptions({gfm:true,breaks:false});');
-        previewWindow.document.write('const content=' + JSON.stringify(content) + ';');
-        previewWindow.document.write('try{');
-        previewWindow.document.write('document.getElementById("content").innerHTML=marked.parse(content);');
-        previewWindow.document.write('}catch(e){');
-        previewWindow.document.write('document.getElementById("content").innerHTML="<p>Error rendering content</p>";');
-        previewWindow.document.write('}');
+        previewWindow.document.write('const DATA=' + JSON.stringify(previewData) + ';');
+        previewWindow.document.write('document.getElementById("title").textContent = DATA.title;');
+        previewWindow.document.write('document.getElementById("meta").textContent = DATA.dateText + " • " + DATA.author;');
+        previewWindow.document.write('(function(){ const t=document.getElementById("tags"); if(Array.isArray(DATA.tags)&&DATA.tags.length){ DATA.tags.forEach(tag=>{ const s=document.createElement("span"); s.className="tag"; s.textContent=String(tag); t.appendChild(s); }); }})();');
+        previewWindow.document.write('(function(){ const c=document.getElementById("content"); c.innerHTML = DATA.contentHtml;})();');
+        previewWindow.document.write('(function(){ const img=document.getElementById("cover-img"); if(DATA.coverSrc){ img.src = DATA.coverSrc; img.style.display="block"; } })();');
         previewWindow.document.write('</sc' + 'ript></body></html>');
         previewWindow.document.close();
         previewWindow.focus();
@@ -986,7 +1144,8 @@ console.log('Hello Wave Finder!');
       
       try {
         const html = marked.parse(markdown, { renderer });
-        previewContent.innerHTML = html || '<p><em>Start writing to see the preview...</em></p>';
+        const safe = sanitizeHtml(html);
+        previewContent.innerHTML = safe || '<p><em>Start writing to see the preview...</em></p>';
         
         // Add visual indicators for broken images
         const brokenImages = previewContent.querySelectorAll('img');
@@ -1025,15 +1184,7 @@ console.log('Hello Wave Finder!');
                 this.style.borderColor = 'rgba(255,193,7,0.5)';
                 this.style.transform = 'scale(1)';
               });
-              placeholder.innerHTML = `
-                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 60px;">
-                  <span style="font-size: 18px;">🖼️</span>
-                  <div>
-                    <div style="font-weight: 600;">${this.alt || 'Image'}</div>
-                    <div style="font-size: 12px; opacity: 0.7;">Preview unavailable - click to restore</div>
-                  </div>
-                </div>
-              `;
+              placeholder.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:60px;"><span style="font-size:18px;">🖼️</span><div><div style="font-weight:600;">Image</div><div style="font-size:12px;opacity:0.7;">Preview unavailable - click to restore</div></div></div>';
               
               // Add click handler to restore images
               placeholder.style.cursor = 'pointer';
@@ -1060,6 +1211,8 @@ console.log('Hello Wave Finder!');
     // Tag management
     function addTag(tag) {
       tag = tag.trim().toLowerCase();
+      // allow only simple safe characters in tags
+      tag = tag.replace(/[^a-z0-9\- ]+/g, '');
       if (tag && !tags.includes(tag)) {
         tags.push(tag);
         renderTags();
@@ -1072,9 +1225,19 @@ console.log('Hello Wave Finder!');
     }
 
     function renderTags() {
-      tagChips.innerHTML = tags.map(tag => 
-        `<span class="tag-chip">${tag}<span class="tag-remove" onclick="removeTag('${tag}')">×</span></span>`
-      ).join('');
+      // Clear and rebuild chips safely
+      while (tagChips.firstChild) tagChips.removeChild(tagChips.firstChild);
+      tags.forEach(tag => {
+        const chip = document.createElement('span');
+        chip.className = 'tag-chip';
+        chip.textContent = tag;
+        const remove = document.createElement('span');
+        remove.className = 'tag-remove';
+        remove.textContent = '×';
+        remove.addEventListener('click', () => removeTag(tag));
+        chip.appendChild(remove);
+        tagChips.appendChild(chip);
+      });
     }
 
     // Tag input handling
@@ -1099,12 +1262,18 @@ console.log('Hello Wave Finder!');
     function updateTagsDisplay() {
       const container = document.getElementById('tags-container');
       if (!container) return;
-      
-      container.innerHTML = '';
+      while (container.firstChild) container.removeChild(container.firstChild);
       tags.forEach(tag => {
         const tagEl = document.createElement('span');
         tagEl.className = 'tag';
-        tagEl.innerHTML = `${tag} <button type="button" onclick="removeTag('${tag}')">×</button>`;
+        const text = document.createElement('span');
+        text.textContent = tag + ' ';
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = '×';
+        btn.addEventListener('click', () => removeTag(tag));
+        tagEl.appendChild(text);
+        tagEl.appendChild(btn);
         container.appendChild(tagEl);
       });
     }
@@ -1326,13 +1495,24 @@ console.log('Hello Wave Finder!');
         showAlert('Project Loaded Successfully! 🎉', `📄 Loaded: ${markdownFile.name}\n${metadataFile ? '📋 Metadata: Restored\n' : ''}${imageCount > 0 ? `🖼️ Images: ${imageCount} file(s) loaded\n` : ''}📝 Ready to edit!`);
         
         // Show loaded state in upload area
-        uploadContent.innerHTML = `
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: var(--c-accent);">
-            <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
-          </svg>
-          <span style="color: var(--c-accent);">Project loaded: ${markdownFile.name.replace('.md', '')}</span>
-          <small style="font-size: 12px; color: var(--c-dim); margin-top: 4px;">Upload another ZIP to replace</small>
-        `;
+        // Rebuild loaded state safely
+        while (uploadContent.firstChild) uploadContent.removeChild(uploadContent.firstChild);
+        const icon = document.createElement('svg');
+        icon.setAttribute('width','24');
+        icon.setAttribute('height','24');
+        icon.setAttribute('viewBox','0 0 24 24');
+        icon.setAttribute('fill','currentColor');
+        icon.setAttribute('style','color: var(--c-accent);');
+        icon.innerHTML = '<path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />';
+        const span = document.createElement('span');
+        span.setAttribute('style','color: var(--c-accent);');
+        span.textContent = `Project loaded: ${String(markdownFile.name || '').replace(/\.md$/,'')}`;
+        const small = document.createElement('small');
+        small.setAttribute('style','font-size: 12px; color: var(--c-dim); margin-top: 4px;');
+        small.textContent = 'Upload another ZIP to replace';
+        uploadContent.appendChild(icon);
+        uploadContent.appendChild(span);
+        uploadContent.appendChild(small);
         
         // Reset file input to allow reloading the same file
         document.getElementById('zipFileInput').value = '';
@@ -1904,7 +2084,7 @@ Date: ${new Date().toISOString().split('T')[0]}
           box-shadow: 0 4px 12px rgba(0,0,0,0.3);
           max-width: 300px;
         `;
-        errorIndicator.innerHTML = `❌ Error restoring images: ${error.message}`;
+  errorIndicator.textContent = `❌ Error restoring images: ${String(error && error.message || 'Unknown error')}`;
         document.body.appendChild(errorIndicator);
         
         setTimeout(() => {
