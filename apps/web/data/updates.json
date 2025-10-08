@@ -482,5 +482,28 @@
         "href": "/updates.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Self-host critical JavaScript libraries",
+    "summary": "Self-hosted critical frontend libraries to remove external CDN dependencies. Added Leaflet v1.9.4 (leaflet.css, leaflet.js, map icons) and jsPDF v2.5.1 (jspdf.umd.min.js) with proper attribution. Updated index.html and records.html to serve Leaflet/JS locally and removed unnecessary preconnect/dns-prefetch to external CDNs. Benefits include zero external dependencies, faster loading, improved privacy, offline capability, and license-compliant attribution. Total self-hosted libraries ~514KB; external dependencies eliminated: unpkg.com, cdnjs.cloudflare.com.",
+    "tags": [
+      "performance",
+      "assets"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/e50ec9630cd69fb2ff86196bffab1eeaadb8ae52"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      },
+      {
+        "label": "Page",
+        "href": "/records.html"
+      }
+    ]
   }
 ]
