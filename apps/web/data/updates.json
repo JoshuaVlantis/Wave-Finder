@@ -505,5 +505,24 @@
         "href": "/records.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Update About page content",
+    "summary": "Updated the about.html page to reflect the latest branding, project goals and team information. This improves accuracy and helps visitors understand Wave Finder's purpose at a glance. Minor wording tweaks to improve readability.",
+    "tags": [
+      "content",
+      "ux"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/12d7f44bbf94fd327b9e9f5d52f1a5c56fb57b24"
+      },
+      {
+        "label": "Page",
+        "href": "/about.html"
+      }
+    ]
   }
 ]
