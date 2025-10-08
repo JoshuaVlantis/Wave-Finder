@@ -64,10 +64,19 @@
       }
       /* Soft radial glow like post.html */
       body::before{ content:""; position:fixed; top:0; left:0; right:0; height:560px; pointer-events:none; z-index:0;
-        background:radial-gradient(1200px 560px at 50% -12%, rgba(79,195,247,.08), transparent 70%); }
+        /* More visible on Windows displays; keep subtle but not imperceptible */
+        background: radial-gradient(1200px 560px at 50% -12%, rgba(79,195,247,0.16) 0%, rgba(79,195,247,0.06) 38%, rgba(79,195,247,0) 76%);
+        /* Prevent Windows High Contrast from stripping background images */
+        forced-color-adjust: none;
+      }
 
       main{ max-width:960px; margin:0 auto; padding:120px 20px 40px; position:relative; z-index:1 }
       @media (min-width: 1400px){ main{ max-width:1040px } }
+
+      /* Respect Windows High Contrast: remove decorative glow */
+      @media (forced-colors: active){
+        body::before{ forced-color-adjust:auto; background:none }
+      }
 
       /* Card container, matching blog post style */
       .post{ background:linear-gradient(180deg, rgba(34,39,46,.9), rgba(22,26,31,.95)); border:1px solid var(--c-border); border-radius:12px; padding:20px; box-shadow:0 12px 28px rgba(0,0,0,.28) }
