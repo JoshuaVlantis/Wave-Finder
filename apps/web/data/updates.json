@@ -197,23 +197,5 @@
         "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/998d956"
       }
     ]
-  },
-  {
-    "date": "2025-10-08",
-    "title": "Add license and source section",
-    "summary": "Introduced a dedicated License & Source section on the About page to clearly present licensing and code provenance. This helps users understand how Wave Finder is licensed and where the source code lives.",
-    "tags": [
-      "docs"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/eed86c1"
-      },
-      {
-        "label": "Page",
-        "href": "/about.html"
-      }
-    ]
   }
 ]
