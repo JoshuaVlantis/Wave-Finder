@@ -400,5 +400,40 @@
         "href": "/updates.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Global glow wired across pages",
+    "summary": "Introduced a single, global background glow stylesheet at /static/wf-glow.css and wired the glow effect uniformly across all pages for consistent visuals. This ensures visual cohesion and reduces divergence as new sections are added.",
+    "tags": [
+      "ui",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/6ab0fb1ec13f6f949ea1755fd9835e91708aef5f"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      },
+      {
+        "label": "Page",
+        "href": "/about.html"
+      },
+      {
+        "label": "Page",
+        "href": "/blog.html"
+      },
+      {
+        "label": "Page",
+        "href": "/post.html"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
