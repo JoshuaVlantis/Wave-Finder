@@ -586,5 +586,25 @@
         "href": "/create-blog.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Index page layout updated for consistency",
+    "summary": "Updated the index.html file to align with recent design updates and ensure consistency with the site’s styling and navigation. This improves visual coherence on the home page and lays groundwork for upcoming UI changes.",
+    "tags": [
+      "ui",
+      "styling",
+      "ux"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/81fe05ea361d923f80341e06de9b61f1aeedb388"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
