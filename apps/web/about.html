@@ -63,9 +63,12 @@
         position: relative;
       }
       /* Soft radial glow like post.html */
-      body::before{ content:""; position:fixed; top:0; left:0; right:0; height:560px; pointer-events:none; z-index:0;
-        /* More visible on Windows displays; keep subtle but not imperceptible */
-        background: radial-gradient(1200px 560px at 50% -12%, rgba(79,195,247,0.16) 0%, rgba(79,195,247,0.06) 38%, rgba(79,195,247,0) 76%);
+      body::before{
+        content:""; position:fixed; inset:0; min-height:100vh; pointer-events:none; z-index:0;
+        /* Stronger, longer glow that doesn't die off too soon */
+        background:
+          radial-gradient(1600px 900px at 50% -20%, rgba(79,195,247,0.26) 0%, rgba(79,195,247,0.12) 46%, rgba(79,195,247,0) 90%),
+          radial-gradient(900px 500px at 50% -10%, rgba(79,195,247,0.15) 0%, rgba(79,195,247,0) 78%);
         /* Prevent Windows High Contrast from stripping background images */
         forced-color-adjust: none;
       }
