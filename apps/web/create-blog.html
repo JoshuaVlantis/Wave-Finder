@@ -116,8 +116,7 @@
     .help-text{ font-size:12px; color:var(--c-dim); margin-top:4px }
     
     /* Image Dialog */
-    .image-dialog{ position:fixed; inset:0; background:rgba(0,0,0,0.8); display:none; z-index:1000; align-items:center; justify-content:center }
-    .image-dialog.show{ display:flex }
+
     .dialog-content{ background:var(--c-panel); border:1px solid var(--c-border); border-radius:12px; padding:24px; max-width:500px; width:90%; max-height:80vh; overflow-y:auto }
     .dialog-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:20px }
     .dialog-title{ font-size:18px; font-weight:600; margin:0 }
@@ -258,12 +257,16 @@
             <button class="tool-btn" onclick="insertLink()" title="Link">
               <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9c-.086 0-.17.01-.25.031A2 2 0 0 1 7 9.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z"/><path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4.02 4.02 0 0 1-.82 1H12a3 3 0 1 0 0-6H9z"/></svg>
             </button>
-            <button class="tool-btn" onclick="showImageDialog()" title="Add Image">
+            <button class="tool-btn" onclick="triggerImageUpload()" title="Add Image">
               <svg viewBox="0 0 16 16" fill="currentColor"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/></svg>
             </button>
             <button class="tool-btn" onclick="insertTable()" title="Table">
               <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/></svg>
             </button>
+            <button class="tool-btn" onclick="openBlogPreview()" title="Preview Blog" style="color: #4fc3f7; min-width: 60px;">
+              Preview
+            </button>
+
             <button class="tool-btn" onclick="insertText('---\n\n', 'block')" title="Horizontal Rule">
               <svg viewBox="0 0 16 16" fill="currentColor"><path d="M12 8a1 1 0 0 1 1 1v2.5h2.5a.5.5 0 0 1 0 1H13V15a1 1 0 0 1-2 0v-2.5H8.5a.5.5 0 0 1 0-1H11V9a1 1 0 0 1 1-1zm-6-8a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1a1 1 0 0 1 1-1zM1 8a1 1 0 0 1 1-1h2.5a.5.5 0 0 1 0 1H2v6.5a.5.5 0 0 1-1 0V8z"/></svg>
             </button>
@@ -394,62 +397,8 @@ console.log('Hello Wave Finder!');
   <!-- Hidden file input for cover image -->
   <input type="file" id="cover-file-input" style="display:none;" accept="image/*" onchange="handleCoverImageUpload(event)">
 
-  <!-- Image Dialog -->
-  <div id="image-dialog" class="image-dialog">
-    <div class="dialog-content">
-      <div class="dialog-header">
-        <h3 class="dialog-title">Add Image</h3>
-        <button class="dialog-close" onclick="closeImageDialog()">×</button>
-      </div>
-      
-      <div class="image-options">
-        <div class="image-option active" onclick="selectImageType('upload')">
-          <h4 style="margin:0 0 8px">📁 Upload from Computer</h4>
-          <p style="margin:0; color:var(--c-dim); font-size:14px">Select an image file from your device</p>
-          <p style="margin:4px 0 0; color:var(--c-accent); font-size:12px; font-style:italic">Click again to browse files</p>
-        </div>
-        <div class="image-option" onclick="selectImageType('url')">
-          <h4 style="margin:0 0 8px">🔗 Use URL/Path</h4>
-          <p style="margin:0; color:var(--c-dim); font-size:14px">Enter an image URL or Wave Finder path</p>
-        </div>
-      </div>
-      
-      <div id="upload-section">
-        <input type="file" id="image-file" class="file-input" accept="image/*" onchange="handleImageUpload(event)">
-        <div class="upload-area" onclick="document.getElementById('image-file').click()">
-          <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor" style="opacity:0.5; margin-bottom:8px">
-            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
-          </svg>
-          <p style="margin:0; color:var(--c-text)">Click to select image or drag & drop</p>
-          <p style="margin:4px 0 0; color:var(--c-dim); font-size:12px">Supports: JPG, PNG, GIF, WebP</p>
-        </div>
-        <img id="image-preview" class="image-preview" alt="Preview">
-        <div id="image-info" class="image-info"></div>
-        <div style="background:rgba(255,193,7,.1); border:1px solid rgba(255,193,7,.3); border-radius:6px; padding:12px; margin:12px 0; font-size:13px; color:#ffc107">
-          <strong>📤 Remember:</strong> You'll need to email this image file along with your blog post files. The image will be embedded as a preview, but the actual file needs to be uploaded to Wave Finder's server.
-        </div>
-      </div>
-      
-      <div id="url-section" style="display:none">
-        <div class="form-group">
-          <label class="form-label">Image URL or Path</label>
-          <input type="text" id="image-url" class="form-input" placeholder="/Images/my-image.jpg or https://example.com/image.jpg">
-          <div class="help-text">For Wave Finder paths, use /Images/filename.jpg</div>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Alt Text (for accessibility)</label>
-        <input type="text" id="image-alt" class="form-input" placeholder="Describe the image">
-        <div class="help-text">Brief description for screen readers and SEO</div>
-      </div>
-      
-      <div class="dialog-actions">
-        <button class="btn btn-secondary" onclick="closeImageDialog()">Cancel</button>
-        <button class="btn" onclick="insertImageFromDialog()">Insert Image</button>
-      </div>
-    </div>
-  </div>
+  <!-- Hidden file input for images -->
+  <input type="file" id="image-file-input" accept="image/*" style="display: none;">
 
   <script src="/static/wf-header.js?v=2025-10-07-1" defer></script>
   <script>
@@ -573,39 +522,13 @@ console.log('Hello Wave Finder!');
     let selectedImageType = 'upload';
     let currentImageFile = null;
     
-    function showImageDialog() {
-      document.getElementById('image-dialog').classList.add('show');
-      document.getElementById('image-alt').value = '';
-      document.getElementById('image-url').value = '';
-      document.getElementById('image-file').value = '';
-      document.getElementById('image-preview').style.display = 'none';
-      document.getElementById('image-info').textContent = '';
-      currentImageFile = null;
+    function triggerImageUpload() {
+      const fileInput = document.getElementById('image-file-input');
+      fileInput.click();
     }
     
-    function closeImageDialog() {
-      document.getElementById('image-dialog').classList.remove('show');
-    }
-    
-    function selectImageType(type) {
-      // If upload is already selected and clicked again, trigger file picker
-      if (type === 'upload' && selectedImageType === 'upload') {
-        document.getElementById('image-file').click();
-        return;
-      }
-      
-      selectedImageType = type;
-      
-      // Update active option
-      document.querySelectorAll('.image-option').forEach(opt => opt.classList.remove('active'));
-      document.querySelectorAll('.image-option')[type === 'upload' ? 0 : 1].classList.add('active');
-      
-      // Show/hide sections
-      document.getElementById('upload-section').style.display = type === 'upload' ? 'block' : 'none';
-      document.getElementById('url-section').style.display = type === 'url' ? 'block' : 'none';
-    }
-    
-    function handleImageUpload(event) {
+    // Handle direct image upload
+    document.getElementById('image-file-input').addEventListener('change', function(event) {
       const file = event.target.files[0];
       if (!file) return;
       
@@ -622,46 +545,14 @@ console.log('Hello Wave Finder!');
         return;
       }
       
-      currentImageFile = file;
-      
-      // Show preview
+      // Process the image immediately
       const reader = new FileReader();
       reader.onload = function(e) {
-        const preview = document.getElementById('image-preview');
-        preview.src = e.target.result;
-        preview.style.display = 'block';
+        const dataUrl = e.target.result;
         
-        // Show file info
-        const sizeKB = Math.round(file.size / 1024);
-        document.getElementById('image-info').textContent = 
-          `File: ${file.name} (${sizeKB} KB, ${file.type})`;
-          
-        // Auto-fill alt text if empty
-        const altInput = document.getElementById('image-alt');
-        if (!altInput.value) {
-          // Generate alt text from filename
-          const altText = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-          altInput.value = altText;
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-    
-    function insertImageFromDialog() {
-      let imageSrc = '';
-      let altText = document.getElementById('image-alt').value.trim() || 'Image';
-      
-      if (selectedImageType === 'upload') {
-        if (!currentImageFile) {
-          alert('Please select an image file');
-          return;
-        }
-        
-        // Get the data URL from the preview (it's already loaded)
-        const previewImg = document.getElementById('image-preview');
-        const dataUrl = previewImg.src;
-        
-        const fileName = currentImageFile.name;
+        // Generate alt text from filename
+        const altText = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+        const fileName = file.name;
         const placeholder = `/Images/${fileName}`;
         
         // Store the mapping for preview rendering
@@ -673,39 +564,51 @@ console.log('Hello Wave Finder!');
         insertAtCursor(imageMd);
         
         // Add a comment with file details
-        const comment = `\n<!-- 📎 ATTACHED FILE: "${fileName}" (${Math.round(currentImageFile.size/1024)}KB) - Remember to send this file! -->\n`;
+        const comment = `\n<!-- 📎 ATTACHED FILE: "${fileName}" (${Math.round(file.size/1024)}KB) - Remember to send this file! -->\n`;
         insertAtCursor(comment);
         
         // Store the file reference for later
         if (!window.attachedImages) window.attachedImages = [];
-        window.attachedImages.push({
-          file: currentImageFile,
+        const imgObj = {
+          file: file,
           placeholder: placeholder,
           altText: altText
-        });
+        };
+        window.attachedImages.push(imgObj);
         
-        closeImageDialog();
+        // Cache the image for persistence
+        cacheImage(imgObj);
+        
         updatePreview(); // Refresh preview immediately
         
-        // Show reminder
-        alert(`Image placeholder added! 📸\n\nFile: ${fileName}\nPlaceholder: ${placeholder}\n\nRemember to email this image file along with your blog post files.`);
+        // Show brief confirmation
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: rgba(76, 175, 80, 0.9);
+          color: white;
+          padding: 8px 12px;
+          border-radius: 6px;
+          z-index: 10001;
+          font-size: 13px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        `;
+        notification.innerHTML = `✅ Image "${fileName}" added`;
+        document.body.appendChild(notification);
         
-      } else {
-        imageSrc = document.getElementById('image-url').value.trim();
-        if (!imageSrc) {
-          alert('Please enter an image URL or path');
-          return;
-        }
-        
-        const imageMd = `![${altText}](${imageSrc})`;
-        insertAtCursor(imageMd);
-        closeImageDialog();
-      }
-    }
-    
-    function insertImage() {
-      showImageDialog();
-    }
+        setTimeout(() => {
+          notification.style.transition = 'opacity 0.3s ease';
+          notification.style.opacity = '0';
+          setTimeout(() => notification.remove(), 300);
+        }, 2000);
+      };
+      reader.readAsDataURL(file);
+      
+      // Reset file input to allow selecting the same file again
+      this.value = '';
+    });
     
     // Cover image handling
     let coverImageFile = null;
@@ -760,12 +663,16 @@ console.log('Hello Wave Finder!');
         if (!window.attachedImages) window.attachedImages = [];
         // Remove any previous cover image entry
         window.attachedImages = window.attachedImages.filter(img => !img.isCover);
-        window.attachedImages.push({
+        const coverImgObj = {
           file: coverImageFile,
           placeholder: placeholder,
           altText: 'Cover image',
           isCover: true
-        });
+        };
+        window.attachedImages.push(coverImgObj);
+        
+        // Cache the cover image for persistence
+        cacheImage(coverImgObj);
       };
       reader.readAsDataURL(file);
     }
@@ -799,6 +706,102 @@ console.log('Hello Wave Finder!');
       }
     }
 
+    // Simple blog preview function using post.html styling
+    function openBlogPreview() {
+      const title = document.getElementById('title').value.trim() || 'Untitled Blog Post';
+      const author = document.getElementById('author').value.trim() || 'Anonymous';
+      const date = document.getElementById('date').value || new Date().toISOString().split('T')[0];
+      const cover = document.getElementById('cover').value.trim();
+      let content = editor.value.trim() || '# Welcome\n\nYour blog content will appear here...';
+      
+      // Replace image placeholders with actual images for preview
+      if (window.imageMap) {
+        window.imageMap.forEach((imageUrl, placeholder) => {
+          const escapedPlaceholder = placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          content = content.replace(
+            new RegExp('\\!\\[([^\\]]*)\\]\\(' + escapedPlaceholder + '\\)', 'g'),
+            '![$1](' + imageUrl + ')'
+          );
+        });
+      }
+      
+      const previewWindow = window.open('', 'blog-preview', 'width=1000,height=800,scrollbars=yes,resizable=yes');
+      
+      if (previewWindow) {
+        const formattedDate = new Date(date).toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        
+        // Create a simple preview that loads post.html styles
+        previewWindow.document.open();
+        previewWindow.document.write('<!doctype html><html><head><title>Preview: ' + title + '</title>');
+        previewWindow.document.write('<link rel="stylesheet" href="/static/fonts/outfit.css">');
+        previewWindow.document.write('<link rel="stylesheet" href="/static/wf-glow.css">');
+        previewWindow.document.write('<style>');
+        previewWindow.document.write(':root{--c-bg:#121212;--c-panel:#1e1e1e;--c-border:#2b3440;--c-accent:#4fc3f7;--c-text:#eaeef5;--c-dim:#aab3c2}');
+        previewWindow.document.write('*{box-sizing:border-box}');
+        previewWindow.document.write('body{margin:0;font-family:OutfitLocal,Arial;background:var(--c-bg);color:var(--c-text);padding:20px}');
+        previewWindow.document.write('.preview-banner{background:#ff6b35;color:white;text-align:center;padding:8px;margin:-20px -20px 20px;font-size:14px}');
+        previewWindow.document.write('.post{background:linear-gradient(180deg,rgba(34,39,46,.9),rgba(22,26,31,.95));border:1px solid var(--c-border);border-radius:12px;padding:20px;max-width:800px;margin:0 auto}');
+        previewWindow.document.write('.cover{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;margin:0 0 12px}');
+        previewWindow.document.write('h1.title{margin:0 0 6px;font-size:26px;text-align:center}');
+        previewWindow.document.write('.meta{color:var(--c-dim);font-size:12px;margin-bottom:10px;text-align:center}');
+        previewWindow.document.write('.tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}');
+        previewWindow.document.write('.tag{padding:4px 8px;border:1px solid #3a4755;border-radius:999px;font-size:12px;color:#cfe3f6;background:rgba(255,255,255,.04)}');
+        previewWindow.document.write('.content{color:#d9e2ef;font-size:16px;line-height:1.75}');
+        previewWindow.document.write('.content h1{font-size:28px;margin-top:24px;margin-bottom:8px}');
+        previewWindow.document.write('.content h2{font-size:22px;margin-top:18px;margin-bottom:6px}');
+        previewWindow.document.write('.content h3{font-size:18px;margin-top:14px;margin-bottom:4px}');
+        previewWindow.document.write('.content p{margin:10px 0}');
+        previewWindow.document.write('.content a{color:var(--c-accent);text-decoration:underline}');
+        previewWindow.document.write('.content strong{font-weight:600}');
+        previewWindow.document.write('.content em{font-style:italic}');
+        previewWindow.document.write('.content ul,.content ol{margin:10px 0 10px 20px}');
+        previewWindow.document.write('.content li{margin:4px 0}');
+        previewWindow.document.write('.content code{background:rgba(255,255,255,0.06);padding:0 4px;border-radius:4px;font-size:.95em}');
+        previewWindow.document.write('.content pre{background:rgba(255,255,255,0.04);border:1px solid var(--c-border);border-radius:8px;padding:12px;margin:12px 0;overflow-x:auto}');
+        previewWindow.document.write('.content blockquote{border-left:3px solid var(--c-accent);margin:12px 0;padding:8px 12px;color:#c9d6e8;background:rgba(79,195,247,.06);border-radius:6px}');
+        previewWindow.document.write('.content img{max-width:100%;border-radius:8px;display:block;margin:10px auto}');
+        previewWindow.document.write('.content hr{border:0;border-top:1px solid var(--c-border);margin:16px 0}');
+        previewWindow.document.write('</style></head><body>');
+        previewWindow.document.write('<div class="preview-banner">🔍 PREVIEW MODE - Wave Finder Blog Post</div>');
+        previewWindow.document.write('<article class="post">');
+        if (cover) {
+          const coverSrc = window.imageMap && window.imageMap.has(cover) ? window.imageMap.get(cover) : cover;
+          previewWindow.document.write('<img class="cover" src="' + coverSrc + '" alt="Cover Image">');
+        }
+        previewWindow.document.write('<h1 class="title">' + title + '</h1>');
+        previewWindow.document.write('<div class="meta">' + formattedDate + ' • ' + author + '</div>');
+        if (tags.length > 0) {
+          previewWindow.document.write('<div class="tags">');
+          tags.forEach(tag => {
+            previewWindow.document.write('<span class="tag">' + tag + '</span>');
+          });
+          previewWindow.document.write('</div>');
+        }
+        previewWindow.document.write('<div class="content" id="content"></div>');
+        previewWindow.document.write('</article>');
+        previewWindow.document.write('<sc' + 'ript src="/static/marked.min.js"></sc' + 'ript>');
+        previewWindow.document.write('<sc' + 'ript>');
+        previewWindow.document.write('marked.setOptions({gfm:true,breaks:false});');
+        previewWindow.document.write('const content=' + JSON.stringify(content) + ';');
+        previewWindow.document.write('try{');
+        previewWindow.document.write('document.getElementById("content").innerHTML=marked.parse(content);');
+        previewWindow.document.write('}catch(e){');
+        previewWindow.document.write('document.getElementById("content").innerHTML="<p>Error rendering content</p>";');
+        previewWindow.document.write('}');
+        previewWindow.document.write('</sc' + 'ript></body></html>');
+        previewWindow.document.close();
+        previewWindow.focus();
+      } else {
+        alert('Please allow popups to view the blog preview');
+      }
+    }
+
+
+
     function insertTable() {
       const tableMd = `| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |\n| Cell 3   | Cell 4   |\n\n`;
       insertAtCursor(tableMd);
@@ -823,6 +826,63 @@ console.log('Hello Wave Finder!');
       try {
         const html = marked.parse(markdown, { renderer });
         previewContent.innerHTML = html || '<p><em>Start writing to see the preview...</em></p>';
+        
+        // Add visual indicators for broken images
+        const brokenImages = previewContent.querySelectorAll('img');
+        brokenImages.forEach(img => {
+          if (img.src.startsWith('/Images/') || img.src.includes('Images/')) {
+            // This is likely a placeholder that didn't get replaced
+            img.onerror = function() {
+              const placeholder = document.createElement('div');
+              placeholder.style.cssText = `
+                display: inline-block;
+                padding: 12px;
+                background: linear-gradient(45deg, rgba(255,193,7,0.1), rgba(255,152,0,0.1));
+                border: 2px dashed rgba(255,193,7,0.5);
+                border-radius: 8px;
+                color: #ff9800;
+                font-family: inherit;
+                font-size: 14px;
+                text-align: center;
+                min-width: 200px;
+                min-height: 60px;
+                line-height: 1.4;
+                margin: 8px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+              `;
+              
+              // Add hover effect
+              placeholder.addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(45deg, rgba(255,193,7,0.2), rgba(255,152,0,0.2))';
+                this.style.borderColor = 'rgba(255,193,7,0.8)';
+                this.style.transform = 'scale(1.02)';
+              });
+              
+              placeholder.addEventListener('mouseleave', function() {
+                this.style.background = 'linear-gradient(45deg, rgba(255,193,7,0.1), rgba(255,152,0,0.1))';
+                this.style.borderColor = 'rgba(255,193,7,0.5)';
+                this.style.transform = 'scale(1)';
+              });
+              placeholder.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 60px;">
+                  <span style="font-size: 18px;">🖼️</span>
+                  <div>
+                    <div style="font-weight: 600;">${this.alt || 'Image'}</div>
+                    <div style="font-size: 12px; opacity: 0.7;">Preview unavailable - click to restore</div>
+                  </div>
+                </div>
+              `;
+              
+              // Add click handler to restore images
+              placeholder.style.cursor = 'pointer';
+              placeholder.addEventListener('click', () => {
+                restoreImagesOnly();
+              });
+              this.parentNode.replaceChild(placeholder, this);
+            };
+          }
+        });
       } catch (error) {
         previewContent.innerHTML = '<p><em>Error parsing markdown</em></p>';
       }
@@ -895,7 +955,7 @@ console.log('Hello Wave Finder!');
         document.getElementById('author').value = '';
         document.getElementById('slug').value = '';
         document.getElementById('excerpt').value = '';
-        document.getElementById('date').value = '';
+        document.getElementById('date').value = new Date().toISOString().split('T')[0]; // Keep today's date
         document.getElementById('cover').value = '';
         
         // Hide cover image preview
@@ -928,6 +988,9 @@ console.log('Hello Wave Finder!');
           window.imageMap.forEach(url => URL.revokeObjectURL(url));
           window.imageMap.clear();
         }
+        
+        // Clear image cache
+        clearImageCache();
         
         updateImageCounter();
         
@@ -1071,6 +1134,9 @@ console.log('Hello Wave Finder!');
           
           // Add to imageMap for preview rendering (match the original format)
           window.imageMap.set(placeholder, imageUrl);
+          
+          // Cache the loaded image
+          cacheImage(imgObj);
           
           // If this is the cover image, show the preview
           if (isCoverImage) {
@@ -1296,11 +1362,7 @@ Date: ${new Date().toISOString().split('T')[0]}
     });
     
     // Close dialog when clicking outside
-    document.getElementById('image-dialog').addEventListener('click', (e) => {
-      if (e.target.id === 'image-dialog') {
-        closeImageDialog();
-      }
-    });
+
     
     // Initialize
     editor.addEventListener('input', updatePreview);
@@ -1337,8 +1399,563 @@ Date: ${new Date().toISOString().split('T')[0]}
     // Initial preview update
     updatePreview();
     
+    // Check for orphaned images after page refresh
+    function checkForOrphanedImages() {
+      // Wait a bit for the page to fully load
+      setTimeout(() => {
+        const content = editor.value;
+        const coverImage = document.getElementById('cover').value;
+        
+        // Check for image references in markdown
+        const imageRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
+        const images = [];
+        let match;
+        
+        while ((match = imageRegex.exec(content)) !== null) {
+          images.push({
+            alt: match[1],
+            src: match[2]
+          });
+        }
+        
+        // Check if we have image references but no imageMap
+        const hasImageRefs = images.length > 0 || coverImage.trim();
+        const hasImageMap = window.imageMap && window.imageMap.size > 0;
+        
+        if (hasImageRefs && !hasImageMap) {
+          // Show notification about lost image previews
+          showImageRestoreNotification(images, coverImage);
+        }
+      }, 100);
+    }
+    
+    function showImageRestoreNotification(images, coverImage) {
+      // Create backdrop overlay
+      const backdrop = document.createElement('div');
+      backdrop.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 9999;
+        backdrop-filter: blur(4px);
+      `;
+      
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, rgba(255,193,7,0.9), rgba(255,152,0,0.9));
+        color: #333;
+        padding: 20px 24px;
+        border-radius: 12px;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+        z-index: 10000;
+        max-width: 400px;
+        min-width: 320px;
+        font-family: inherit;
+        font-size: 14px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+      `;
+      
+      const imageCount = images.length + (coverImage ? 1 : 0);
+      
+      notification.innerHTML = `
+        <div style="display: flex; align-items: flex-start; gap: 12px;">
+          <div style="font-size: 20px;">⚠️</div>
+          <div>
+            <div style="font-weight: 600; margin-bottom: 8px;">Images Need Restoration</div>
+            <div style="margin-bottom: 12px; line-height: 1.4;">
+              Found ${imageCount} image reference(s) but previews were lost on page refresh.
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button onclick="this.parentElement.parentElement.parentElement.parentElement.parentElement.remove()" style="
+                background: rgba(0,0,0,0.1); 
+                border: 1px solid rgba(0,0,0,0.2); 
+                border-radius: 6px; 
+                padding: 4px 8px; 
+                font-size: 12px; 
+                cursor: pointer;
+                color: #333;
+              ">Dismiss</button>
+              <button onclick="restoreImagesOnly(); this.parentElement.parentElement.parentElement.parentElement.parentElement.remove();" style="
+                background: rgba(0,0,0,0.15); 
+                border: 1px solid rgba(0,0,0,0.3); 
+                border-radius: 6px; 
+                padding: 4px 8px; 
+                font-size: 12px; 
+                cursor: pointer;
+                font-weight: 600;
+                color: #333;
+              ">Restore from ZIP</button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Add backdrop first, then notification on top
+      document.body.appendChild(backdrop);
+      backdrop.appendChild(notification);
+      
+      // Auto-hide after 15 seconds
+      setTimeout(() => {
+        if (backdrop.parentNode) {
+          backdrop.style.transition = 'opacity 0.3s ease';
+          backdrop.style.opacity = '0';
+          setTimeout(() => {
+            if (backdrop.parentNode) {
+              backdrop.remove();
+            }
+          }, 300);
+        }
+      }, 15000);
+    }
+    
+    function restoreImagesOnly() {
+      // Create a separate file input for image restoration
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '.zip';
+      fileInput.style.display = 'none';
+      
+      fileInput.addEventListener('change', async (e) => {
+        if (e.target.files.length > 0) {
+          await loadImagesFromZip(e.target.files[0]);
+        }
+        // Clean up the temporary input
+        fileInput.remove();
+      });
+      
+      document.body.appendChild(fileInput);
+      fileInput.click();
+    }
+    
+    async function loadImagesFromZip(file) {
+      try {
+        // Show loading indicator
+        const loadingIndicator = document.createElement('div');
+        loadingIndicator.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: rgba(79, 195, 247, 0.9);
+          color: white;
+          padding: 12px 16px;
+          border-radius: 8px;
+          z-index: 10001;
+          font-size: 14px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        `;
+        loadingIndicator.innerHTML = '🔄 Restoring images...';
+        document.body.appendChild(loadingIndicator);
+        
+        // Load and extract ZIP
+        const zip = new JSZip();
+        const zipContents = await zip.loadAsync(file);
+        
+        const imageFiles = [];
+        let metadataFile = null;
+        
+        // Process each file in the ZIP
+        for (const [filename, zipEntry] of Object.entries(zipContents.files)) {
+          if (zipEntry.dir) continue; // Skip directories
+          
+          if (filename.endsWith('-metadata.json')) {
+            metadataFile = zipEntry;
+          } else if (filename.startsWith('Images/') && !filename.endsWith('/')) {
+            imageFiles.push(zipEntry);
+          }
+        }
+        
+        // Get cover image path from metadata if available
+        let coverImagePath = null;
+        if (metadataFile) {
+          const metadataContent = await metadataFile.async('text');
+          const metadata = JSON.parse(metadataContent);
+          coverImagePath = metadata.cover;
+        }
+        
+        // Initialize image storage if not exists
+        if (!window.attachedImages) window.attachedImages = [];
+        if (!window.imageMap) window.imageMap = new Map();
+        
+        // Load images without clearing existing ones
+        let addedCount = 0;
+        for (const imageEntry of imageFiles) {
+          const imageBlob = await imageEntry.async('blob');
+          const imageName = imageEntry.name.split('/').pop(); // Get filename without path
+          const placeholder = `/Images/${imageName}`;
+          
+          // Check if this image is already loaded
+          const existingImage = window.attachedImages.find(img => 
+            img.placeholder.includes(imageName) || img.placeholder === placeholder
+          );
+          
+          if (!existingImage) {
+            // Create File object from blob
+            const imageFile = new File([imageBlob], imageName, { type: imageBlob.type });
+            
+            // Create object URL for preview
+            const imageUrl = URL.createObjectURL(imageBlob);
+            
+            const isCoverImage = coverImagePath && coverImagePath === placeholder;
+            
+            const imgObj = {
+              file: imageFile,
+              placeholder: isCoverImage ? placeholder : `![Image](${placeholder})`,
+              url: imageUrl,
+              isCover: isCoverImage
+            };
+            
+            window.attachedImages.push(imgObj);
+            window.imageMap.set(placeholder, imageUrl);
+            
+            // Cache the restored image
+            cacheImage(imgObj);
+            addedCount++;
+            
+            // If this is the cover image, always update preview (whether field is empty or not)
+            if (isCoverImage) {
+              // Update the cover field if it's empty
+              if (!document.getElementById('cover').value.trim()) {
+                document.getElementById('cover').value = placeholder;
+              }
+              
+              // Always show cover preview when restoring
+              const preview = document.getElementById('cover-preview');
+              const container = document.getElementById('cover-preview-container');
+              const info = document.getElementById('cover-info');
+              
+              preview.src = imageUrl;
+              container.style.display = 'block';
+              
+              const sizeKB = Math.round(imageFile.size / 1024);
+              info.textContent = `File: ${imageName} (${sizeKB} KB) - Restored from ZIP`;
+            }
+          }
+        }
+        
+        // Check if the current cover field value matches any restored image
+        const currentCoverValue = document.getElementById('cover').value.trim();
+        if (currentCoverValue && window.imageMap && window.imageMap.has(currentCoverValue)) {
+          // Show cover preview for the matched image
+          const preview = document.getElementById('cover-preview');
+          const container = document.getElementById('cover-preview-container');
+          const info = document.getElementById('cover-info');
+          
+          preview.src = window.imageMap.get(currentCoverValue);
+          container.style.display = 'block';
+          
+          // Find the file info for display
+          const matchedImage = window.attachedImages.find(img => 
+            img.placeholder === currentCoverValue || img.placeholder.includes(currentCoverValue)
+          );
+          
+          if (matchedImage) {
+            const sizeKB = Math.round(matchedImage.file.size / 1024);
+            info.textContent = `File: ${matchedImage.file.name} (${sizeKB} KB) - Restored from ZIP`;
+          } else {
+            info.textContent = 'Cover image restored from ZIP';
+          }
+        }
+        
+        // Update counters and preview
+        updateImageCounter();
+        updatePreview();
+        
+        // Remove loading indicator
+        loadingIndicator.remove();
+        
+        // Show success message
+        if (addedCount > 0) {
+          const successIndicator = document.createElement('div');
+          successIndicator.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            z-index: 10001;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          `;
+          successIndicator.innerHTML = `✅ Restored ${addedCount} image(s)`;
+          document.body.appendChild(successIndicator);
+          
+          setTimeout(() => {
+            successIndicator.style.transition = 'opacity 0.3s ease';
+            successIndicator.style.opacity = '0';
+            setTimeout(() => successIndicator.remove(), 300);
+          }, 3000);
+        } else {
+          const noImagesIndicator = document.createElement('div');
+          noImagesIndicator.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 152, 0, 0.9);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px;
+            z-index: 10001;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          `;
+          noImagesIndicator.innerHTML = 'ℹ️ All images already loaded';
+          document.body.appendChild(noImagesIndicator);
+          
+          setTimeout(() => {
+            noImagesIndicator.style.transition = 'opacity 0.3s ease';
+            noImagesIndicator.style.opacity = '0';
+            setTimeout(() => noImagesIndicator.remove(), 300);
+          }, 3000);
+        }
+        
+      } catch (error) {
+        console.error('Error loading images from ZIP:', error);
+        
+        // Remove loading indicator if it exists
+        const loadingIndicator = document.querySelector('div[style*="Restoring images"]');
+        if (loadingIndicator) loadingIndicator.remove();
+        
+        // Show error message
+        const errorIndicator = document.createElement('div');
+        errorIndicator.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: rgba(244, 67, 54, 0.9);
+          color: white;
+          padding: 12px 16px;
+          border-radius: 8px;
+          z-index: 10001;
+          font-size: 14px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          max-width: 300px;
+        `;
+        errorIndicator.innerHTML = `❌ Error restoring images: ${error.message}`;
+        document.body.appendChild(errorIndicator);
+        
+        setTimeout(() => {
+          errorIndicator.style.transition = 'opacity 0.3s ease';
+          errorIndicator.style.opacity = '0';
+          setTimeout(() => errorIndicator.remove(), 300);
+        }, 5000);
+      }
+    }
+
+    // Image caching system
+    let imageDB;
+    
+    async function initializeImageCache() {
+      try {
+        // Initialize IndexedDB for image storage
+        imageDB = await new Promise((resolve, reject) => {
+          const request = indexedDB.open('WaveFinderBlogImages', 1);
+          
+          request.onerror = () => reject(request.error);
+          request.onsuccess = () => resolve(request.result);
+          
+          request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('images')) {
+              db.createObjectStore('images', { keyPath: 'id' });
+            }
+          };
+        });
+        
+        // Restore cached images
+        await restoreCachedImages();
+      } catch (error) {
+        console.error('Error initializing image cache:', error);
+      }
+    }
+    
+    async function cacheImage(imageObj) {
+      try {
+        if (!imageDB) return;
+        
+        // Store image in IndexedDB
+        const transaction = imageDB.transaction(['images'], 'readwrite');
+        const store = transaction.objectStore('images');
+        
+        // Convert file to array buffer for storage
+        const arrayBuffer = await imageObj.file.arrayBuffer();
+        
+        const cacheData = {
+          id: imageObj.placeholder,
+          arrayBuffer: arrayBuffer,
+          fileName: imageObj.file.name,
+          fileType: imageObj.file.type,
+          fileSize: imageObj.file.size,
+          isCover: imageObj.isCover || false,
+          timestamp: Date.now()
+        };
+        
+        await store.put(cacheData);
+        
+        // Update localStorage with image metadata
+        const cachedImages = JSON.parse(localStorage.getItem('wf-cached-images') || '[]');
+        const existingIndex = cachedImages.findIndex(img => img.id === imageObj.placeholder);
+        
+        if (existingIndex >= 0) {
+          cachedImages[existingIndex] = {
+            id: imageObj.placeholder,
+            fileName: imageObj.file.name,
+            isCover: imageObj.isCover || false,
+            timestamp: Date.now()
+          };
+        } else {
+          cachedImages.push({
+            id: imageObj.placeholder,
+            fileName: imageObj.file.name,
+            isCover: imageObj.isCover || false,
+            timestamp: Date.now()
+          });
+        }
+        
+        localStorage.setItem('wf-cached-images', JSON.stringify(cachedImages));
+        
+      } catch (error) {
+        console.error('Error caching image:', error);
+      }
+    }
+    
+    async function restoreCachedImages() {
+      try {
+        if (!imageDB) return;
+        
+        const cachedImagesList = JSON.parse(localStorage.getItem('wf-cached-images') || '[]');
+        if (cachedImagesList.length === 0) return;
+        
+        // Initialize storage if needed
+        if (!window.attachedImages) window.attachedImages = [];
+        if (!window.imageMap) window.imageMap = new Map();
+        
+        const transaction = imageDB.transaction(['images'], 'readonly');
+        const store = transaction.objectStore('images');
+        
+        let restoredCount = 0;
+        
+        for (const cachedInfo of cachedImagesList) {
+          try {
+            // Check if image is already loaded
+            const existing = window.attachedImages.find(img => img.placeholder === cachedInfo.id);
+            if (existing) continue;
+            
+            const request = store.get(cachedInfo.id);
+            const result = await new Promise((resolve, reject) => {
+              request.onsuccess = () => resolve(request.result);
+              request.onerror = () => reject(request.error);
+            });
+            
+            if (result) {
+              // Recreate File object from stored data
+              const fileBlob = new Blob([result.arrayBuffer], { type: result.fileType });
+              const imageFile = new File([fileBlob], result.fileName, { type: result.fileType });
+              
+              // Create object URL for preview
+              const imageUrl = URL.createObjectURL(fileBlob);
+              
+              const imgObj = {
+                file: imageFile,
+                placeholder: result.isCover ? result.id : `![Image](${result.id})`,
+                url: imageUrl,
+                isCover: result.isCover
+              };
+              
+              window.attachedImages.push(imgObj);
+              window.imageMap.set(result.id, imageUrl);
+              
+              // Handle cover image
+              if (result.isCover) {
+                const currentCover = document.getElementById('cover').value.trim();
+                if (!currentCover || currentCover === result.id) {
+                  document.getElementById('cover').value = result.id;
+                  
+                  // Show cover preview
+                  const preview = document.getElementById('cover-preview');
+                  const container = document.getElementById('cover-preview-container');
+                  const info = document.getElementById('cover-info');
+                  
+                  preview.src = imageUrl;
+                  container.style.display = 'block';
+                  
+                  const sizeKB = Math.round(result.fileSize / 1024);
+                  info.textContent = `File: ${result.fileName} (${sizeKB} KB) - Cached`;
+                }
+              }
+              
+              restoredCount++;
+            }
+          } catch (error) {
+            console.error('Error restoring cached image:', cachedInfo.id, error);
+          }
+        }
+        
+        if (restoredCount > 0) {
+          // Update UI
+          updateImageCounter();
+          updatePreview();
+          
+          // Show brief notification
+          const notification = document.createElement('div');
+          notification.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            z-index: 10001;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          `;
+          notification.innerHTML = `💾 Restored ${restoredCount} cached image(s)`;
+          document.body.appendChild(notification);
+          
+          setTimeout(() => {
+            notification.style.transition = 'opacity 0.3s ease';
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 300);
+          }, 2000);
+        }
+        
+      } catch (error) {
+        console.error('Error restoring cached images:', error);
+      }
+    }
+    
+    async function clearImageCache() {
+      try {
+        if (imageDB) {
+          const transaction = imageDB.transaction(['images'], 'readwrite');
+          const store = transaction.objectStore('images');
+          await store.clear();
+        }
+        localStorage.removeItem('wf-cached-images');
+      } catch (error) {
+        console.error('Error clearing image cache:', error);
+      }
+    }
+
     // Initialize ZIP upload functionality
     setupZipUpload();
+    
+    // Initialize image caching
+    initializeImageCache();
+    
+    // Check for orphaned images on page load (fallback)
+    checkForOrphanedImages();
   </script>
 </body>
 </html>
