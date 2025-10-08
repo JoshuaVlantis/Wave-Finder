@@ -105,7 +105,12 @@
       }
       fetch('/data/updates.json', { cache:'no-store' })
         .then(r=>r.json())
-        .then(json=>{ updates = json.sort((a,b)=> (a.date<b.date?1:-1)); render(); })
+        .then(json=>{ 
+          // Reverse the array to show bottom-to-top (newest entries first)
+          // This ensures items added to the end of the JSON file appear at the top
+          updates = json.slice().reverse(); 
+          render(); 
+        })
         .catch(()=>{ listEl.innerHTML = '<div class="item"><div class="summary">Failed to load updates.</div></div>'; });
       qEl.addEventListener('input', render);
     </script>
