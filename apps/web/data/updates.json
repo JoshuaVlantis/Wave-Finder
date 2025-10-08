@@ -244,5 +244,25 @@
         "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/54d1680"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Major UI improvements to index",
+    "summary": "Overhauled the index page UI with a refreshed layout, improved visuals, and streamlined controls. This makes the landing experience faster to scan and easier to navigate.",
+    "tags": [
+      "ui",
+      "ux",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/a1532e32bb0a17346f3399dcb1c50b1ce897a7f2"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
