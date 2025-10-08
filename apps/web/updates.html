@@ -53,8 +53,9 @@
       .links a{ color:#4fc3f7; text-decoration:none; font-size:12px }
       .links a:hover{ text-decoration:underline }
       .controls{ display:flex; gap:8px; align-items:center; margin-top:8px; justify-content:center }
-      /* Match limits.html search styling */
-      #q { width:100%; max-width:720px; margin:0 auto; display:block; border:1px solid #2f3a45; background:rgba(255,255,255,0.06); color:#fff; padding:12px 14px; border-radius:12px; outline:none }
+  /* Match limits.html search styling */
+  .center-wrap { max-width:720px; margin:0 auto }
+  #q { width:100%; max-width:720px; margin:0 auto; display:block; border:1px solid #2f3a45; background:rgba(255,255,255,0.06); color:#fff; padding:12px 14px; padding-right:40px; border-radius:12px; outline:none }
       #q::placeholder { color: rgba(255,255,255,0.6) }
     </style>
   </head>
@@ -65,7 +66,7 @@
         <h1>Updates</h1>
         <p class="lead">Automatic log of site changes and improvements.</p>
         <div class="controls" style="width:100%">
-          <div class="center-wrap" style="position:relative; width:100%">
+          <div class="center-wrap" style="position:relative;">
             <input id="q" type="search" placeholder="Filter by keyword or tag (e.g., ui, bugfix)" autocomplete="off" />
             <div style="position:absolute; inset:0; right:8px; display:flex; align-items:center; justify-content:flex-end; pointer-events:none; color:#9aa7b5;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 21-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
