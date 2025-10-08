@@ -524,5 +524,27 @@
         "href": "/about.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Sanitize blog markdown and harden preview",
+    "summary": "Sanitize markdown in the blog creator and harden the live preview to prevent raw code from appearing. Ensure links and images are safely rendered to avoid unsafe content. Fix the JSZip path used for blog export/import so packages load correctly. Strengthen modal and tag safety to reduce user errors during blog creation.",
+    "tags": [
+      "ui",
+      "ux",
+      "content",
+      "security",
+      "bugfix"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/498b1bedd66e2044f5b51084c9181c2e9e069428"
+      },
+      {
+        "label": "Page",
+        "href": "/create-blog.html"
+      }
+    ]
   }
 ]
