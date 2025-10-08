@@ -230,5 +230,24 @@
         "href": "/about.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Automation updater final test",
+    "summary": "Runs a final automated updater test to verify that new changes are appended to updates.json and rendered on updates.html.",
+    "tags": [
+      "devops",
+      "docs"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/e2c476eda241779c6fff4336d730ed205fc9392e"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
