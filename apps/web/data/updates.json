@@ -439,5 +439,26 @@
         "href": "/create-blog.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Fix blog creator preview function and improve UI",
+    "summary": "Fixes JavaScript syntax errors in the blog preview to stop code rendering as text, simplifies template logic by replacing complex template literals with straightforward string concatenation, and updates the preview to match the exact post.html styling and structure for accurate live previews. Replaces the preview button icon with clear 'Preview' text for better UX. Ensures the preview shows an identical appearance to live blog posts and resolves script tag escaping issues in the preview generation.",
+    "tags": [
+      "ui",
+      "ux",
+      "bugfix",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/4941df6d155275505c9a8e827395c18b47461683"
+      },
+      {
+        "label": "Page",
+        "href": "/create-blog.html"
+      }
+    ]
   }
 ]
