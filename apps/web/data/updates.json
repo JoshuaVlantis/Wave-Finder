@@ -397,5 +397,47 @@
         "href": "/updates.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Add comprehensive blog creator with ZIP",
+    "summary": "Adds a comprehensive blog creator with a dual-pane markdown editor and live preview powered by marked.js, plus an image upload system with a clean placeholder workflow and cover image preview. Introduces ZIP packaging of complete blog posts and ZIP loading to resume editing, with locally hosted JSZip (v3.10.1) and marked.js (v11.1.1). Includes full project state management (clear all, load, save), MIT license compliance, and attribution across the blog tooling. Features metadata forms, tag management, a complete round-trip editing workflow, robust error handling, and memory-leak protection for image URLs.",
+    "tags": [
+      "ui",
+      "ux",
+      "content",
+      "docs"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/87cac23d576e03215c4a07087c66ac46138a098a"
+      },
+      {
+        "label": "Page",
+        "href": "/create-blog.html"
+      }
+    ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Blog creation tool in progress",
+    "summary": "Begins introducing a blog creation tool that will let users draft and submit their own blogs from the site. The feature is still in development and may be refined as the workflow is implemented.",
+    "tags": [
+      "ui",
+      "ux",
+      "content",
+      "docs"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/9fb2bd80da963be12fb7b564d7f419d342a03e35"
+      },
+      {
+        "label": "Page",
+        "href": "/create-blog.html"
+      }
+    ]
   }
 ]
