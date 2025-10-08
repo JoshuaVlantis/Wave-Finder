@@ -352,5 +352,30 @@
         "href": "/updates.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Markdown parsing upgraded to marked.js",
+    "summary": "Replaced the in-house markdown parser with marked.js v11.1.1 (MIT licensed). The library is now hosted locally under /static/ to remove external dependencies. Markdown support is now complete: tables, strikethrough, nested lists, and code blocks render correctly. Updated the LICENSE attribution for marked.js to reflect the new dependency.",
+    "tags": [
+      "ui",
+      "ux",
+      "performance",
+      "docs"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/78dc7693ad3fc66c9b5c97ec917d0315c2355bb7"
+      },
+      {
+        "label": "Page",
+        "href": "/blog.html"
+      },
+      {
+        "label": "Page",
+        "href": "/post.html"
+      }
+    ]
   }
 ]
