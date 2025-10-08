@@ -215,34 +215,5 @@
         "href": "/about.html"
       }
     ]
-  },
-  {
-    "date": "2025-10-07",
-    "title": "Chromium scrollbar polish",
-    "summary": "Dark, thin scrollbars for popups and lists on Chrome/Edge; Firefox kept tidy.",
-    "tags": [
-      "ui",
-      "accessibility"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/998d956"
-      }
-    ]
-  },
-  {
-    "date": "2025-10-07",
-    "title": "Popup image fallback",
-    "summary": "Ensure placeholder shows when images are missing or fail to load.",
-    "tags": [
-      "bugfix"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/54d1680"
-      }
-    ]
   }
 ]
