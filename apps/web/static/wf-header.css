@@ -16,7 +16,7 @@
 .wf-brand .wf-name{font-size:22px;font-weight:700;letter-spacing:.4px;white-space:nowrap}
 .wf-nav{display:flex;align-items:center;gap:8px}
 .wf-nav-mobile{display:none}
-.wf-pill{background:var(--wf-pill-bg);color:#fff;border:none;border-radius:999px;padding:6px 12px;font-size:14px;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.wf-pill{background:var(--wf-pill-bg);color:#fff;border:none;border-radius:999px;padding:6px 12px;font-size:14px;text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .wf-pill:hover,.wf-pill.active{background:var(--wf-pill-bg-hover)}
 .wf-more{position:relative}
 .wf-menu{position:absolute;top:36px;right:0;background:var(--wf-bg);border-radius:10px;box-shadow:0 8px 18px rgba(0,0,0,.35);padding:6px;display:none;min-width:160px}
@@ -36,7 +36,7 @@
   .wf-brand{justify-content:center;margin-bottom:4px}
   
   .wf-nav-mobile{display:flex;gap:6px;align-items:center;margin-top:0;flex-wrap:nowrap}
-  .wf-nav-mobile .wf-pill{flex:0 0 auto;justify-content:center;padding:5px 10px;font-size:13px}
+  .wf-nav-mobile .wf-pill{flex:0 0 auto;justify-content:center;padding:5px 10px;font-size:13px;white-space:nowrap}
   .wf-nav-mobile .wf-burger{margin-left:6px}
   .wf-burger{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:var(--wf-pill-bg);color:#fff;border:none}
   .wf-burger:hover{background:var(--wf-pill-bg-hover)}
