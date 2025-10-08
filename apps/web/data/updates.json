@@ -546,5 +546,25 @@
         "href": "/create-blog.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Harden blog preview security",
+    "summary": "Added security attributes to all preview links (noopener, noreferrer, and opener=null) to prevent tabnabbing and window.opener exploits. Validate cover image preview src to ensure only safe images are rendered in the blog creator preview. Introduced click guards to block unsafe protocols in preview interactions, reducing risk of navigation to unintended schemes.",
+    "tags": [
+      "security",
+      "ui",
+      "ux"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/98f414989fa90ee4bcbf45e48bff560290f48443"
+      },
+      {
+        "label": "Page",
+        "href": "/create-blog.html"
+      }
+    ]
   }
 ]
