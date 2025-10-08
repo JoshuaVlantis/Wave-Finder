@@ -249,5 +249,24 @@
         "href": "/updates.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Automated update logging enabled",
+    "summary": "Enables automated logging of changes to updates.json and updates.html rendering. This ensures user-visible changes are captured and easy to follow on the Updates page.",
+    "tags": [
+      "devops",
+      "data"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/9d5d2ac2c425328aa6725a1c54034ff2fe800c52"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
