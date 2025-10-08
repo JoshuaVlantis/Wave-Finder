@@ -377,5 +377,25 @@
         "href": "/post.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Refresh updates page layout and navigation",
+    "summary": "Updated the Updates page to refine its layout and navigation. This makes it easier for users to read the changelog and click through to the commit details for each update.",
+    "tags": [
+      "ui",
+      "ux",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/a3acd8864f75a0b29db3ad2f964cdee9809b1096"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
