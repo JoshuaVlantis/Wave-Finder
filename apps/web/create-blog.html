@@ -518,10 +518,14 @@ console.log('Hello Wave Finder!');
         const container = doc.body.firstElementChild;
 
         const ALLOWED_TAGS = new Set([
-          'A','ABBR','B','BLOCKQUOTE','BR','CODE','DIV','EM','H1','H2','H3','H4','H5','H6','HR','I','IMG','LI','OL','P','PRE','SPAN','STRONG','UL'
+          'A','ABBR','B','BLOCKQUOTE','BR','CODE','DIV','EM','H1','H2','H3','H4','H5','H6','HR','I','IMG','LI','OL','P','PRE','SPAN','STRONG','UL',
+          // Extras for Markdown features
+          'DEL',
+          'TABLE','THEAD','TBODY','TR','TH','TD','CAPTION'
         ]);
         const URI_ATTRS = new Set(['href','src']);
         const ALLOWED_ATTRS = new Set(['href','src','alt','title','target','rel','loading']);
+        const CLASS_OK_TAGS = new Set(['PRE','CODE','TABLE','THEAD','TBODY','TR','TH','TD']);
         const SAFE_LINK_PROTOCOLS = ['http:','https:','mailto:','tel:'];
         const SAFE_IMG_PROTOCOLS = ['http:','https:','data:','blob:'];
 
@@ -573,6 +577,11 @@ console.log('Hello Wave Finder!');
             for (const attr of attrs) {
               const name = attr.name.toLowerCase();
               if (name.startsWith('on')) { el.removeAttribute(attr.name); continue; }
+              if (name === 'class') {
+                if (!CLASS_OK_TAGS.has(el.tagName)) { el.removeAttribute(attr.name); continue; }
+                // Keep class as-is for styling hooks
+                continue;
+              }
               if (!ALLOWED_ATTRS.has(attr.name)) { el.removeAttribute(attr.name); continue; }
 
               if (URI_ATTRS.has(attr.name)) {
