@@ -46,11 +46,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="/static/leaflet/leaflet.css" />
   
   <link rel="preconnect" href="https://api.wavefinder.org" crossorigin>
-  <link rel="preconnect" href="https://unpkg.com" crossorigin>
-  <link rel="dns-prefetch" href="https://unpkg.com">
   <link rel="preconnect" href="https://server.arcgisonline.com" crossorigin>
   <link rel="dns-prefetch" href="https://server.arcgisonline.com">
   <link rel="preload" href="/static/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -60,7 +58,7 @@
   <link rel="preload" as="image" href="/static/logo32.png" imagesrcset="/static/logo32.png 1x" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
   
-  <link rel="preload" as="script" href="https://unpkg.com/leaflet/dist/leaflet.js" crossorigin="anonymous">
+  <link rel="preload" as="script" href="/static/leaflet/leaflet.js">
     <style>
       :root {
         --c-bg: #f0f4f8;
@@ -650,7 +648,7 @@
         </div>
       </div>
     </div>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js" crossorigin="anonymous" defer></script>
+  <script src="/static/leaflet/leaflet.js" defer></script>
     <script>
       window.addEventListener('DOMContentLoaded', () => {
         L.Marker.prototype._setPos = function(pos) {
