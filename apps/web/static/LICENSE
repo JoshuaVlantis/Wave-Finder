@@ -21,6 +21,12 @@ Third-party items retain their original licenses/terms and must be attributed ac
 - Source: https://github.com/markedjs/marked
 - Copyright (c) 2011-2024, Christopher Jeffrey and contributors
 
+### JSZip (jszip.min.js)
+- Version: 3.10.1
+- License: MIT License or GPLv3
+- Source: https://github.com/Stuk/JSZip
+- Copyright (c) 2009-2016 Stuart Knightley, David Duponchel, Franz Buchinger, António Afonso
+
 ### Blog Creator Interface (create-blog.html)
 - Inspired by: Typo markdown editor
 - License: MIT License
