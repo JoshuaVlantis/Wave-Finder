@@ -3,18 +3,44 @@
     "date": "2025-10-07",
     "title": "Chromium scrollbar polish",
     "summary": "Dark, thin scrollbars for popups and lists on Chrome/Edge; Firefox kept tidy.",
-    "tags": ["ui", "accessibility"],
+    "tags": [
+      "ui",
+      "accessibility"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/998d956" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/998d956"
+      }
     ]
   },
   {
     "date": "2025-10-07",
     "title": "Popup image fallback",
     "summary": "Ensure placeholder shows when images are missing or fail to load.",
-    "tags": ["bugfix"],
+    "tags": [
+      "bugfix"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/54d1680" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/54d1680"
+      }
+    ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "About page update via automated tests",
+    "summary": "Automated tests validate the about page update flow and ensure the updater detects page changes. This helps assure users see the intended UI changes.",
+    "tags": [
+      "ui",
+      "docs"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/77e6a65"
+      }
     ]
   }
 ]
