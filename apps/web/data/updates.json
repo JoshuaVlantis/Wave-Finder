@@ -460,5 +460,27 @@
         "href": "/create-blog.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Replace prompts with custom modal system",
+    "summary": "Added a custom modal system with Wave Finder styling and animations, replacing all alert() calls with showAlert() modals and replacing all confirm() calls with showConfirm() modals. Fixed issue where users could disable browser prompts, and enhanced UX with backdrop blur, keyboard support, and click-outside-to-close, with modals matching the site's dark theme and accent colors. Improved accessibility with focus management and ESC key support, and added async support for confirm dialogs in clearAll() and resetForm().",
+    "tags": [
+      "ui",
+      "ux",
+      "accessibility",
+      "styling",
+      "bugfix"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/336460461d29341906745f437e4b9b027e855062"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
