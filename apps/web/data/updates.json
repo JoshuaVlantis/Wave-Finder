@@ -566,5 +566,25 @@
         "href": "/create-blog.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Sanitize blog content: allow tables and code",
+    "summary": "Enhances blog content sanitization by allowing tables and del elements via a secure allowlist. Also permits class attributes on pre, code, and table elements to preserve styling in previews. This reduces security risks (XSS) while keeping essential formatting intact for user posts.",
+    "tags": [
+      "security",
+      "content",
+      "ui"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/fe0ed65525c37eb8f12d3a1a5483f28da35842a5"
+      },
+      {
+        "label": "Page",
+        "href": "/create-blog.html"
+      }
+    ]
   }
 ]
