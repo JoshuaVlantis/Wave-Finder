@@ -216,5 +216,24 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Center header and filter styling",
+    "summary": "Center the Updates page heading/lead and style the filter UI to match the Limits page (centered layout at 720px). This improves readability on smaller screens and provides a consistent look across data-driven pages.",
+    "tags": [
+      "ui",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/492a6b4f20bd3420b0986a1750939097df5baca8"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
