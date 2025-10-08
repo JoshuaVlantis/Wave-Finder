@@ -200,21 +200,6 @@
   },
   {
     "date": "2025-10-08",
-    "title": "About page update via automated tests",
-    "summary": "Automated tests validate the about page update flow and ensure the updater detects page changes. This helps assure users see the intended UI changes.",
-    "tags": [
-      "ui",
-      "docs"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/77e6a65"
-      }
-    ]
-  },
-  {
-    "date": "2025-10-08",
     "title": "Add license and source section",
     "summary": "Introduced a dedicated License & Source section on the About page to clearly present licensing and code provenance. This helps users understand how Wave Finder is licensed and where the source code lives.",
     "tags": [
@@ -223,7 +208,7 @@
     "links": [
       {
         "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/eed86c17f6cd8671d1c91df6a245c0a0661bb0be"
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/eed86c1"
       },
       {
         "label": "Page",
@@ -232,40 +217,31 @@
     ]
   },
   {
-    "date": "2025-10-08",
-    "title": "Automation updater final test",
-    "summary": "Runs a final automated updater test to verify that new changes are appended to updates.json and rendered on updates.html.",
+    "date": "2025-10-07",
+    "title": "Chromium scrollbar polish",
+    "summary": "Dark, thin scrollbars for popups and lists on Chrome/Edge; Firefox kept tidy.",
     "tags": [
-      "devops",
-      "docs"
+      "ui",
+      "accessibility"
     ],
     "links": [
       {
         "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/e2c476eda241779c6fff4336d730ed205fc9392e"
-      },
-      {
-        "label": "Page",
-        "href": "/updates.html"
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/998d956"
       }
     ]
   },
   {
-    "date": "2025-10-08",
-    "title": "Automated update logging enabled",
-    "summary": "Enables automated logging of changes to updates.json and updates.html rendering. This ensures user-visible changes are captured and easy to follow on the Updates page.",
+    "date": "2025-10-07",
+    "title": "Popup image fallback",
+    "summary": "Ensure placeholder shows when images are missing or fail to load.",
     "tags": [
-      "devops",
-      "data"
+      "bugfix"
     ],
     "links": [
       {
         "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/9d5d2ac2c425328aa6725a1c54034ff2fe800c52"
-      },
-      {
-        "label": "Page",
-        "href": "/updates.html"
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/54d1680"
       }
     ]
   }
