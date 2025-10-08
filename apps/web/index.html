@@ -1517,6 +1517,15 @@ function _detachWindHover(){
       function openRatingForm(name) {
         console.log('Rate →', name);
       }
+
+      // Expose handlers used by inline onclick attributes to the global scope
+      // so the popup "more/less" and other controls work reliably.
+      Object.assign(window, {
+        toggleWindOverlay,
+        toggleExpand,
+        copyCoords,
+        openRatingForm,
+      });
     });
     </script>
   <script src="/static/wf-header.js?v=2025-10-07-1" defer></script>
