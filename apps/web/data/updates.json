@@ -257,63 +257,8 @@
   },
   {
     "date": "2025-10-08",
-    "title": "Hero glow visible in Windows High Contrast",
-    "summary": "Ensures hero glow is visible in Windows High Contrast mode to improve accessibility and branding cues. This change helps users who rely on high-contrast settings perceive the UI highlight.",
-    "tags": [
-      "accessibility",
-      "ui",
-      "styling"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/b63bdfdda7731210749c75260bda479a5afeca54"
-      },
-      {
-        "label": "Page",
-        "href": "/about.html"
-      },
-      {
-        "label": "Page",
-        "href": "/blog.html"
-      },
-      {
-        "label": "Page",
-        "href": "/post.html"
-      }
-    ]
-  },
-  {
-    "date": "2025-10-08",
-    "title": "Increase radial-gradient opacity across pages",
-    "summary": "Tweaks the gradient stops and increases radial-gradient opacity to improve readability of the hero and page sections. The update applies to about, blog, and post pages for consistency.",
-    "tags": [
-      "ui",
-      "styling"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/b63bdfdda7731210749c75260bda479a5afeca54"
-      },
-      {
-        "label": "Page",
-        "href": "/about.html"
-      },
-      {
-        "label": "Page",
-        "href": "/blog.html"
-      },
-      {
-        "label": "Page",
-        "href": "/post.html"
-      }
-    ]
-  },
-  {
-    "date": "2025-10-08",
-    "title": "Add forced-color-adjust safeguards",
-    "summary": "Adds CSS safeguards and fallbacks for forced colors mode to maintain readability when system color schemes are altered. This helps ensure a consistent experience for users relying on OS accessibility settings.",
+    "title": "Keep decorative glow disabled in High Contrast",
+    "summary": "Disables decorative glow in Windows High Contrast mode to maintain a clean, readable UI.",
     "tags": [
       "accessibility",
       "ui",
