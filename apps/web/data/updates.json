@@ -3,122 +3,232 @@
     "date": "2025-10-06",
     "title": "Initial project structure",
     "summary": "Created initial project layout and core files.",
-    "tags": ["infra"],
+    "tags": [
+      "infra"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/9c7b49e" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/9c7b49e"
+      }
     ]
   },
   {
     "date": "2025-10-06",
     "title": "Launched blog section",
     "summary": "Added initial blog scaffolding and content structure.",
-    "tags": ["content"],
+    "tags": [
+      "content"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/fbb2ab0" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/fbb2ab0"
+      }
     ]
   },
   {
     "date": "2025-10-06",
     "title": "Add Coolify local run steps",
     "summary": "Documented how to run the website locally using Coolify.",
-    "tags": ["docs", "deploy"],
+    "tags": [
+      "docs",
+      "deploy"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/db2c40e" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/db2c40e"
+      }
     ]
   },
   {
     "date": "2025-10-06",
     "title": "README overhaul and monorepo layout",
     "summary": "Rewrote README with monorepo layout, setup guidance, and best practices.",
-    "tags": ["docs"],
+    "tags": [
+      "docs"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/78097b1" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/78097b1"
+      }
     ]
   },
   {
     "date": "2025-10-06",
     "title": "Switch to Google Fonts for Outfit",
     "summary": "Temporarily moved to Google Fonts for Outfit with corrected crossorigin usage (later replaced by self‑hosting).",
-    "tags": ["assets", "performance"],
+    "tags": [
+      "assets",
+      "performance"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/9cbaa72" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/9cbaa72"
+      }
     ]
   },
   {
     "date": "2025-10-07",
     "title": "Licensing overhaul (AGPL + CC BY 4.0)",
     "summary": "Adopted AGPL-3.0-or-later for software and CC BY 4.0 for posts/images/docs/data; added NOTICE, LICENSES.md, and per-file SPDX headers.",
-    "tags": ["license", "docs", "compliance"],
+    "tags": [
+      "license",
+      "docs",
+      "compliance"
+    ],
     "links": [
-      { "label": "Add AGPL license", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/982a640" },
-      { "label": "Split licensing & docs", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/16def6c" },
-      { "label": "Mark data as CC BY 4.0", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/5cfec62" },
-      { "label": "SPDX/AGPL notices", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/31a5a34" }
+      {
+        "label": "Add AGPL license",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/982a640"
+      },
+      {
+        "label": "Split licensing & docs",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/16def6c"
+      },
+      {
+        "label": "Mark data as CC BY 4.0",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/5cfec62"
+      },
+      {
+        "label": "SPDX/AGPL notices",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/31a5a34"
+      }
     ]
   },
   {
     "date": "2025-10-07",
     "title": "Show Source & License in UI/API",
     "summary": "Advertise source and license via UI header and API Link headers to comply with AGPL §13.",
-    "tags": ["license", "ux", "api"],
+    "tags": [
+      "license",
+      "ux",
+      "api"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/ce939bf" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/ce939bf"
+      }
     ]
   },
   {
     "date": "2025-10-07",
     "title": "Docs: Coolify‑first deployment",
     "summary": "Simplified README to focus on Docker/Coolify as the best‑supported deployment path; removed other paths.",
-    "tags": ["docs", "deploy"],
+    "tags": [
+      "docs",
+      "deploy"
+    ],
     "links": [
-      { "label": "Simplify docs", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/258e2d8" },
-      { "label": "Highlight Coolify", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/4c6d49a" }
+      {
+        "label": "Simplify docs",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/258e2d8"
+      },
+      {
+        "label": "Highlight Coolify",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/4c6d49a"
+      }
     ]
   },
   {
     "date": "2025-10-07",
     "title": "Updates page + navigation",
     "summary": "Added a new Updates page that renders /data/updates.json and a header nav link so changes are easy to follow.",
-    "tags": ["ui", "infra", "docs"],
+    "tags": [
+      "ui",
+      "infra",
+      "docs"
+    ],
     "links": [
-      { "label": "Updates page commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/b2f913d" },
-      { "label": "Expose nav immediately", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/024b082" }
+      {
+        "label": "Updates page commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/b2f913d"
+      },
+      {
+        "label": "Expose nav immediately",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/024b082"
+      }
     ]
   },
   {
     "date": "2025-10-07",
     "title": "Self‑host fonts + network optimizations",
     "summary": "Reduced third‑party requests and improved reliability by self‑hosting fonts and optimizing asset loading.",
-    "tags": ["performance", "assets"],
+    "tags": [
+      "performance",
+      "assets"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/64cf49c" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/64cf49c"
+      }
     ]
   },
   {
     "date": "2025-10-07",
     "title": "Popup image fallback",
     "summary": "Ensure placeholder shows when images are missing or fail to load.",
-    "tags": ["bugfix"],
+    "tags": [
+      "bugfix"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/54d1680" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/54d1680"
+      }
     ]
   },
   {
     "date": "2025-10-07",
     "title": "Chromium scrollbar polish",
     "summary": "Dark, thin scrollbars for popups and lists on Chrome/Edge; Firefox kept tidy.",
-    "tags": ["ui", "accessibility"],
+    "tags": [
+      "ui",
+      "accessibility"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/998d956" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/998d956"
+      }
     ]
   },
   {
     "date": "2025-10-08",
     "title": "About page update via automated tests",
     "summary": "Automated tests validate the about page update flow and ensure the updater detects page changes. This helps assure users see the intended UI changes.",
-    "tags": ["ui", "docs"],
+    "tags": [
+      "ui",
+      "docs"
+    ],
     "links": [
-      { "label": "Commit", "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/77e6a65" }
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/77e6a65"
+      }
+    ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Add license and source section",
+    "summary": "Introduced a dedicated License & Source section on the About page to clearly present licensing and code provenance. This helps users understand how Wave Finder is licensed and where the source code lives.",
+    "tags": [
+      "docs"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/eed86c17f6cd8671d1c91df6a245c0a0661bb0be"
+      },
+      {
+        "label": "Page",
+        "href": "/about.html"
+      }
     ]
   }
 ]
