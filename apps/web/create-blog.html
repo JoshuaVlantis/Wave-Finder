@@ -195,6 +195,101 @@
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
+
+    /* Custom Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      backdrop-filter: blur(4px);
+    }
+    
+    .modal-dialog {
+      background: linear-gradient(180deg, rgba(34,39,46,0.95), rgba(22,26,31,0.98));
+      border: 1px solid var(--c-border);
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 400px;
+      min-width: 300px;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.4);
+      animation: modalSlideIn 0.2s ease-out;
+    }
+    
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 12px;
+      color: var(--c-text);
+    }
+    
+    .modal-message {
+      color: var(--c-dim);
+      line-height: 1.5;
+      margin-bottom: 20px;
+      white-space: pre-line;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    
+    .modal-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .modal-btn-primary {
+      background: var(--c-accent);
+      color: white;
+    }
+    
+    .modal-btn-primary:hover {
+      background: #45b7e8;
+    }
+    
+    .modal-btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: var(--c-text);
+      border: 1px solid var(--c-border);
+    }
+    
+    .modal-btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    
+    .modal-btn-danger {
+      background: #e74c3c;
+      color: white;
+    }
+    
+    .modal-btn-danger:hover {
+      background: #c0392b;
+    }
+    
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -263,12 +358,13 @@
             <button class="tool-btn" onclick="insertTable()" title="Table">
               <svg viewBox="0 0 16 16" fill="currentColor"><path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/></svg>
             </button>
-            <button class="tool-btn" onclick="openBlogPreview()" title="Preview Blog" style="color: #4fc3f7; min-width: 60px;">
-              Preview
-            </button>
 
             <button class="tool-btn" onclick="insertText('---\n\n', 'block')" title="Horizontal Rule">
               <svg viewBox="0 0 16 16" fill="currentColor"><path d="M12 8a1 1 0 0 1 1 1v2.5h2.5a.5.5 0 0 1 0 1H13V15a1 1 0 0 1-2 0v-2.5H8.5a.5.5 0 0 1 0-1H11V9a1 1 0 0 1 1-1zm-6-8a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1a1 1 0 0 1 1-1zM1 8a1 1 0 0 1 1-1h2.5a.5.5 0 0 1 0 1H2v6.5a.5.5 0 0 1-1 0V8z"/></svg>
+            </button>
+            
+            <button class="tool-btn" onclick="openBlogPreview()" title="Preview Blog" style="color: #4fc3f7; min-width: 60px; margin-left: auto;">
+              Preview
             </button>
           </div>
           
@@ -534,14 +630,14 @@ console.log('Hello Wave Finder!');
       
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
+        showAlert('Invalid File Type', 'Please select an image file');
         return;
       }
       
       // Validate file size (5MB limit)
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
-        alert('Image file is too large. Please choose a file under 5MB.');
+        showAlert('File Too Large', 'Image file is too large. Please choose a file under 5MB.');
         return;
       }
       
@@ -623,14 +719,14 @@ console.log('Hello Wave Finder!');
       
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
+        showAlert('Invalid File Type', 'Please select an image file');
         return;
       }
       
       // Validate file size (5MB limit)
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
-        alert('Image file is too large. Please choose a file under 5MB.');
+        showAlert('File Too Large', 'Image file is too large. Please choose a file under 5MB.');
         return;
       }
       
@@ -704,6 +800,71 @@ console.log('Hello Wave Finder!');
       } else {
         container.style.display = 'none';
       }
+    }
+
+    // Custom modal functions to replace browser prompts
+    function showModal(title, message, buttons = [{ text: 'OK', primary: true }]) {
+      return new Promise((resolve) => {
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        
+        const dialog = document.createElement('div');
+        dialog.className = 'modal-dialog';
+        
+        dialog.innerHTML = `
+          <div class="modal-title">${title}</div>
+          <div class="modal-message">${message}</div>
+          <div class="modal-buttons"></div>
+        `;
+        
+        const buttonsContainer = dialog.querySelector('.modal-buttons');
+        
+        buttons.forEach((btn, index) => {
+          const button = document.createElement('button');
+          button.className = `modal-btn ${btn.primary ? 'modal-btn-primary' : btn.danger ? 'modal-btn-danger' : 'modal-btn-secondary'}`;
+          button.textContent = btn.text;
+          button.onclick = () => {
+            document.body.removeChild(overlay);
+            resolve(btn.value !== undefined ? btn.value : index);
+          };
+          buttonsContainer.appendChild(button);
+        });
+        
+        overlay.appendChild(dialog);
+        document.body.appendChild(overlay);
+        
+        // Focus first button
+        buttonsContainer.firstElementChild.focus();
+        
+        // Close on overlay click
+        overlay.onclick = (e) => {
+          if (e.target === overlay) {
+            document.body.removeChild(overlay);
+            resolve(false);
+          }
+        };
+        
+        // Close on Escape key
+        const handleEscape = (e) => {
+          if (e.key === 'Escape') {
+            document.removeEventListener('keydown', handleEscape);
+            document.body.removeChild(overlay);
+            resolve(false);
+          }
+        };
+        document.addEventListener('keydown', handleEscape);
+      });
+    }
+    
+    function showAlert(title, message) {
+      return showModal(title, message, [{ text: 'OK', primary: true }]);
+    }
+    
+    function showConfirm(title, message) {
+      return showModal(title, message, [
+        { text: 'Cancel', value: false },
+        { text: 'Confirm', value: true, danger: true }
+      ]);
     }
 
     // Simple blog preview function using post.html styling
@@ -796,7 +957,7 @@ console.log('Hello Wave Finder!');
         previewWindow.document.close();
         previewWindow.focus();
       } else {
-        alert('Please allow popups to view the blog preview');
+        showAlert('Popup Blocked', 'Please allow popups to view the blog preview');
       }
     }
 
@@ -948,8 +1109,9 @@ console.log('Hello Wave Finder!');
       });
     }
 
-    function clearAll() {
-      if (confirm('Are you sure you want to clear all content and start fresh?')) {
+    async function clearAll() {
+      const confirmed = await showConfirm('Clear All Content', 'Are you sure you want to clear all content and start fresh?\n\nThis action cannot be undone.');
+      if (confirmed) {
         // Clear all form fields
         document.getElementById('title').value = '';
         document.getElementById('author').value = '';
@@ -1038,7 +1200,7 @@ console.log('Hello Wave Finder!');
         if (files.length > 0 && files[0].name.endsWith('.zip')) {
           loadZipFile(files[0]);
         } else {
-          alert('Please upload a ZIP file.');
+          showAlert('Invalid File Type', 'Please upload a ZIP file.');
         }
       });
     }
@@ -1161,7 +1323,7 @@ console.log('Hello Wave Finder!');
         
         // Show success message
         const imageCount = imageFiles.length;
-        alert(`Project loaded successfully! 🎉\n\n📄 Loaded: ${markdownFile.name}\n${metadataFile ? '📋 Metadata: Restored\n' : ''}${imageCount > 0 ? `🖼️ Images: ${imageCount} file(s) loaded\n` : ''}📝 Ready to edit!`);
+        showAlert('Project Loaded Successfully! 🎉', `📄 Loaded: ${markdownFile.name}\n${metadataFile ? '📋 Metadata: Restored\n' : ''}${imageCount > 0 ? `🖼️ Images: ${imageCount} file(s) loaded\n` : ''}📝 Ready to edit!`);
         
         // Show loaded state in upload area
         uploadContent.innerHTML = `
@@ -1177,7 +1339,7 @@ console.log('Hello Wave Finder!');
         
       } catch (error) {
         console.error('Error loading ZIP file:', error);
-        alert(`Error loading ZIP file: ${error.message}\n\nPlease ensure you're uploading a valid Wave Finder blog post ZIP file.`);
+        showAlert('Error Loading ZIP File', `Error: ${error.message}\n\nPlease ensure you're uploading a valid Wave Finder blog post ZIP file.`);
         
         // Restore upload area
         const uploadContent = document.querySelector('.upload-content');
@@ -1199,18 +1361,18 @@ console.log('Hello Wave Finder!');
       const excerpt = document.getElementById('excerpt').value.trim();
       
       if (!title || !author || !slug || !excerpt) {
-        alert('Please fill in all required fields (Title, Author, Slug, Excerpt)');
+        showAlert('Missing Required Fields', 'Please fill in all required fields (Title, Author, Slug, Excerpt)');
         return;
       }
 
       // Validate slug format
       if (!/^[a-z0-9-]+$/.test(slug)) {
-        alert('Slug must contain only lowercase letters, numbers, and hyphens');
+        showAlert('Invalid Slug Format', 'Slug must contain only lowercase letters, numbers, and hyphens');
         return;
       }
 
       if (!editor.value.trim()) {
-        alert('Please write some content for your blog post');
+        showAlert('Missing Content', 'Please write some content for your blog post');
         return;
       }
 
@@ -1301,11 +1463,11 @@ Date: ${new Date().toISOString().split('T')[0]}
 
         // Show success message
         const fileCount = 2 + (window.attachedImages ? window.attachedImages.length : 0) + 1; // md + json + images + readme
-        alert(`Blog post package generated successfully! 📦\n\nZIP file contains:\n- ${slug}.md (blog content)\n- ${slug}-metadata.json (metadata)\n- README.txt (instructions)${window.attachedImages && window.attachedImages.length > 0 ? `\n- ${window.attachedImages.length} image file(s)` : ''}\n\nTotal: ${fileCount} files\n\nPlease email the ZIP file to contribute your post to Wave Finder!`);
+        showAlert('Blog Post Package Generated! 📦', `ZIP file contains:\n- ${slug}.md (blog content)\n- ${slug}-metadata.json (metadata)\n- README.txt (instructions)${window.attachedImages && window.attachedImages.length > 0 ? `\n- ${window.attachedImages.length} image file(s)` : ''}\n\nTotal: ${fileCount} files\n\nPlease email the ZIP file to contribute your post to Wave Finder!`);
 
       } catch (error) {
         console.error('Error generating ZIP:', error);
-        alert('Error generating ZIP file. Please try again.');
+        showAlert('Generation Error', 'Error generating ZIP file. Please try again.');
       } finally {
         // Restore button
         btn.innerHTML = originalText;
@@ -1313,8 +1475,9 @@ Date: ${new Date().toISOString().split('T')[0]}
       }
     }
 
-    function resetForm() {
-      if (confirm('Are you sure you want to reset the form? All content will be lost.')) {
+    async function resetForm() {
+      const confirmed = await showConfirm('Reset Form', 'Are you sure you want to reset the form?\n\nAll content will be lost and cannot be recovered.');
+      if (confirmed) {
         document.getElementById('title').value = '';
         document.getElementById('author').value = '';
         document.getElementById('slug').value = '';
