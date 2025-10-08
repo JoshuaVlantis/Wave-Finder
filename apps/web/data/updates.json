@@ -606,5 +606,25 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Leaflet.js updated for map compatibility",
+    "summary": "Updated the Leaflet.js library file in the maps module to the latest version. This helps improve map rendering and interaction with current browsers. Keeping dependencies up to date reduces potential security issues and ensures compatibility with future features.",
+    "tags": [
+      "maps",
+      "leaflet",
+      "performance"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/f34beb6226e27c0cc4613b0f667f9269cf5a4588"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
