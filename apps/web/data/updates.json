@@ -235,5 +235,24 @@
         "href": "/updates.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Keep search icon inside input",
+    "summary": "Keeps the magnifier icon inside the search field and adds a wrapper with max-width and extra right padding. This improves alignment and touch targets on smaller screens.",
+    "tags": [
+      "ui",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/9e883fcff0451ad994d6ac37233315c24d1e64bf"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
