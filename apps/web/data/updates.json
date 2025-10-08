@@ -285,34 +285,6 @@
   },
   {
     "date": "2025-10-08",
-    "title": "Keep decorative glow disabled in High Contrast",
-    "summary": "Disables decorative glow in Windows High Contrast mode to maintain a clean, readable UI.",
-    "tags": [
-      "accessibility",
-      "ui",
-      "styling"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/b63bdfdda7731210749c75260bda479a5afeca54"
-      },
-      {
-        "label": "Page",
-        "href": "/about.html"
-      },
-      {
-        "label": "Page",
-        "href": "/blog.html"
-      },
-      {
-        "label": "Page",
-        "href": "/post.html"
-      }
-    ]
-  },
-  {
-    "date": "2025-10-08",
     "title": "Center glow strengthened across pages",
     "summary": "Center the glow effect and increase its strength by about 20% across all pages. This enhances visual emphasis and consistency of the Wave-Finder branding, improving perceived depth and polish for users.",
     "tags": [
