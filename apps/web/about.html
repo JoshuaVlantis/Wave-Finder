@@ -48,7 +48,8 @@
     <link rel="stylesheet" href="/static/fonts/outfit.css" />
     <link rel="preload" as="image" href="/static/logo32.png" imagesrcset="/static/logo32.png 1x" />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-    <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1" />
+  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1" />
+  <link rel="stylesheet" href="/static/wf-glow.css?v=2025-10-08-1" />
     <style>
       :root{ --c-bg:#121212; --c-panel:#1e1e1e; --c-border:#2b3440; --c-accent:#4fc3f7; --c-text:#eaeef5; --c-dim:#aab3c2; --r:12px }
       *{ box-sizing:border-box }
@@ -62,24 +63,12 @@
         color: var(--c-text);
         position: relative;
       }
-      /* Soft radial glow like post.html */
-      body::before{
-        content:""; position:fixed; inset:0; min-height:100vh; pointer-events:none; z-index:0;
-        /* Stronger, longer glow that doesn't die off too soon */
-        background:
-          radial-gradient(1600px 900px at 50% -20%, rgba(79,195,247,0.26) 0%, rgba(79,195,247,0.12) 46%, rgba(79,195,247,0) 90%),
-          radial-gradient(900px 500px at 50% -10%, rgba(79,195,247,0.15) 0%, rgba(79,195,247,0) 78%);
-        /* Prevent Windows High Contrast from stripping background images */
-        forced-color-adjust: none;
-      }
+      /* Decorative glow is provided globally via /static/wf-glow.css */
 
       main{ max-width:960px; margin:0 auto; padding:120px 20px 40px; position:relative; z-index:1 }
       @media (min-width: 1400px){ main{ max-width:1040px } }
 
-      /* Respect Windows High Contrast: remove decorative glow */
-      @media (forced-colors: active){
-        body::before{ forced-color-adjust:auto; background:none }
-      }
+      /* High Contrast handling lives in /static/wf-glow.css */
 
       /* Card container, matching blog post style */
       .post{ background:linear-gradient(180deg, rgba(34,39,46,.9), rgba(22,26,31,.95)); border:1px solid var(--c-border); border-radius:12px; padding:20px; box-shadow:0 12px 28px rgba(0,0,0,.28) }
