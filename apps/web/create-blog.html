@@ -21,6 +21,8 @@
   
   <!-- Load marked.js for preview -->
   <script src="/static/marked.min.js"></script>
+  <!-- Load JSZip for file packaging -->
+  <script src="static/jszip.min.js"></script>
   
   <style>
     :root{ --c-bg:#121212; --c-panel:#1e1e1e; --c-border:#2b3440; --c-accent:#4fc3f7; --c-text:#eaeef5; --c-dim:#aab3c2; --r:12px }
@@ -134,6 +136,66 @@
     .image-info{ font-size:12px; color:var(--c-dim); margin:8px 0 }
     
     .dialog-actions{ display:flex; gap:12px; justify-content:flex-end; margin-top:20px }
+    .load-section {
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(79, 195, 247, 0.1);
+      border: 1px solid rgba(79, 195, 247, 0.3);
+      border-radius: 8px;
+    }
+    
+    .load-section h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: var(--c-accent);
+    }
+    
+    .load-section p {
+      margin: 0 0 12px;
+      font-size: 13px;
+      color: var(--c-dim);
+    }
+    
+    .upload-area {
+      border: 2px dashed var(--c-border);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .upload-area:hover {
+      border-color: var(--c-accent);
+      background: rgba(79, 195, 247, 0.05);
+    }
+    
+    .upload-area.dragover {
+      border-color: var(--c-accent);
+      background: rgba(79, 195, 247, 0.1);
+    }
+    
+    .upload-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--c-dim);
+    }
+    
+    .upload-content svg {
+      opacity: 0.6;
+    }
+    
+    .upload-content span {
+      font-size: 14px;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -144,6 +206,23 @@
       <div class="creator-header">
         <h1>Create Blog Post</h1>
         <p>Write your blog post in markdown and generate files to contribute to Wave Finder</p>
+        
+        <div class="load-section">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <h3 style="margin: 0;">📂 Load Existing Project</h3>
+            <button type="button" onclick="clearAll()" style="padding: 4px 8px; font-size: 12px; background: rgba(255,255,255,0.1); border: 1px solid var(--c-border); border-radius: 4px; color: var(--c-dim); cursor: pointer;">🗑️ Clear All</button>
+          </div>
+          <p>Upload a previously generated zip file to continue editing</p>
+          <div class="upload-area" id="zipUploadArea">
+            <input type="file" id="zipFileInput" accept=".zip" style="display: none;">
+            <div class="upload-content">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+              </svg>
+              <span>Click to upload ZIP file or drag & drop</span>
+            </div>
+          </div>
+        </div>
       </div>
       
       <div class="creator-body">
@@ -281,9 +360,19 @@ console.log('Hello Wave Finder!');
           </div>
           
           <div class="form-group">
-            <label class="form-label" for="cover">Cover Image URL</label>
-            <input type="text" id="cover" class="form-input" placeholder="/Images/my-image.jpg">
-            <div class="help-text">Optional: Path to cover image (relative to Wave Finder)</div>
+            <label class="form-label" for="cover">Cover Image</label>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <input type="text" id="cover" class="form-input" placeholder="/Images/my-image.jpg" style="flex:1;">
+              <button type="button" class="btn btn-secondary" onclick="showCoverImageDialog()" style="padding:8px 12px; white-space:nowrap;">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/></svg>
+                Upload
+              </button>
+            </div>
+            <div class="help-text">Optional: Path to cover image or upload your own</div>
+            <div id="cover-preview-container" style="margin-top:8px; display:none;">
+              <img id="cover-preview" style="max-width:100%; max-height:150px; border-radius:8px; border:1px solid var(--c-border);" alt="Cover preview">
+              <div id="cover-info" style="font-size:12px; color:var(--c-dim); margin-top:4px;"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -294,13 +383,16 @@ console.log('Hello Wave Finder!');
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/><path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/></svg>
           Reset
         </button>
-        <button class="btn" onclick="generateFiles()">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
-          Generate Files
+        <button class="btn" onclick="generateZipFile()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.5 7.5a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v.938l.4 1.599a1 1 0 0 1-.416 1.074l-.93.62a1 1 0 0 1-1.109 0l-.93-.62a1 1 0 0 1-.415-1.074L7.5 8.438V7.5z"/><path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm5.5-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H8.5v1h-1V1z"/></svg>
+          Generate Blog Package
         </button>
       </div>
     </div>
   </main>
+
+  <!-- Hidden file input for cover image -->
+  <input type="file" id="cover-file-input" style="display:none;" accept="image/*" onchange="handleCoverImageUpload(event)">
 
   <!-- Image Dialog -->
   <div id="image-dialog" class="image-dialog">
@@ -314,6 +406,7 @@ console.log('Hello Wave Finder!');
         <div class="image-option active" onclick="selectImageType('upload')">
           <h4 style="margin:0 0 8px">📁 Upload from Computer</h4>
           <p style="margin:0; color:var(--c-dim); font-size:14px">Select an image file from your device</p>
+          <p style="margin:4px 0 0; color:var(--c-accent); font-size:12px; font-style:italic">Click again to browse files</p>
         </div>
         <div class="image-option" onclick="selectImageType('url')">
           <h4 style="margin:0 0 8px">🔗 Use URL/Path</h4>
@@ -495,6 +588,12 @@ console.log('Hello Wave Finder!');
     }
     
     function selectImageType(type) {
+      // If upload is already selected and clicked again, trigger file picker
+      if (type === 'upload' && selectedImageType === 'upload') {
+        document.getElementById('image-file').click();
+        return;
+      }
+      
       selectedImageType = type;
       
       // Update active option
@@ -558,23 +657,39 @@ console.log('Hello Wave Finder!');
           return;
         }
         
-        // For uploaded files, we'll use a data URL for preview
-        // but also note that they need to send the file
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const imageMd = `![${altText}](${e.target.result})`;
-          insertAtCursor(imageMd);
-          
-          // Add a note about the uploaded file
-          const note = `\n\n<!-- NOTE: Image "${currentImageFile.name}" needs to be sent separately -->\n\n`;
-          insertAtCursor(note);
-          
-          closeImageDialog();
-          
-          // Show reminder
-          alert(`Image added! 📸\n\nRemember to email the image file "${currentImageFile.name}" along with your blog post files.`);
-        };
-        reader.readAsDataURL(currentImageFile);
+        // Get the data URL from the preview (it's already loaded)
+        const previewImg = document.getElementById('image-preview');
+        const dataUrl = previewImg.src;
+        
+        const fileName = currentImageFile.name;
+        const placeholder = `/Images/${fileName}`;
+        
+        // Store the mapping for preview rendering
+        if (!window.imageMap) window.imageMap = new Map();
+        window.imageMap.set(placeholder, dataUrl);
+        
+        // Use placeholder in markdown for clean editing
+        const imageMd = `![${altText}](${placeholder})`;
+        insertAtCursor(imageMd);
+        
+        // Add a comment with file details
+        const comment = `\n<!-- 📎 ATTACHED FILE: "${fileName}" (${Math.round(currentImageFile.size/1024)}KB) - Remember to send this file! -->\n`;
+        insertAtCursor(comment);
+        
+        // Store the file reference for later
+        if (!window.attachedImages) window.attachedImages = [];
+        window.attachedImages.push({
+          file: currentImageFile,
+          placeholder: placeholder,
+          altText: altText
+        });
+        
+        closeImageDialog();
+        updatePreview(); // Refresh preview immediately
+        
+        // Show reminder
+        alert(`Image placeholder added! 📸\n\nFile: ${fileName}\nPlaceholder: ${placeholder}\n\nRemember to email this image file along with your blog post files.`);
+        
       } else {
         imageSrc = document.getElementById('image-url').value.trim();
         if (!imageSrc) {
@@ -591,6 +706,98 @@ console.log('Hello Wave Finder!');
     function insertImage() {
       showImageDialog();
     }
+    
+    // Cover image handling
+    let coverImageFile = null;
+    
+    function showCoverImageDialog() {
+      document.getElementById('cover-file-input').click();
+    }
+    
+    function handleCoverImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+      
+      // Validate file size (5MB limit)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        alert('Image file is too large. Please choose a file under 5MB.');
+        return;
+      }
+      
+      coverImageFile = file;
+      
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // Update cover input with placeholder path
+        const placeholder = `/Images/${file.name}`;
+        document.getElementById('cover').value = placeholder;
+        
+        // Show preview
+        const preview = document.getElementById('cover-preview');
+        const container = document.getElementById('cover-preview-container');
+        const info = document.getElementById('cover-info');
+        
+        preview.src = e.target.result;
+        container.style.display = 'block';
+        
+        // Show file info
+        const sizeKB = Math.round(file.size / 1024);
+        info.textContent = `File: ${file.name} (${sizeKB} KB) - Remember to send this file!`;
+        
+        // Store in image map for preview
+        if (!window.imageMap) window.imageMap = new Map();
+        window.imageMap.set(placeholder, e.target.result);
+        
+        // Store for file generation
+        if (!window.attachedImages) window.attachedImages = [];
+        // Remove any previous cover image entry
+        window.attachedImages = window.attachedImages.filter(img => !img.isCover);
+        window.attachedImages.push({
+          file: coverImageFile,
+          placeholder: placeholder,
+          altText: 'Cover image',
+          isCover: true
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    // Update cover preview when URL is manually entered
+    function updateCoverPreview() {
+      const coverUrl = document.getElementById('cover').value.trim();
+      const container = document.getElementById('cover-preview-container');
+      const preview = document.getElementById('cover-preview');
+      const info = document.getElementById('cover-info');
+      
+      if (coverUrl) {
+        // Check if it's a placeholder for uploaded image
+        if (window.imageMap && window.imageMap.has(coverUrl)) {
+          preview.src = window.imageMap.get(coverUrl);
+          container.style.display = 'block';
+          info.textContent = 'Uploaded image preview';
+        } else if (coverUrl.startsWith('/Images/') || coverUrl.startsWith('http')) {
+          // Try to show external/existing image
+          preview.src = coverUrl;
+          container.style.display = 'block';
+          info.textContent = 'External/existing image';
+          preview.onerror = () => {
+            container.style.display = 'none';
+          };
+        } else {
+          container.style.display = 'none';
+        }
+      } else {
+        container.style.display = 'none';
+      }
+    }
 
     function insertTable() {
       const tableMd = `| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |\n| Cell 3   | Cell 4   |\n\n`;
@@ -599,7 +806,20 @@ console.log('Hello Wave Finder!');
 
     // Preview update
     function updatePreview() {
-      const markdown = editor.value;
+      let markdown = editor.value;
+      
+      // Replace image placeholders with data URLs for preview
+      if (window.imageMap) {
+        window.imageMap.forEach((dataUrl, placeholder) => {
+          // Replace placeholder paths with data URLs for preview
+          const escapedPlaceholder = placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          markdown = markdown.replace(
+            new RegExp(`\\!\\[([^\\]]*)\\]\\(${escapedPlaceholder}\\)`, 'g'),
+            `![$1](${dataUrl})`
+          );
+        });
+      }
+      
       try {
         const html = marked.parse(markdown, { renderer });
         previewContent.innerHTML = html || '<p><em>Start writing to see the preview...</em></p>';
@@ -645,8 +865,267 @@ console.log('Hello Wave Finder!');
       }
     });
 
-    // File generation
-    function generateFiles() {
+    // Utility functions
+    function updateImageCounter() {
+      const count = window.attachedImages ? window.attachedImages.length : 0;
+      // If there's an image counter element, update it
+      const counter = document.querySelector('.image-counter');
+      if (counter) {
+        counter.textContent = count > 0 ? `${count} image(s) attached` : 'No images';
+      }
+    }
+
+    function updateTagsDisplay() {
+      const container = document.getElementById('tags-container');
+      if (!container) return;
+      
+      container.innerHTML = '';
+      tags.forEach(tag => {
+        const tagEl = document.createElement('span');
+        tagEl.className = 'tag';
+        tagEl.innerHTML = `${tag} <button type="button" onclick="removeTag('${tag}')">×</button>`;
+        container.appendChild(tagEl);
+      });
+    }
+
+    function clearAll() {
+      if (confirm('Are you sure you want to clear all content and start fresh?')) {
+        // Clear all form fields
+        document.getElementById('title').value = '';
+        document.getElementById('author').value = '';
+        document.getElementById('slug').value = '';
+        document.getElementById('excerpt').value = '';
+        document.getElementById('date').value = '';
+        document.getElementById('cover').value = '';
+        
+        // Hide cover image preview
+        const coverContainer = document.getElementById('cover-preview-container');
+        if (coverContainer) {
+          coverContainer.style.display = 'none';
+        }
+        
+        // Clear editor
+        editor.value = '';
+        
+        // Clear tags
+        tags.length = 0;
+        updateTagsDisplay();
+        
+        // Clear images
+        if (window.attachedImages) {
+          // Clean up object URLs to prevent memory leaks
+          window.attachedImages.forEach(img => {
+            if (img.url) {
+              URL.revokeObjectURL(img.url);
+            }
+          });
+          window.attachedImages.length = 0;
+        }
+        
+        // Clear image map
+        if (window.imageMap) {
+          // Clean up all object URLs
+          window.imageMap.forEach(url => URL.revokeObjectURL(url));
+          window.imageMap.clear();
+        }
+        
+        updateImageCounter();
+        
+        // Update preview
+        updatePreview();
+        
+        // Reset file input
+        document.getElementById('zipFileInput').value = '';
+      }
+    }
+
+    // ZIP file loading
+    function setupZipUpload() {
+      const uploadArea = document.getElementById('zipUploadArea');
+      const fileInput = document.getElementById('zipFileInput');
+      
+      // Click to upload
+      uploadArea.addEventListener('click', () => {
+        fileInput.click();
+      });
+      
+      // File selection
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          loadZipFile(e.target.files[0]);
+        }
+      });
+      
+      // Drag and drop
+      uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+      });
+      
+      uploadArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+      });
+      
+      uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0 && files[0].name.endsWith('.zip')) {
+          loadZipFile(files[0]);
+        } else {
+          alert('Please upload a ZIP file.');
+        }
+      });
+    }
+
+    async function loadZipFile(file) {
+      try {
+        // Show loading state
+        const uploadContent = document.querySelector('.upload-content');
+        const originalHTML = uploadContent.innerHTML;
+        uploadContent.innerHTML = '<svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor" style="animation: spin 1s linear infinite;"><path d="M8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM2 8a6 6 0 1 1 12 0A6 6 0 0 1 2 8z"/><path d="M8 4.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H6a.5.5 0 0 1 0-1h1.5V5a.5.5 0 0 1 .5-.5z"/></svg><span>Loading project...</span>';
+
+        // Load and extract ZIP
+        const zip = new JSZip();
+        const zipContents = await zip.loadAsync(file);
+        
+        let markdownFile = null;
+        let metadataFile = null;
+        const imageFiles = [];
+        
+        // Process each file in the ZIP
+        for (const [filename, zipEntry] of Object.entries(zipContents.files)) {
+          if (zipEntry.dir) continue; // Skip directories
+          
+          if (filename.endsWith('.md')) {
+            markdownFile = zipEntry;
+          } else if (filename.endsWith('-metadata.json')) {
+            metadataFile = zipEntry;
+          } else if (filename.startsWith('Images/') && !filename.endsWith('/')) {
+            imageFiles.push(zipEntry);
+          }
+        }
+        
+        if (!markdownFile) {
+          throw new Error('No markdown (.md) file found in ZIP');
+        }
+        
+        // Load markdown content
+        const markdownContent = await markdownFile.async('text');
+        editor.value = markdownContent;
+        
+        // Load metadata if available
+        let coverImagePath = null;
+        if (metadataFile) {
+          const metadataContent = await metadataFile.async('text');
+          const metadata = JSON.parse(metadataContent);
+          
+          // Populate form fields
+          document.getElementById('title').value = metadata.title || '';
+          document.getElementById('author').value = metadata.author || '';
+          document.getElementById('slug').value = metadata.slug || '';
+          document.getElementById('excerpt').value = metadata.excerpt || '';
+          document.getElementById('date').value = metadata.date || '';
+          document.getElementById('cover').value = metadata.cover || '';
+          
+          // Store cover image path for later processing
+          coverImagePath = metadata.cover;
+          
+          // Load tags
+          if (metadata.tags && Array.isArray(metadata.tags)) {
+            tags.length = 0; // Clear existing tags
+            tags.push(...metadata.tags);
+            updateTagsDisplay();
+          }
+        }
+        
+        // Load images
+        window.attachedImages = window.attachedImages || [];
+        window.attachedImages.length = 0; // Clear existing images
+        window.imageMap = window.imageMap || new Map(); // Clear existing image map
+        
+        for (const imageEntry of imageFiles) {
+          const imageBlob = await imageEntry.async('blob');
+          const imageName = imageEntry.name.split('/').pop(); // Get filename without path
+          
+          // Create File object from blob
+          const imageFile = new File([imageBlob], imageName, { type: imageBlob.type });
+          
+          // Create object URL for preview
+          const imageUrl = URL.createObjectURL(imageBlob);
+          
+          // Create image object (use same path format as original uploads)
+          const placeholder = `/Images/${imageName}`;
+          const isCoverImage = coverImagePath && coverImagePath === placeholder;
+          
+          const imgObj = {
+            file: imageFile,
+            placeholder: isCoverImage ? placeholder : `![Image](${placeholder})`, // Cover images don't need markdown format
+            url: imageUrl, // Add the URL for preview
+            isCover: isCoverImage
+          };
+          
+          window.attachedImages.push(imgObj);
+          
+          // Add to imageMap for preview rendering (match the original format)
+          window.imageMap.set(placeholder, imageUrl);
+          
+          // If this is the cover image, show the preview
+          if (isCoverImage) {
+            const preview = document.getElementById('cover-preview');
+            const container = document.getElementById('cover-preview-container');
+            const info = document.getElementById('cover-info');
+            
+            preview.src = imageUrl;
+            container.style.display = 'block';
+            
+            // Show file info
+            const sizeKB = Math.round(imageFile.size / 1024);
+            info.textContent = `File: ${imageName} (${sizeKB} KB) - Loaded from ZIP`;
+          }
+        }
+        
+        // Update image counter
+        updateImageCounter();
+        
+        // Update preview
+        updatePreview();
+        
+        // Show success message
+        const imageCount = imageFiles.length;
+        alert(`Project loaded successfully! 🎉\n\n📄 Loaded: ${markdownFile.name}\n${metadataFile ? '📋 Metadata: Restored\n' : ''}${imageCount > 0 ? `🖼️ Images: ${imageCount} file(s) loaded\n` : ''}📝 Ready to edit!`);
+        
+        // Show loaded state in upload area
+        uploadContent.innerHTML = `
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="color: var(--c-accent);">
+            <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
+          </svg>
+          <span style="color: var(--c-accent);">Project loaded: ${markdownFile.name.replace('.md', '')}</span>
+          <small style="font-size: 12px; color: var(--c-dim); margin-top: 4px;">Upload another ZIP to replace</small>
+        `;
+        
+        // Reset file input to allow reloading the same file
+        document.getElementById('zipFileInput').value = '';
+        
+      } catch (error) {
+        console.error('Error loading ZIP file:', error);
+        alert(`Error loading ZIP file: ${error.message}\n\nPlease ensure you're uploading a valid Wave Finder blog post ZIP file.`);
+        
+        // Restore upload area
+        const uploadContent = document.querySelector('.upload-content');
+        uploadContent.innerHTML = `
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+          </svg>
+          <span>Click to upload ZIP file or drag & drop</span>
+        `;
+      }
+    }
+
+    // ZIP file generation
+    async function generateZipFile() {
       // Validate required fields
       const title = document.getElementById('title').value.trim();
       const author = document.getElementById('author').value.trim();
@@ -669,41 +1148,103 @@ console.log('Hello Wave Finder!');
         return;
       }
 
-      // Generate metadata JSON
-      const metadata = {
-        slug: slug,
-        title: title,
-        date: document.getElementById('date').value || new Date().toISOString().split('T')[0],
-        author: author,
-        tags: tags,
-        excerpt: excerpt
-      };
+      // Show loading state
+      const btn = event.target;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="animation: spin 1s linear infinite;"><path d="M8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM2 8a6 6 0 1 1 12 0A6 6 0 0 1 2 8z"/><path d="M8 4.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H6a.5.5 0 0 1 0-1h1.5V5a.5.5 0 0 1 .5-.5z"/></svg> Generating...';
+      btn.disabled = true;
 
-      const cover = document.getElementById('cover').value.trim();
-      if (cover) {
-        metadata.cover = cover;
+      try {
+        // Create ZIP file
+        const zip = new JSZip();
+
+        // Generate metadata JSON
+        const metadata = {
+          slug: slug,
+          title: title,
+          date: document.getElementById('date').value || new Date().toISOString().split('T')[0],
+          author: author,
+          tags: tags,
+          excerpt: excerpt
+        };
+
+        const cover = document.getElementById('cover').value.trim();
+        if (cover) {
+          metadata.cover = cover;
+        }
+
+        // Add markdown file
+        zip.file(`${slug}.md`, editor.value);
+
+        // Add metadata JSON
+        zip.file(`${slug}-metadata.json`, JSON.stringify(metadata, null, 2));
+
+        // Add README with instructions
+        const readme = `# Wave Finder Blog Post Submission
+
+## Files Included:
+
+1. **${slug}.md** - Your blog post content in markdown format
+2. **${slug}-metadata.json** - Metadata to be added to blog_posts.json
+${window.attachedImages && window.attachedImages.length > 0 ? `3. **Images/** - ${window.attachedImages.length} image file(s) referenced in your post\n` : ''}
+
+## Submission Instructions:
+
+1. Email this ZIP file to the Wave Finder team
+2. The team will:
+   - Add the metadata from \`${slug}-metadata.json\` to \`/data/blog_posts.json\`
+   - Upload \`${slug}.md\` to \`/content/posts/\`
+   - Upload any images to \`/Images/\`
+3. Your blog post will then be live on Wave Finder!
+
+## Image Paths Used:
+
+${window.attachedImages && window.attachedImages.length > 0 
+  ? window.attachedImages.map(img => `- ${img.placeholder} (from ${img.file.name})`).join('\n')
+  : 'No images used in this post.'
+}
+
+## Contact:
+
+Email this ZIP file to contribute your post to Wave Finder.
+
+---
+Generated by Wave Finder Blog Creator
+Date: ${new Date().toISOString().split('T')[0]}
+`;
+
+        zip.file('README.txt', readme);
+
+        // Add all attached images
+        if (window.attachedImages && window.attachedImages.length > 0) {
+          for (const img of window.attachedImages) {
+            if (img.file) {
+              zip.file(`Images/${img.file.name}`, img.file);
+            }
+          }
+        }
+
+        // Generate and download ZIP
+        const zipBlob = await zip.generateAsync({type: 'blob'});
+        const zipUrl = URL.createObjectURL(zipBlob);
+        const zipLink = document.createElement('a');
+        zipLink.href = zipUrl;
+        zipLink.download = `${slug}-blog-post.zip`;
+        zipLink.click();
+        URL.revokeObjectURL(zipUrl);
+
+        // Show success message
+        const fileCount = 2 + (window.attachedImages ? window.attachedImages.length : 0) + 1; // md + json + images + readme
+        alert(`Blog post package generated successfully! 📦\n\nZIP file contains:\n- ${slug}.md (blog content)\n- ${slug}-metadata.json (metadata)\n- README.txt (instructions)${window.attachedImages && window.attachedImages.length > 0 ? `\n- ${window.attachedImages.length} image file(s)` : ''}\n\nTotal: ${fileCount} files\n\nPlease email the ZIP file to contribute your post to Wave Finder!`);
+
+      } catch (error) {
+        console.error('Error generating ZIP:', error);
+        alert('Error generating ZIP file. Please try again.');
+      } finally {
+        // Restore button
+        btn.innerHTML = originalText;
+        btn.disabled = false;
       }
-
-      // Download markdown file
-      const markdownBlob = new Blob([editor.value], { type: 'text/markdown' });
-      const markdownUrl = URL.createObjectURL(markdownBlob);
-      const markdownLink = document.createElement('a');
-      markdownLink.href = markdownUrl;
-      markdownLink.download = `${slug}.md`;
-      markdownLink.click();
-      URL.revokeObjectURL(markdownUrl);
-
-      // Download metadata JSON
-      const jsonBlob = new Blob([JSON.stringify(metadata, null, 2)], { type: 'application/json' });
-      const jsonUrl = URL.createObjectURL(jsonBlob);
-      const jsonLink = document.createElement('a');
-      jsonLink.href = jsonUrl;
-      jsonLink.download = `${slug}-metadata.json`;
-      jsonLink.click();
-      URL.revokeObjectURL(jsonUrl);
-
-      // Show success message
-      alert(`Files generated successfully!\n\n1. ${slug}.md - Your blog post content\n2. ${slug}-metadata.json - Metadata for blog_posts.json\n\nPlease email both files to contribute your post to Wave Finder!`);
     }
 
     function resetForm() {
@@ -716,6 +1257,11 @@ console.log('Hello Wave Finder!');
         document.getElementById('date').value = new Date().toISOString().split('T')[0];
         editor.value = '';
         tags = [];
+        coverImageFile = null; // Clear cover image file
+        window.attachedImages = []; // Clear attached images
+        window.imageMap = new Map(); // Clear image preview map
+        document.getElementById('cover-preview-container').style.display = 'none'; // Hide cover preview
+        document.getElementById('cover-file-input').value = ''; // Reset file input
         renderTags();
         updatePreview();
       }
@@ -758,6 +1304,9 @@ console.log('Hello Wave Finder!');
     
     // Initialize
     editor.addEventListener('input', updatePreview);
+    
+    // Add cover image preview listener
+    document.getElementById('cover').addEventListener('input', updateCoverPreview);
     editor.addEventListener('scroll', () => {
       // Sync scroll between editor and preview (optional)
       const scrollPercent = editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
@@ -787,6 +1336,9 @@ console.log('Hello Wave Finder!');
 
     // Initial preview update
     updatePreview();
+    
+    // Initialize ZIP upload functionality
+    setupZipUpload();
   </script>
 </body>
 </html>
