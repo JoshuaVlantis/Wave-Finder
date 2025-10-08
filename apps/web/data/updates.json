@@ -197,5 +197,24 @@
         "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/998d956"
       }
     ]
+  },
+  {
+    "date": "2025-10-08",
+    "title": "Prevent wrap of 'More' pills",
+    "summary": "Stops the header's 'More' pills from wrapping onto multiple lines by enforcing white-space: nowrap on pill items. This keeps the navigation tidy and improves readability on smaller screens.",
+    "tags": [
+      "ui",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/cdb1cd17e1fce2947ee655bd6a27549d2c042e94"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
