@@ -12,7 +12,7 @@
   --wf-radius: 12px;
 }
 /* Fixed, full-width mounting surface that centers the header identically on all pages */
-#wf-header{position:fixed;top:10px;left:50%;transform:translateX(-50%);width:100vw;z-index:1001;display:flex;justify-content:center;pointer-events:none}
+#wf-header{position:fixed;top:10px;left:50vw;transform:translateX(-50%);width:100vw;z-index:1001;display:flex;justify-content:center;pointer-events:none}
 /* Actual header pill bar */
 .wf-header{position:static;background:var(--wf-bg);color:var(--wf-text);padding:10px 16px;border-radius:var(--wf-radius);box-shadow:0 2px 10px rgba(0,0,0,.25);display:flex;align-items:center;gap:14px;pointer-events:auto}
 .wf-brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit}
