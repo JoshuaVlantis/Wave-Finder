@@ -626,5 +626,24 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Banner for disabled JavaScript notice",
+    "summary": "Added a site-wide banner that informs users when JavaScript is disabled. This helps explain degraded functionality and improves usability when JS is unavailable.",
+    "tags": [
+      "ui",
+      "ux"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/6860f239098d547fedafe77741a7921a723c3d2a"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
