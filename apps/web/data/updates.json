@@ -832,5 +832,25 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Index page layout update",
+    "summary": "Updated index.html to improve local API handling. Ensured the online API now works correctly after the fix.",
+    "tags": [
+      "ui",
+      "api",
+      "devops"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/25d7b82f196fee9995e9a9fff1cc445c0f29ef20"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
