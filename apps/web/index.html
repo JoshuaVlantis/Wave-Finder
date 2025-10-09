@@ -697,7 +697,7 @@
       const map = L.map('map', {
         zoomControl: false,
         minZoom: minZoom,
-        maxZoom: 18,
+        maxZoom: 13,
         maxBounds: bounds,
         maxBoundsViscosity: 1,
         preferCanvas: true
@@ -732,16 +732,11 @@ window.addEventListener('resize', () => {
     setSidebarVar(sidebar.classList.contains('show') ? mobileSidebarWidth : '0px');
   }
 });
-
-      /* 
-      //Vector Map
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap'
-      }).addTo(map);
-      */
       const NET = (navigator.connection && navigator.connection.effectiveType) || '';
       const SLOW_NET = /(^|-)2g|(^|-)3g/i.test(NET);
 
+//Map Images Keep here incase selfhosting stops working
+/*
       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics',
         maxZoom: 19,
@@ -750,6 +745,20 @@ window.addEventListener('resize', () => {
         keepBuffer: 1,
         detectRetina: false
       }).addTo(map);
+*/
+
+/* 
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+      }).addTo(map);
+*/
+
+// Custom MapTiler/Mapbox-style tile layer (local server)
+
+      L.tileLayer('https://maps.wavefinder.org/api/tiles/maptiler-satellite-2017-11-02-africa_south-africa/{z}/{x}/{y}.jpg', {
+        attribution: '© MapTiler, OpenStreetMap contributors',
+      }).addTo(map);
+      
 
       function debounce(fn, ms = 120) {
         let t;
