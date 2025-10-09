@@ -626,45 +626,5 @@
         "href": "/"
       }
     ]
-  },
-  {
-    "date": "2025-10-09",
-    "title": "Leaflet.js updated for map compatibility",
-    "summary": "Updated Leaflet.js to a newer version in the maps module to improve map rendering and compatibility with current browsers.",
-    "tags": [
-      "maps",
-      "leaflet",
-      "performance"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/632cd79c917001ad98957906c6df1c4022021ba7"
-      },
-      {
-        "label": "Page",
-        "href": "/"
-      }
-    ]
-  },
-  {
-    "date": "2025-10-09",
-    "title": "Index page updated for consistency",
-    "summary": "Updated index.html to align with recent design updates and site styling. This improves visual consistency across the homepage and navigation.",
-    "tags": [
-      "ui",
-      "styling",
-      "ux"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/e50a588405299193523efde1e05c9749289ded61"
-      },
-      {
-        "label": "Page",
-        "href": "/"
-      }
-    ]
   }
 ]
