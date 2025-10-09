@@ -23,6 +23,10 @@
   body{ margin:0; font-family:'OutfitLocal',system-ui,Segoe UI,Roboto,Arial; background:var(--c-bg); color:var(--c-text); position:relative }
   
   /* Decorative glow provided globally via /static/wf-glow.css */
+    #top-header{ position:fixed; top:10px; left:50%; transform:translateX(-50%); background:rgba(44,62,80,.95); color:#fff; padding:12px 24px; border-radius:12px; font-size:18px; font-weight:600; letter-spacing:.8px; box-shadow:0 2px 10px rgba(0,0,0,.25); z-index:1001; display:flex; flex-direction:column; gap:2px; align-items:center }
+    #nav-pills{ display:flex; gap:10px }
+    .pill{ background:rgba(255,255,255,.15); color:#fff; padding:6px 14px; font-size:14px; border-radius:999px; text-decoration:none; font-weight:500; transition:background .2s }
+    .pill:hover,.pill.active{ background:rgba(255,255,255,.30) }
     .brand{display:flex;align-items:center;gap:8px}
     .brand-text{font-size:28px;font-weight:700}
 
@@ -85,8 +89,6 @@
   </style>
 </head>
 <body>
-  <div class="wf-js-banner" style="display:none;padding:8px 12px;background:#fff3cd;color:#3e3a00;border-bottom:1px solid #f7d070;font:600 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; text-align:center;">⚠️ Wave Finder needs JavaScript enabled for full functionality. Please enable JavaScript and reload.</div>
-  <noscript><style>.wf-js-banner{display:block!important}</style></noscript>
   <div id="wf-header"></div>
 
   <main>
@@ -206,14 +208,5 @@
     load();
   </script>
   <script src="/static/wf-header.js?v=2025-10-07-1" defer></script>
-  <script>
-    (function(){
-      function revealJsBanner(){
-        var b = document.querySelector('.wf-js-banner');
-        if (b) b.style.display = 'block';
-      }
-      window.addEventListener('load', function(){ if (!window.__WF_HEADER_LOADED) revealJsBanner(); });
-    })();
-  </script>
 </body>
 </html>

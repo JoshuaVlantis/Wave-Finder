@@ -105,8 +105,6 @@
     <link rel="icon" href="/static/logo32.png" type="image/png" sizes="32x32" />
   </head>
   <body>
-    <div class="wf-js-banner" style="display:none;padding:8px 12px;background:#fff3cd;color:#3e3a00;border-bottom:1px solid #f7d070;font:600 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; text-align:center;">⚠️ Wave Finder needs JavaScript enabled for full functionality. Please enable JavaScript and reload.</div>
-    <noscript><style>.wf-js-banner{display:block!important}</style></noscript>
     <div id="wf-header"></div>
 
     <main>
@@ -164,14 +162,5 @@
       </article>
     </main>
     <script src="/static/wf-header.js?v=2025-10-07-1" defer></script>
-    <script>
-      (function(){
-        function revealJsBanner(){
-          var b = document.querySelector('.wf-js-banner');
-          if (b) b.style.display = 'block';
-        }
-        window.addEventListener('load', function(){ if (!window.__WF_HEADER_LOADED) revealJsBanner(); });
-      })();
-    </script>
   </body>
 </html>

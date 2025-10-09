@@ -626,44 +626,5 @@
         "href": "/"
       }
     ]
-  },
-  {
-    "date": "2025-10-09",
-    "title": "Banner for disabled JavaScript notice",
-    "summary": "Added a site-wide banner that informs users when JavaScript is disabled. This helps explain degraded functionality and improves usability when JS is unavailable.",
-    "tags": [
-      "ui",
-      "ux"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/6860f239098d547fedafe77741a7921a723c3d2a"
-      },
-      {
-        "label": "Page",
-        "href": "/"
-      }
-    ]
-  },
-  {
-    "date": "2025-10-09",
-    "title": "Banner updates for improved visibility",
-    "summary": "Tweaked the site banners to improve visibility and consistency across the UI. This helps users notice important notices and aligns banner behavior with other site alerts.",
-    "tags": [
-      "ui",
-      "styling",
-      "ux"
-    ],
-    "links": [
-      {
-        "label": "Commit",
-        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/c8139b29f7311b73f4e4059759ef30ed522c4fea"
-      },
-      {
-        "label": "Page",
-        "href": "/"
-      }
-    ]
   }
 ]

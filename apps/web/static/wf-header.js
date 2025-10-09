@@ -3,8 +3,6 @@
   Copyright (C) 2025 Joshua Vlantis
 */
 (function(){
-  // Signal that core JS loaded; used by pages to detect blocked scripts
-  try { window.__WF_HEADER_LOADED = true; } catch(_) {}
   const linksPrimary = [
     { href:'/', label:'Map', key:'map' },
     { href:'/blog.html', label:'Blog', key:'blog' },

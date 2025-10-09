@@ -54,7 +54,6 @@
   <link rel="preload" href="/static/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/static/fonts/Outfit-600.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/static/fonts/outfit.css">
-  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1" />
   <link rel="stylesheet" href="/static/wf-glow.css?v=2025-10-08-1">
   <link rel="preload" as="image" href="/static/logo32.png" imagesrcset="/static/logo32.png 1x" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
@@ -613,12 +612,10 @@
 
 
 </style>
-  
+  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1" />
     <link rel="icon" href="/static/logo32.png" type="Images/png" sizes="32x32" />
   </head>
   <body>
-    <div class="wf-js-banner" style="display:none;padding:8px 12px;background:#fff3cd;color:#3e3a00;border-bottom:1px solid #f7d070;font:600 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; text-align:center;">⚠️ Wave Finder needs JavaScript enabled for full functionality. Please enable JavaScript and reload.</div>
-    <noscript><style>.wf-js-banner{display:block!important}</style></noscript>
     <button id="sidebarToggle">☰</button>
     <div id="wf-header"></div>
     <div id="wind-loading" aria-live="polite" aria-atomic="true"><div class="spinner" aria-hidden="true"></div><span>Loading wind…</span></div>
@@ -1532,14 +1529,5 @@ function _detachWindHover(){
     });
     </script>
   <script src="/static/wf-header.js?v=2025-10-07-1" defer></script>
-  <script>
-    (function(){
-      function revealJsBanner(){
-        var b = document.querySelector('.wf-js-banner');
-        if (b) b.style.display = 'block';
-      }
-      window.addEventListener('load', function(){ if (!window.__WF_HEADER_LOADED) revealJsBanner(); });
-    })();
-  </script>
   </body>
 </html>
