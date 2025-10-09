@@ -61,11 +61,8 @@
     </style>
   </head>
   <body>
-    <noscript>
-      <div class="wf-js-banner" style="padding:8px 12px;background:#fff3cd;color:#3e3a00;border-bottom:1px solid #f7d070;font:600 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; text-align:center;">
-        ⚠️ Wave Finder needs JavaScript enabled for full functionality. Please enable JavaScript and reload.
-      </div>
-    </noscript>
+    <div class="wf-js-banner" style="display:none;padding:8px 12px;background:#fff3cd;color:#3e3a00;border-bottom:1px solid #f7d070;font:600 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; text-align:center;">⚠️ Wave Finder needs JavaScript enabled for full functionality. Please enable JavaScript and reload.</div>
+    <noscript><style>.wf-js-banner{display:block!important}</style></noscript>
     <div id="wf-header"></div>
     <main>
       <article class="post">
@@ -122,16 +119,11 @@
     <script src="/static/wf-header.js?v=2025-10-07-1" defer></script>
     <script>
       (function(){
-        function showJsBanner(){
-          if (document.querySelector('.wf-js-banner')) return;
-          var b = document.createElement('div');
-          b.className = 'wf-js-banner';
-          b.setAttribute('role','status');
-          b.style.cssText = 'padding:8px 12px;background:#fff3cd;color:#3e3a00;border-bottom:1px solid #f7d070;font:600 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; text-align:center;';
-          b.textContent = '⚠️ Wave Finder needs JavaScript enabled for full functionality. Please enable JavaScript and reload.';
-          document.body.insertBefore(b, document.body.firstChild);
+        function revealJsBanner(){
+          var b = document.querySelector('.wf-js-banner');
+          if (b) b.style.display = 'block';
         }
-        window.addEventListener('load', function(){ if (!window.__WF_HEADER_LOADED) showJsBanner(); });
+        window.addEventListener('load', function(){ if (!window.__WF_HEADER_LOADED) revealJsBanner(); });
       })();
     </script>
   </body>
