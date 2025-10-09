@@ -852,5 +852,25 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Update home page index.html rendering",
+    "summary": "Updated the home page HTML (index.html) to refresh rendering and layout. This aligns the homepage with recent styling updates and improves consistency across the site for first impressions and accessibility.",
+    "tags": [
+      "ui",
+      "ux",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/1bc5f5143a7d2e30961698679f4605f1bc14fe8c"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
