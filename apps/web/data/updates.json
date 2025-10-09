@@ -793,5 +793,25 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Mobile zoom level adjusted for readability",
+    "summary": "Adjusted the mobile zoom level to improve readability on small screens. The previous setting made content appear excessively zoomed-in for some devices, causing awkward layouts and extra scrolling. This change helps users view and interact with Wave Finder more comfortably on phones and small tablets.",
+    "tags": [
+      "ui",
+      "styling",
+      "ux"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/eea44c59813a7bdcdcad9cb8060ab15121aecf9a"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
