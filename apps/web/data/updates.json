@@ -697,5 +697,62 @@
         "href": "/updates.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Remove scrollbar-gutter CSS from header styles",
+    "summary": "Removed the scrollbar-gutter property from wf-header.css, which was used to reserve space for scrollbars and prevent layout shifts. This change may affect content centering on pages with or without scrollbars.",
+    "tags": [
+      "ui",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/5c743fd1145422f05eee0e14564036eeb193071b"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Fix header centering by updating left property",
+    "summary": "Changed the #wf-header left property from 50% to 50vw to improve centering across different viewport sizes. This fixes misalignment on narrower or wider layouts.",
+    "tags": [
+      "ui",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/ee2414b9c961e11121d83d7824c3e32f886535c3"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Refactor header styles to use shared CSS file",
+    "summary": "Removed inline header and navigation styles from multiple HTML files and replaced them with a shared /static/wf-header.css stylesheet. This centralizes header styling for easier maintenance and consistency across the web app.",
+    "tags": [
+      "ui",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/3c91e4c106ef5ac348a19cb170d9613ce5237d75"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
