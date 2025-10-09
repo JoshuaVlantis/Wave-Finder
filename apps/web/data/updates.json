@@ -754,5 +754,24 @@
         "href": "/updates.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Update wf-header.css for header alignment",
+    "summary": "Updated wf-header.css to refresh header styling and alignment across pages. This change improves the consistency of the site header and reduces layout shifts as the UI evolves.",
+    "tags": [
+      "ui",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/7e81a6ed6846d5d6d073df49ec652a9fd84a3acb"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
