@@ -651,5 +651,28 @@
         "href": "/updates.html"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Update header styles with wf-header.css",
+    "summary": "Updated wf-header.css to refresh the site header styling across pages. This helps maintain consistency with the latest design updates and improves visual polish for users.",
+    "tags": [
+      "ui",
+      "styling"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/666c22b5bd9c67f8e670e7e8e096b6f263f6a65d"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
