@@ -691,17 +691,20 @@
       L.Popup.prototype.options.autoPan = false;
       const bounds = L.latLngBounds(L.latLng(-25.037233432401287, 49.409594479172306), L.latLng(-43.27141534775741, 5.354436376104243));
       // Prefer Canvas for better performance with many markers on low-end devices
+      const isMobile = window.matchMedia('(max-width: 600px)').matches;
+      const initialZoom = isMobile ? 11 : 13;
+      const minZoom = isMobile ? 7 : 7;
       const map = L.map('map', {
         zoomControl: false,
-        minZoom: 7,
+        minZoom: minZoom,
         maxZoom: 18,
         maxBounds: bounds,
         maxBoundsViscosity: 1,
         preferCanvas: true
-      }).setView([-34.0033, 25.6325], 12);
+      }).setView([-34.0033, 25.6325], initialZoom);
       const defaultView = {
         center: [-34.0033, 25.6325],
-        zoom: 12
+        zoom: initialZoom
       };
 	  
 	  // Close the mobile sidebar when interacting with the map
