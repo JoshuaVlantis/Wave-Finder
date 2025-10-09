@@ -773,5 +773,25 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Scroll Bar and Transparent bug fix",
+    "summary": "Fixed a bug affecting scrollbar rendering and header transparency in the Wave Finder header. The scrollbar could shift the header layout or appear misaligned when content changed, and the header's translucent elements could render inconsistently across pages. This update makes scrolling visuals stable and improves header readability across the site. It touched wf-header.css and wf-header.js to apply the fix site-wide.",
+    "tags": [
+      "ui",
+      "styling",
+      "bugfix"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/9639037b0992506a0de9349c7e64910ad2e64d7e"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
