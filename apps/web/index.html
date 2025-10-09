@@ -1098,15 +1098,7 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
         const spotsOverlay = document.getElementById('spots-loading');
         let spotsTimer = setTimeout(()=>spotsOverlay?.classList.add('on'), 350);
         try {
-          let res;
-          try {
-            res = await fetch('https://api.wavefinder.org/api/spots');
-            if (!res.ok) throw new Error('Primary API failed');
-          } catch (e) {
-            // Fallback to local API
-            res = await fetch('http://192.168.0.10:3001/api/spots');
-            if (!res.ok) throw new Error('Fallback API failed');
-          }
+          const res = await fetch('https://api.wavefinder.org/api/spots');
           spotsData = await res.json();
           document.getElementById('last-update').textContent = 'Updated at ' + new Date().toLocaleTimeString([], {
             hour: '2-digit',
