@@ -626,5 +626,30 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Normalize font usage and update header styles",
+    "summary": "Standardized font-family across all HTML pages to prefer 'OutfitLocal' and self-hosted 'Outfit' with system fallbacks. Updated /static/fonts/outfit.css to alias 'Outfit' to local WOFF2 files. Updated /static/wf-header.css to inherit the site-wide font. Bumped wf-header.css version in all HTML files to ensure style updates are applied.",
+    "tags": [
+      "ui",
+      "fonts",
+      "styling",
+      "ux"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/f66a76e46bd8aa77a5d2e589c50151e7a8fc0aae"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      },
+      {
+        "label": "Page",
+        "href": "/updates.html"
+      }
+    ]
   }
 ]
