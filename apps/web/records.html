@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <!--
   SPDX-License-Identifier: AGPL-3.0-or-later
-  Copyright (C) 2025 Joshua Vlantis
 -->
 <html lang="en">
 <head>
-  
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -47,6 +44,20 @@
     </script>  
 
   <!-- Fonts & perf hints -->
+    <script>
+      (function(){
+        function showJsBanner(){
+          if (document.querySelector('.wf-js-banner')) return;
+          var b = document.createElement('div');
+          b.className = 'wf-js-banner';
+          b.setAttribute('role','status');
+          b.style.cssText = 'padding:8px 12px;background:#fff3cd;color:#3e3a00;border-bottom:1px solid #f7d070;font:600 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; text-align:center;';
+          b.textContent = '⚠️ Wave Finder needs JavaScript enabled for full functionality. Please enable JavaScript and reload.';
+          document.body.insertBefore(b, document.body.firstChild);
+        }
+        window.addEventListener('load', function(){ if (!window.__WF_HEADER_LOADED) showJsBanner(); });
+      })();
+    </script>
   <link rel="preload" href="/static/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/static/fonts/Outfit-600.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/static/fonts/outfit.css" />
@@ -129,6 +140,11 @@
   <link rel="icon" href="/static/logo32.png" type="image/png" sizes="32x32">
 </head>
 <body>
+<noscript>
+  <div class="wf-js-banner" style="padding:8px 12px;background:#fff3cd;color:#3e3a00;border-bottom:1px solid #f7d070;font:600 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; text-align:center;">
+    ⚠️ Wave Finder needs JavaScript enabled for full functionality. Please enable JavaScript and reload.
+  </div>
+</noscript>
 
 <div id="wf-header"></div>
 
@@ -138,6 +154,20 @@
 <div class="records-grid"></div>
 
 <script src="/static/wf-header.js?v=2025-10-07-1" defer></script>
+<script>
+  (function(){
+    function showJsBanner(){
+      if (document.querySelector('.wf-js-banner')) return;
+      var b = document.createElement('div');
+      b.className = 'wf-js-banner';
+      b.setAttribute('role','status');
+      b.style.cssText = 'padding:8px 12px;background:#fff3cd;color:#3e3a00;border-bottom:1px solid #f7d070;font:600 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Arial; text-align:center;';
+      b.textContent = '⚠️ Wave Finder needs JavaScript enabled for full functionality. Please enable JavaScript and reload.';
+      document.body.insertBefore(b, document.body.firstChild);
+    }
+    window.addEventListener('load', function(){ if (!window.__WF_HEADER_LOADED) showJsBanner(); });
+  })();
+</script>
 <script>
 /* Populate the grid */
 const grid = document.querySelector('.records-grid');
