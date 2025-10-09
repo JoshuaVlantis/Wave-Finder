@@ -813,5 +813,24 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-09",
+    "title": "Move map to locally hosted version",
+    "summary": "Switched the map to a locally hosted implementation. This reduces reliance on external map resources, which can improve reliability and load behavior in certain environments. The locally hosted map is of lower visual quality, but it ensures map functionality remains available without depending on external CDNs.",
+    "tags": [
+      "maps",
+      "performance"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/61b6caea9cdd95b423d82edee97c5d5d1134ab54"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
