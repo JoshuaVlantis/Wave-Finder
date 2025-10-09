@@ -26,3 +26,28 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* Alias the common 'Outfit' family name to our self-hosted files so pages
+   that specify font-family: 'Outfit' still render with the local WOFF2. */
+@font-face {
+  font-family: 'Outfit';
+  src:
+    local('Outfit'), local('Outfit Regular'),
+    url('/static/fonts/Outfit-400.woff2') format('woff2'),
+    url('/static/fonts/Outfit-Regular.woff2') format('woff2'),
+    url('/static/fonts/outfit-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Outfit';
+  src:
+    local('Outfit SemiBold'), local('Outfit 600'),
+    url('/static/fonts/Outfit-600.woff2') format('woff2'),
+    url('/static/fonts/Outfit-SemiBold.woff2') format('woff2'),
+    url('/static/fonts/outfit-latin-600-normal.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

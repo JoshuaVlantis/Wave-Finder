@@ -16,7 +16,7 @@
   <link rel="preload" href="/static/fonts/Outfit-600.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/static/fonts/outfit.css">
   <link rel="icon" href="/static/logo32.png" type="image/png" sizes="32x32">
-  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-05-1">
+  <link rel="stylesheet" href="/static/wf-header.css?v=2025-10-09-1">
   <link rel="stylesheet" href="/static/wf-glow.css?v=2025-10-08-1">
   
   <!-- Load marked.js for preview -->
@@ -27,7 +27,7 @@
   <style>
     :root{ --c-bg:#121212; --c-panel:#1e1e1e; --c-border:#2b3440; --c-accent:#4fc3f7; --c-text:#eaeef5; --c-dim:#aab3c2; --r:12px }
     *{ box-sizing:border-box }
-    body{ margin:0; font-family:'Outfit',system-ui,Segoe UI,Roboto,Arial; background:var(--c-bg); color:var(--c-text); position:relative }
+  body{ margin:0; font-family:'OutfitLocal','Outfit',system-ui,Segoe UI,Roboto,Arial; background:var(--c-bg); color:var(--c-text); position:relative }
     
     main{ max-width:1400px; margin:0 auto; padding:120px 20px 40px; position:relative; z-index:1 }
     
@@ -1072,7 +1072,7 @@ console.log('Hello Wave Finder!');
         previewWindow.document.write('<style>');
         previewWindow.document.write(':root{--c-bg:#121212;--c-panel:#1e1e1e;--c-border:#2b3440;--c-accent:#4fc3f7;--c-text:#eaeef5;--c-dim:#aab3c2}');
         previewWindow.document.write('*{box-sizing:border-box}');
-        previewWindow.document.write('body{margin:0;font-family:OutfitLocal,Arial;background:var(--c-bg);color:var(--c-text);padding:20px}');
+  previewWindow.document.write('body{margin:0;font-family:\'OutfitLocal\',\'Outfit\',Arial,system-ui,sans-serif;background:var(--c-bg);color:var(--c-text);padding:20px}');
         previewWindow.document.write('.preview-banner{background:#ff6b35;color:white;text-align:center;padding:8px;margin:-20px -20px 20px;font-size:14px}');
         previewWindow.document.write('.post{background:linear-gradient(180deg,rgba(34,39,46,.9),rgba(22,26,31,.95));border:1px solid var(--c-border);border-radius:12px;padding:20px;max-width:800px;margin:0 auto}');
         previewWindow.document.write('.cover{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;margin:0 0 12px}');
