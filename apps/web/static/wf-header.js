@@ -100,6 +100,13 @@
     burger = document.getElementById('wf-burger');
     drawer = document.getElementById('wf-drawer');
     header = mountPoint.querySelector('.wf-header');
+
+    // Portal the drawer to <body> so it is fixed relative to the viewport,
+    // not the transformed #wf-header container. This preserves header centering
+    // via transform while ensuring the overlay covers the full screen.
+    if (drawer && drawer.parentElement !== document.body){
+      document.body.appendChild(drawer);
+    }
     burger.addEventListener('click', openDrawer);
     drawer.addEventListener('click',(e)=>{ if (e.target===drawer) closeDrawer(); });
     // Close the drawer when clicking any link inside it
