@@ -1104,7 +1104,7 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
             if (!res.ok) throw new Error('Primary API failed');
           } catch (e) {
             // Fallback to local API
-            res = await fetch('http://127.0.0.1:3001/api/spots');
+            res = await fetch('http://192.168.0.10:3001/api/spots');
             if (!res.ok) throw new Error('Fallback API failed');
           }
           spotsData = await res.json();
