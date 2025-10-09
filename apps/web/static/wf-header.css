@@ -11,9 +11,6 @@
   --wf-accent: #4fc3f7;
   --wf-radius: 12px;
 }
-/* Reserve a stable scrollbar gutter so centering doesn't shift between pages
-   with/without vertical scrollbars (especially on Windows). */
-html, body{ scrollbar-gutter: stable both-edges }
 /* Fixed, full-width mounting surface that centers the header identically on all pages */
 #wf-header{position:fixed;top:10px;left:50%;transform:translateX(-50%);width:100vw;z-index:1001;display:flex;justify-content:center;pointer-events:none}
 /* Actual header pill bar */
