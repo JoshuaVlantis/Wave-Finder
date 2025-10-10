@@ -17,6 +17,23 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   }
+  
+// Allow the website to call the API from the browser
+/* Removed for now and replaced with the above */
+/*
+app.use((req, res, next) => {
+  const o = req.headers.origin;
+  if (o === 'https://wavefinder.org' || o === 'https://www.wavefinder.org') {
+    res.setHeader('Access-Control-Allow-Origin', o);
+    res.setHeader('Vary', 'Origin');
+  }
+  // Advertise source (AGPL network notice convenience)
+  res.setHeader('Link', ['<https://github.com/JoshuaVlantis/Wave-Finder>; rel="source"', '<https://www.gnu.org/licenses/agpl-3.0.html>; rel="license"'].join(', '));
+  // Expose the Link header to browsers
+  res.setHeader('Access-Control-Expose-Headers', 'Link');
+  next();
+});
+*/
 
   // Advertise source (AGPL network notice convenience)
   res.setHeader(
