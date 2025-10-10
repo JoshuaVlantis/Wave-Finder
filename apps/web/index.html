@@ -362,7 +362,11 @@
         height: 140px;
         border-radius: 6px;
         margin-bottom: 6px;
-        overflow: hidden;
+  background-image: url('/static/temp.jpg'), url('/static/20.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+  overflow: hidden;
       }
 
       .popup-img {
@@ -1104,7 +1108,8 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
             const col = markerColor(spot.difficulty);
             const icon = L.divIcon({
               html: `
-                <div class="custom-pin" style="--pin-color:${col}"></div>`,
+			
+					<div class="custom-pin" style="--pin-color:${col}"></div>`,
               iconSize: [18, 24],
               iconAnchor: [9, 24],
               popupAnchor: [-3, 2]
@@ -1116,8 +1121,10 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
               if (!text || text === '—' || text.length <= maxLength) {
                 return `<b>${label}:</b> ${text || '—'}`;
               }
+              
               const truncated = text.substring(0, maxLength).trim();
               const uniqueId = `expand_${Math.random().toString(36).substr(2, 9)}`;
+              
               return `
                 <b>${label}:</b> 
                 <span id="${uniqueId}_short">${truncated}... 
@@ -1128,33 +1135,40 @@ function _formatSpeedKmh(ms){ return Math.round(ms * 3.6); }
                 </span>
               `;
             }
+
             const latStr = Number(spot.latitude).toFixed(5);
             const lngStr = Number(spot.longitude).toFixed(5);
             const popupHTML = `
-              <div style="font-weight:600;font-size:21px;text-align:center;margin-bottom:6px">
-                ${spot.name}
-              </div>
+            
+			
+					<div style="font-weight:600;font-size:21px;text-align:center;margin-bottom:6px">
+              ${spot.name}
+            </div>
               ${spot.img && spot.img !== 'temp.jpg' && spot.img !== '—' && spot.img.trim() !== ''
                 ? `<div class="popup-img-wrap"><img src="/static/${spot.img}" alt="" role="presentation" draggable="false" class="popup-img" loading="lazy" decoding="async" fetchpriority="low" onerror="this.style.display='none'"></div>`
                 : ''}
-              <div style="font-size:13px;color:#ddd;line-height:1.4;margin-bottom:8px">
-                <b>Type:</b> ${spot.site_type}<br>
-                <b>Depth:</b> ${spot.min_depth}-${spot.max_depth} m<br>
-                <b>Entry:</b> ${spot.entry_method}<br>
-                <b>Difficulty:</b> ${difficultyLabel(spot.difficulty)}<br>
-                ${createExpandableText('Desc', spot.description, 20)}<br>
-                ${createExpandableText('Wildlife', spot.wildlife, 20)}<br>
-                ${createExpandableText('Hazards', spot.hazards, 20)}
-              </div>
-              <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 0 8px;gap:8px">
-                <div style="font-size:12px;color:#cfd7e3"><b>Coordinates:</b> ${latStr}, ${lngStr}</div>
-                <button onclick="copyCoords('${latStr}, ${lngStr}', this)" title="Copy coordinates" style="padding:5px 8px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:6px;cursor:pointer;font-size:12px;white-space:nowrap">Copy</button>
-              </div>
-              <button onclick="openRatingForm('${spot.name}')" style="padding:6px 10px;background:#0077b6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">
-                Rate Dive
-              </button>
-            `;
-            marker.bindPopup(popupHTML);
+            <div style="font-size:13px;color:#ddd;line-height:1.4;margin-bottom:8px">
+              <b>Type:</b> ${spot.site_type}<br>
+							<b>Depth:</b> ${spot.min_depth}-${spot.max_depth} m<br>
+							<b>Entry:</b> ${spot.entry_method}<br>
+							<b>Difficulty:</b> ${difficultyLabel(spot.difficulty)}<br>
+              ${createExpandableText('Desc', spot.description, 20)}<br>
+							${createExpandableText('Wildlife', spot.wildlife, 20)}<br>
+							${createExpandableText('Hazards', spot.hazards, 20)}
+											</div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;margin:6px 0 8px;gap:8px">
+              <div style="font-size:12px;color:#cfd7e3"><b>Coordinates:</b> ${latStr}, ${lngStr}</div>
+              <button onclick="copyCoords('${latStr}, ${lngStr}', this)" title="Copy coordinates" style="padding:5px 8px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25);border-radius:6px;cursor:pointer;font-size:12px;white-space:nowrap">Copy</button>
+            </div>
+											<button onclick="openRatingForm('${spot.name}')" style="padding:6px 10px;background:#0077b6;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">
+              Rate Dive
+            </button>
+          `;
+            marker.once('click', () => {
+              marker.bindPopup(popupHTML);
+              marker.openPopup();
+            });
             marker.on('popupopen', () => {
               const ll = marker.getLatLng();
               const targetZoom = Math.max(map.getZoom(),12);
