@@ -8,15 +8,25 @@ const express  = require('express');
 const mariadb  = require('mariadb');
 const app      = express();
 
-// Allow the website to call the API from the browser
+// Allow any origin to call the API from the browser
 app.use((req, res, next) => {
-  const o = req.headers.origin;
-  if (o === 'https://wavefinder.org' || o === 'https://www.wavefinder.org') {
-    res.setHeader('Access-Control-Allow-Origin', o);
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin); // reflect origin dynamically
     res.setHeader('Vary', 'Origin');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   }
+
   // Advertise source (AGPL network notice convenience)
-  res.setHeader('Link', ['<https://github.com/JoshuaVlantis/Wave-Finder>; rel="source"', '<https://www.gnu.org/licenses/agpl-3.0.html>; rel="license"'].join(', '));
+  res.setHeader(
+    'Link',
+    [
+      '<https://github.com/JoshuaVlantis/Wave-Finder>; rel="source"',
+      '<https://www.gnu.org/licenses/agpl-3.0.html>; rel="license"'
+    ].join(', ')
+  );
+
   // Expose the Link header to browsers
   res.setHeader('Access-Control-Expose-Headers', 'Link');
   next();
@@ -39,6 +49,32 @@ const pool = mariadb.createPool({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   connectionLimit: Number(process.env.DB_POOL || 5)
+});
+
+// Health endpoints (no DB touch)
+app.get('/health', (_req, res) => res.status(200).send('ok'));
+app.head('/health', (_req, res) => res.sendStatus(200));
+
+// GET /api/spots
+app.get('/api/spots', async (req, res) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const rows = await conn.query(`
+      SELECT
+        location_id, name, latitude, longitude, description,
+        min_depth, max_depth, site_type, entry_method,
+        difficulty, wildlife, hazards, img
+      FROM locations
+      WHERE is_active = 1
+    `);
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'DB error' });
+  } finally {
+    if (conn) conn.release();
+  }
 });
 
 // GET /api/records (top 3 per species)
@@ -65,32 +101,6 @@ app.get('/api/records', async (req, res) => {
     }
     const out = Object.entries(grouped).map(([species, entries]) => ({ species, entries }));
     res.json(out);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'DB error' });
-  } finally {
-    if (conn) conn.release();
-  }
-});
-
-// Health endpoints (no DB touch)
-app.get('/health', (_req, res) => res.status(200).send('ok'));
-app.head('/health', (_req, res) => res.sendStatus(200));
-
-// GET /api/spots
-app.get('/api/spots', async (req, res) => {
-  let conn;
-  try {
-    conn = await pool.getConnection();
-    const rows = await conn.query(`
-      SELECT
-        location_id, name, latitude, longitude, description,
-        min_depth, max_depth, site_type, entry_method,
-        difficulty, wildlife, hazards, img
-      FROM locations
-      WHERE is_active = 1
-    `);
-    res.json(rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'DB error' });
