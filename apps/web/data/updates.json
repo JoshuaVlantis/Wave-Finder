@@ -892,5 +892,25 @@
         "href": "/"
       }
     ]
+  },
+  {
+    "date": "2025-10-10",
+    "title": "Index.html updated to reflect changes",
+    "summary": "Index.html updated to reflect the latest homepage design and navigation tweaks. This change helps ensure the home page renders consistently with the site's current design language, improving polish and user experience.",
+    "tags": [
+      "ui",
+      "styling",
+      "ux"
+    ],
+    "links": [
+      {
+        "label": "Commit",
+        "href": "https://github.com/JoshuaVlantis/Wave-Finder/commit/2eda8eb71a3bfb100c601651c130d62ee7b8f59a"
+      },
+      {
+        "label": "Page",
+        "href": "/"
+      }
+    ]
   }
 ]
